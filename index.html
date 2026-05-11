@@ -3,97 +3,47 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>오마이치 AI (OHMYCHI AI) - 오마이호텔 트래블쇼</title>
+    <title>오마이치가 봐주는 사주 여행지 - OHMYHOTEL & CO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              // OHMYHOTEL & CO 메인 오렌지
               brand: {
-                50: "#fff5ed",
-                100: "#ffe3cf",
-                200: "#ffc499",
-                300: "#ffa566",
-                400: "#ff8533",
-                500: "#ff6000",
-                600: "#e25400",
-                700: "#b34300",
-                800: "#8a3300",
-                900: "#5c2200",
+                50: "#fff5ed", 100: "#ffe3cf", 200: "#ffc499", 300: "#ffa566",
+                400: "#ff8533", 500: "#ff6000", 600: "#e25400", 700: "#b34300",
+                800: "#8a3300", 900: "#5c2200",
               },
-              chi: {
-                50: "#fff5ed",
-                100: "#ffe3cf",
-                200: "#fed7aa",
-                300: "#fdba74",
-                500: "#f97316",
-                600: "#ea580c",
-              },
-              ink: {
-                DEFAULT: "#383838",
-                soft: "#5a5a5a",
-              },
+              ink: { DEFAULT: "#383838", soft: "#5a5a5a" },
               cream: "#fcfcf8",
-              leaf: {
-                DEFAULT: "#009505",
-                50: "#e6f4e7",
-              },
+              leaf: { DEFAULT: "#009505", 600: "#007a04", 50: "#e6f4e7" },
             },
           },
         },
       };
     </script>
     <style>
-      html,
-      body {
-        height: 100%;
-      }
+      html, body { height: 100%; }
       body {
         background: linear-gradient(180deg, #fff5ed 0%, #fcfcf8 60%);
         color: #383838;
         -webkit-font-smoothing: antialiased;
-        font-family:
-          Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo",
-          "Noto Sans KR", "Malgun Gothic", sans-serif;
+        font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
       }
-      .spin {
-        animation: spin 0.8s linear infinite;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .line-clamp-1 {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
+      .spin { animation: spin 0.8s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .pulse { animation: pulse 1.8s ease-in-out infinite; }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
     </style>
   </head>
   <body>
     <main class="min-h-screen px-4 py-8 sm:px-8 sm:py-12">
-      <div class="mx-auto max-w-5xl">
+      <div class="mx-auto max-w-3xl">
         <header class="mb-8">
-          <!-- 회사 로고 띠 -->
           <div class="mb-6 flex items-center gap-2">
             <span class="relative inline-block h-8 w-8">
-              <svg
-                viewBox="0 0 40 44"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-full w-auto"
-                aria-label="OHMYHOTEL & CO"
-              >
+              <svg viewBox="0 0 40 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto" aria-label="OHMYHOTEL & CO">
                 <defs>
                   <linearGradient id="omhc-grad" x1="6" y1="14" x2="34" y2="40" gradientUnits="userSpaceOnUse">
                     <stop offset="0" stop-color="#e63900" />
@@ -101,17 +51,10 @@
                     <stop offset="1" stop-color="#ffb000" />
                   </linearGradient>
                 </defs>
-                <!-- 잎 -->
                 <path d="M22 8 C 26 2, 32 4, 30 10 C 26 12, 22 11, 22 8 Z" fill="#009505" />
-                <!-- 오렌지 원 -->
                 <circle cx="20" cy="27" r="12" stroke="url(#omhc-grad)" stroke-width="5" fill="none" />
               </svg>
-              <img
-                src="logo.png"
-                alt=""
-                class="absolute inset-0 h-full w-auto object-contain"
-                onerror="this.style.display='none'"
-              />
+              <img src="logo.png" alt="" class="absolute inset-0 h-full w-auto object-contain" onerror="this.style.display='none'" />
             </span>
             <span class="text-base font-extrabold tracking-wide text-ink sm:text-lg">
               OHMYHOTEL<span class="text-brand-500">&amp;</span>CO
@@ -121,1563 +64,1413 @@
             </span>
           </div>
 
-          <div class="flex items-end justify-between gap-4">
-            <div class="flex items-center gap-4">
-              <div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 ring-brand-300 shadow-sm sm:h-20 sm:w-20">
-                <span class="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">🍊</span>
-                <img
-                  src="mascot.png"
-                  alt=""
-                  class="absolute inset-0 h-full w-full object-cover"
-                  onerror="this.style.display='none'"
-                />
-              </div>
-              <div>
-                <div class="text-xs font-semibold uppercase tracking-widest text-brand-600">
-                  OHMYCHI AI
-                </div>
-                <h1 class="text-3xl font-bold text-ink sm:text-4xl">오마이치 AI</h1>
-                <p class="mt-1 text-base text-ink-soft sm:text-lg">
-                  오마이호텔 트래블쇼의 AI 여행상담 도우미. 궁금한 여행을 입력하면 먼저 추천해드릴게요.
-                </p>
-              </div>
+          <div class="flex items-end gap-4">
+            <div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 ring-brand-300 shadow-sm sm:h-20 sm:w-20">
+              <span class="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">🍊</span>
+              <img src="mascot.png" alt="" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'" />
             </div>
-            <span
-              class="ml-2 hidden shrink-0 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700 sm:inline-block"
-              title="응답 모드"
-            >
-              프로토타입 (Mock)
-            </span>
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-widest text-brand-600">
+                OHMYCHI AI · 사주 여행운세
+              </div>
+              <h1 class="text-3xl font-bold text-ink sm:text-4xl">
+                오마이치가 봐주는 사주 여행지
+              </h1>
+              <p class="mt-1 text-base text-ink-soft sm:text-lg">
+                이름과 생년월일, 태어난 시(時)만 알려주시면 오늘 어울리는 여행지와 호텔을 골라드릴게요.
+              </p>
+            </div>
           </div>
+          <span class="mt-3 ml-2 hidden rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700 sm:inline-block">
+            프로토타입 (Mock)
+          </span>
         </header>
 
         <div id="app"></div>
 
         <footer class="mt-12 text-center text-xs text-slate-400">
-          본 답변은 오마이치 AI 의 1차 추천이며 확정 가격/실시간 예약 가능 여부는 오마이호텔 상담원이 확인해드립니다.
+          본 운세는 오마이치 AI 의 가벼운 사주 풀이이며, 정통 명리학과는 다를 수 있습니다.
+          <br class="hidden sm:block" />
+          입력하신 이름·생년월일·시(時)는 저장되지 않습니다.
         </footer>
       </div>
     </main>
 
     <script>
       /* ================================================================== */
-      /* 상태                                                                */
+      /* 데이터 (lib/destinations.ts + lib/hotels.ts 와 동일)                  */
       /* ================================================================== */
-      const STORAGE_KEY = "travelshow.history.v1";
-      const MAX_HISTORY = 5;
 
-      const state = {
-        // home | input | loading | answer | staff | fortune-input | fortune-loading | fortune-result
-        view: "home",
-        question: "",
-        result: null,
-        note: "",
-        copyMsg: null,
-        history: loadHistory(),
-        // 멀티턴 대화 이력 (Claude messages 형식)
-        turns: [],
-        // 누적 질문 표시용
-        questionTrail: [],
-        // Follow-up 입력 박스 텍스트
-        followUpInput: "",
-        // 운세
-        fortuneInput: { name: "", birthdate: "" },
-        fortuneResult: null,
-        fortuneError: null,
-      };
+      const DESTINATIONS = [
+      {
+            "country": "일본",
+            "city": "도쿄",
+            "vibe": "도시 & 쇼핑",
+            "period": "3월~5월, 9월~11월",
+            "tip": "진보초 책방 한 곳에서 30분",
+            "gem": "신주쿠 어느 모퉁이에서 찍은 사진 한 장이 인스타 인기 게시물이 될지도 몰라요.",
+            "hotelCities": [
+                  "Tokyo"
+            ]
+      },
+      {
+            "country": "일본",
+            "city": "오사카",
+            "vibe": "도시 & 푸드 투어",
+            "period": "3월~5월, 10월~11월",
+            "tip": "도톤보리에서 처음 시도하는 메뉴 하나",
+            "gem": "골목 어딘가 작은 이자카야에서 만난 풍경이 영화처럼 마음에 남을 거예요.",
+            "hotelCities": [
+                  "Osaka"
+            ]
+      },
+      {
+            "country": "일본",
+            "city": "교토",
+            "vibe": "전통 & 단풍/벚꽃",
+            "period": "10월~11월 단풍, 3월~4월 벚꽃",
+            "tip": "기온 골목 찻집에서 30분",
+            "gem": "후시미이나리 작은 신사 옆 그림자 속에서 오늘의 답이 살짝 드러날 거예요.",
+            "hotelCities": [
+                  "Kyoto"
+            ]
+      },
+      {
+            "country": "일본",
+            "city": "후쿠오카",
+            "vibe": "푸드 & 야경",
+            "period": "3월~5월, 10월~11월",
+            "tip": "나카스 야경 산책 20분",
+            "gem": "텐진 골목 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요.",
+            "hotelCities": [
+                  "Fukuoka"
+            ]
+      },
+      {
+            "country": "일본",
+            "city": "삿포로",
+            "vibe": "눈축제 & 라멘",
+            "period": "12월~2월 설경, 6월~8월 청량",
+            "tip": "오도리 공원 산책 한 바퀴",
+            "gem": "스스키노 골목 어딘가 라멘집에서 만난 풍경이 마음에 오래 남을 거예요.",
+            "hotelCities": [
+                  "Sapporo"
+            ]
+      },
+      {
+            "country": "일본",
+            "city": "오키나와",
+            "vibe": "에메랄드 바다 & 리조트",
+            "period": "4월~6월, 9월~10월",
+            "tip": "츄라우미 수족관 앞 바다 30분",
+            "gem": "코우리 대교 위에서 본 바다가 평소 답답하던 결정을 가볍게 만들어줄 거예요.",
+            "hotelCities": [
+                  "Naha",
+                  "Chatan"
+            ]
+      },
+      {
+            "country": "일본",
+            "city": "고베",
+            "vibe": "야경 & 와규",
+            "period": "3월~5월, 10월~11월",
+            "tip": "롯코산에서 본 야경 30분",
+            "gem": "구거류지 거리 어딘가 베이커리에서 우연히 만난 향이 오래 기억에 남을 거예요.",
+            "hotelCities": [
+                  "Kobe"
+            ]
+      },
+      {
+            "country": "일본",
+            "city": "나고야",
+            "vibe": "성과 미소카츠",
+            "period": "3월~5월, 10월~11월",
+            "tip": "오스 상점가 한 골목 30분",
+            "gem": "노리타케 정원 산책 끝에 만난 풍경이 오늘 마음을 가볍게 풀어줄 거예요.",
+            "hotelCities": [
+                  "Nagoya"
+            ]
+      },
+      {
+            "country": "한국",
+            "city": "서울",
+            "vibe": "도시 & 카페 & 한옥",
+            "period": "4월~6월, 9월~11월",
+            "tip": "북촌 골목 한 곳에서 30분",
+            "gem": "남산타워에서 본 야경이 평소 답답하던 마음을 시원하게 풀어줄 거예요.",
+            "hotelCities": [
+                  "Seoul"
+            ]
+      },
+      {
+            "country": "한국",
+            "city": "부산",
+            "vibe": "해운대 & 광안리 야경",
+            "period": "5월~10월",
+            "tip": "광안대교 야경 산책 30분",
+            "gem": "감천문화마을 어느 골목에서 본 풍경이 마음에 오래 남을 거예요.",
+            "hotelCities": [
+                  "Busan"
+            ]
+      },
+      {
+            "country": "한국",
+            "city": "제주",
+            "vibe": "오름 & 바다",
+            "period": "4월~6월, 9월~10월",
+            "tip": "오름 하나 천천히 오르기",
+            "gem": "해변 카페 창가에서 잠시 본 수평선이 오늘 답을 알려줄지도 몰라요.",
+            "hotelCities": [
+                  "Jeju City",
+                  "Seogwipo"
+            ]
+      },
+      {
+            "country": "한국",
+            "city": "여수",
+            "vibe": "밤바다 & 케이블카",
+            "period": "5월~10월",
+            "tip": "여수 밤바다 산책로 30분",
+            "gem": "오동도 동백숲에서 만난 바람 한 줄기가 오늘 결정에 답을 줄 거예요.",
+            "hotelCities": [
+                  "Yeosu"
+            ]
+      },
+      {
+            "country": "한국",
+            "city": "속초",
+            "vibe": "설악산 & 해변",
+            "period": "4월~6월, 9월~11월",
+            "tip": "속초해수욕장 일출 30분",
+            "gem": "설악산 어귀에서 마신 차 한 잔이 오늘 답을 알려줄지도 몰라요.",
+            "hotelCities": [
+                  "Sokcho"
+            ]
+      },
+      {
+            "country": "한국",
+            "city": "강릉",
+            "vibe": "커피 & 바다",
+            "period": "5월~10월",
+            "tip": "안목해변 카페거리 30분",
+            "gem": "경포대 호숫가에서 본 풍경이 평소 답답하던 마음을 풀어줄 거예요.",
+            "hotelCities": [
+                  "Gangneung"
+            ]
+      },
+      {
+            "country": "한국",
+            "city": "양양",
+            "vibe": "서핑 & 자연",
+            "period": "5월~9월",
+            "tip": "죽도해변에서 발만 담그기 10분",
+            "gem": "낙산사 어느 모퉁이에서 본 바다가 오늘 마음을 활짝 열어줄 거예요.",
+            "hotelCities": [
+                  "Yangyang"
+            ]
+      },
+      {
+            "country": "한국",
+            "city": "경주",
+            "vibe": "역사 & 한옥",
+            "period": "4월~5월 벚꽃, 10월~11월 단풍",
+            "tip": "동궁과 월지 야경 30분",
+            "gem": "첨성대 근처 돌담길에서 본 풍경이 마음에 오래 남을 거예요.",
+            "hotelCities": [
+                  "Gyeongju"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "다낭",
+            "vibe": "비치 & 케이블카",
+            "period": "11월~3월 건기",
+            "tip": "한 강변 일몰 산책 30분",
+            "gem": "비치프론트 카페에서 마주친 한국인 가족과의 짧은 대화가 마음에 오래 남을 거예요.",
+            "hotelCities": [
+                  "Da Nang"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "나트랑",
+            "vibe": "롱비치 & 머드 스파",
+            "period": "1월~4월",
+            "tip": "롱비치에서 새벽 산책 10분",
+            "gem": "리조트 풀사이드에서 만난 작은 새 한 마리가 오늘의 행운 사인이 되어줄 거예요.",
+            "hotelCities": [
+                  "Nha Trang"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "호이안",
+            "vibe": "랜턴 골목 & 올드타운",
+            "period": "2월~5월",
+            "tip": "올드타운 작은 랜턴 한 개를 손에",
+            "gem": "강 위로 띄운 등불이 평소 답답하던 마음을 가볍게 풀어줄 거예요.",
+            "hotelCities": [
+                  "Hoi An"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "푸꾸옥",
+            "vibe": "프라이빗 리조트 & 야시장",
+            "period": "11월~3월 건기",
+            "tip": "야시장에서 직접 고른 망고 한 봉지",
+            "gem": "케이블카 위에서 본 바다가 답답하던 결정을 가볍게 만들어줄 거예요.",
+            "hotelCities": [
+                  "Phu Quoc"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "하노이",
+            "vibe": "올드 쿼터 & 호수",
+            "period": "10월~4월",
+            "tip": "호안끼엠 호수 산책 30분",
+            "gem": "구시가지 어느 골목에서 마신 베트남 커피 한 잔이 오늘 답을 알려줄지도 몰라요.",
+            "hotelCities": [
+                  "Hanoi"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "호치민",
+            "vibe": "도시 & 카페",
+            "period": "12월~4월 건기",
+            "tip": "벤탄 시장에서 처음 시도하는 메뉴 하나",
+            "gem": "사이공 강변 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요.",
+            "hotelCities": [
+                  "Ho Chi Minh City"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "달랏",
+            "vibe": "고원 도시 & 꽃",
+            "period": "12월~3월",
+            "tip": "쑤언흐엉 호수 산책 30분",
+            "gem": "달랏 어느 카페에서 본 안개 낀 산이 평소 답답하던 마음을 풀어줄 거예요.",
+            "hotelCities": [
+                  "Da Lat"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "무이네",
+            "vibe": "사막 & 어촌",
+            "period": "12월~4월",
+            "tip": "화이트 샌듄 일출 30분",
+            "gem": "어촌 바닷가에서 본 바스켓 보트가 오늘의 작은 미소를 만들어줄 거예요.",
+            "hotelCities": [
+                  "Phan Thiet"
+            ]
+      },
+      {
+            "country": "베트남",
+            "city": "사파",
+            "vibe": "산악 트레킹 & 라이스 테라스",
+            "period": "3월~5월, 9월~11월",
+            "tip": "캣캣 마을 한 바퀴 산책",
+            "gem": "함롱 산에서 본 안개 낀 라이스 테라스가 평소 답답하던 결정을 가볍게 만들어줄 거예요.",
+            "hotelCities": [
+                  "Sa Pa"
+            ]
+      }
+];
 
-      const QUICK_QUESTIONS = [
-        "초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해줘",
-        "부모님 모시고 갈 일본 온천 4박 5일 효도여행 추천해줘",
-        "직장인 3박 4일 오사카 자유여행 일정 추천해줘",
-        "1인 80만원 예산으로 동남아 휴양 3박 5일 추천해줘",
-        "제주 호텔 위주 3박 4일 여행 일정 추천해줘",
-        "신혼부부 5박 7일 동남아 허니문 리조트 추천해줘",
-        "푸꾸옥 vs 나트랑, 가족여행으로 어디가 더 좋아?",
-        "1인 100만원 이하로 갈 만한 4박 5일 해외 여행 추천해줘",
+      const HOTELS_BY_CITY = {
+      "Osaka": [
+            {
+                  "country": "jp",
+                  "rank": 1,
+                  "code": "995715",
+                  "name": "The OneFive Osaka Namba Dotonbori",
+                  "city": "Osaka",
+                  "address": "2-13, Soemoncho, Chuo-ku, Osaka"
+            },
+            {
+                  "country": "jp",
+                  "rank": 6,
+                  "code": "1001675",
+                  "name": "The OneFive Osaka Shinsekai",
+                  "city": "Osaka",
+                  "address": "2-1-24, Ebisu-higashi, Naniwa-ku, Osaka, 556-0002"
+            },
+            {
+                  "country": "jp",
+                  "rank": 7,
+                  "code": "763368",
+                  "name": "Smile Hotel Osaka Yotsubashi",
+                  "city": "Osaka",
+                  "address": "1-chome-4-12 Shinmachi Nishi Ward"
+            },
+            {
+                  "country": "jp",
+                  "rank": 9,
+                  "code": "285030",
+                  "name": "Smile Hotel Premium Osaka Higashi Shinsaibashi",
+                  "city": "Osaka",
+                  "address": "2-13-17 Shimanouchi Chuo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 11,
+                  "code": "206762",
+                  "name": "Red Roof Inn & Suites Osaka - Namba/Nippombashi",
+                  "city": "Osaka",
+                  "address": "2-7-9 Nipponbashi, Chuo-ku"
+            }
+      ],
+      "Tokyo": [
+            {
+                  "country": "jp",
+                  "rank": 2,
+                  "code": "581662",
+                  "name": "ICI HOTEL Tokyo Hatchobori",
+                  "city": "Tokyo",
+                  "address": "3-26-11 Hachobori, Chuo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 3,
+                  "code": "327376",
+                  "name": "Sotetsu Grand Fresa Tokyo - Bay Ariake",
+                  "city": "Tokyo",
+                  "address": "3-6-6 Ariake, Koto-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 5,
+                  "code": "752333",
+                  "name": "SOTETSU GRAND FRESA TAKADANOBABA",
+                  "city": "Tokyo",
+                  "address": "1-chome-27-7 Takadanobaba"
+            },
+            {
+                  "country": "jp",
+                  "rank": 8,
+                  "code": "204439",
+                  "name": "Sotetsu Fresa Inn Tokyo Roppongi",
+                  "city": "Tokyo",
+                  "address": "3-10-1 Roppongi, Minato-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 10,
+                  "code": "566162",
+                  "name": "Smile Hotel Sugamo",
+                  "city": "Tokyo",
+                  "address": "2-4-7 Sugamo Toshima-ku"
+            }
+      ],
+      "Kyoto": [
+            {
+                  "country": "jp",
+                  "rank": 4,
+                  "code": "108838",
+                  "name": "Vessel Hotel Campana Kyoto Gojo",
+                  "city": "Kyoto",
+                  "address": "498 Shimomanjuji-cho, Gojo Sagaru Higashinotoin-dori, Shimogyo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 36,
+                  "code": "732266",
+                  "name": "Sotetsu Fresa Inn Kyoto-Kiyomizu Gojo",
+                  "city": "Kyoto",
+                  "address": "391 Shiogamacho Shimogyo Ward"
+            },
+            {
+                  "country": "jp",
+                  "rank": 37,
+                  "code": "859473",
+                  "name": "Miyako City Kintetsu Kyoto Station",
+                  "city": "Kyoto",
+                  "address": "1-9, Kamadono-cho, Higashi Shiokoji Shimogyo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 43,
+                  "code": "279046",
+                  "name": "The OneFive Kyoto Shijo",
+                  "city": "Kyoto",
+                  "address": "535 Karatsuya-cho Shijo Horikawa Nishiiru, Shimogyo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 53,
+                  "code": "682771",
+                  "name": "Agora Kyoto Karasuma",
+                  "city": "Kyoto",
+                  "address": "701-1 Myodenji-cho Shimogyo-ku"
+            }
+      ],
+      "Fukuoka": [
+            {
+                  "country": "jp",
+                  "rank": 17,
+                  "code": "552124",
+                  "name": "Hotel Monterey Fukuoka",
+                  "city": "Fukuoka",
+                  "address": "3-4-13 Watanabedori, Chuo-ku, fukuoka"
+            },
+            {
+                  "country": "jp",
+                  "rank": 25,
+                  "code": "279206",
+                  "name": "Washington R&B Hotel Hakataekimae Dai 2",
+                  "city": "Fukuoka",
+                  "address": "4-3-20 Hakata Ekimae"
+            },
+            {
+                  "country": "jp",
+                  "rank": 32,
+                  "code": "163030",
+                  "name": "Hotel Monte Hermana Fukuoka",
+                  "city": "Fukuoka",
+                  "address": "3-4-24 Watanabedori, Chuo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 34,
+                  "code": "560918",
+                  "name": "Hakata Nakasu Washington Hotel Plaza",
+                  "city": "Fukuoka",
+                  "address": "2-8-28 Nakasu, Hakata-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 42,
+                  "code": "399985",
+                  "name": "Oriental Hotel Fukuoka Hakata Station",
+                  "city": "Fukuoka",
+                  "address": "4-23 Hakataekichuogai"
+            }
+      ],
+      "Kobe": [
+            {
+                  "country": "jp",
+                  "rank": 23,
+                  "code": "581258",
+                  "name": "Hotel Monterey KOBE",
+                  "city": "Kobe",
+                  "address": "2-11-13 Shimoyamatedori"
+            },
+            {
+                  "country": "jp",
+                  "rank": 29,
+                  "code": "409119",
+                  "name": "Sotetsu Fresa Inn Kobe Sannomiya",
+                  "city": "Kobe",
+                  "address": "5-2-3, Asahidori, Chuo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 59,
+                  "code": "822540",
+                  "name": "Kobe Meriken Park Oriental Hotel",
+                  "city": "Kobe",
+                  "address": "5-6 Hatobacho Chuo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 65,
+                  "code": "158060",
+                  "name": "Hotel Monte Hermana Kobe Amalie",
+                  "city": "Kobe",
+                  "address": "2-2-28 Nakayamate-dori Chuo-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 87,
+                  "code": "768541",
+                  "name": "KOKO HOTEL Kobe Sannomiya",
+                  "city": "Kobe",
+                  "address": "63 Naniwamachi Chuo Ward"
+            }
+      ],
+      "Naha": [
+            {
+                  "country": "jp",
+                  "rank": 27,
+                  "code": "746964",
+                  "name": "hotel androoms Naha Port",
+                  "city": "Naha",
+                  "address": "2-23-1 Nishi"
+            },
+            {
+                  "country": "jp",
+                  "rank": 31,
+                  "code": "629843",
+                  "name": "Hotel Palm Royal Naha Kokusai Street",
+                  "city": "Naha",
+                  "address": "3-9-10 Makishi"
+            },
+            {
+                  "country": "jp",
+                  "rank": 70,
+                  "code": "182883",
+                  "name": "Living Inn Asahibashi Ekimae Premier",
+                  "city": "Naha",
+                  "address": "11-17 Higashimachi, Naha-shi, Okinawa, Japan"
+            },
+            {
+                  "country": "jp",
+                  "rank": 95,
+                  "code": "500813",
+                  "name": "Hotel Lantana Naha matsuyama",
+                  "city": "Naha",
+                  "address": "1-13-20 Matsuyama"
+            }
+      ],
+      "Chatan": [
+            {
+                  "country": "jp",
+                  "rank": 33,
+                  "code": "607761",
+                  "name": "Vessel Hotel Campana Okinawa",
+                  "city": "Chatan",
+                  "address": "9-22 Mihama, Chatan Cho Nakagami-gun"
+            },
+            {
+                  "country": "jp",
+                  "rank": 96,
+                  "code": "570012",
+                  "name": "Lequ Okinawa Chatan Spa & Resort",
+                  "city": "Chatan",
+                  "address": "34-2 Mihama"
+            }
+      ],
+      "Sapporo": [
+            {
+                  "country": "jp",
+                  "rank": 45,
+                  "code": "748760",
+                  "name": "Sapporo Washington Hotel Plaza",
+                  "city": "Sapporo",
+                  "address": "1-chome-3-9 Kita 6 Jonishi Kita Ward"
+            },
+            {
+                  "country": "jp",
+                  "rank": 57,
+                  "code": "584450",
+                  "name": "Keio Plaza Hotel Sapporo",
+                  "city": "Sapporo",
+                  "address": "2-1 North 5 West 7,Chuou-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 62,
+                  "code": "982751",
+                  "name": "the b sapporo",
+                  "city": "Sapporo",
+                  "address": "17-17, Minami 3-jo Nishi 2-chome, Chuo-ku, Sapporo, Hokkaido 060-0063, Japan"
+            },
+            {
+                  "country": "jp",
+                  "rank": 82,
+                  "code": "235485",
+                  "name": "Smile Hotel PREMIUM SAPPOROSUSUKINO",
+                  "city": "Sapporo",
+                  "address": "1-13-1, Minami4-jonishi"
+            },
+            {
+                  "country": "jp",
+                  "rank": 94,
+                  "code": "417502",
+                  "name": "Vessel Hotel Campana Susukino",
+                  "city": "Sapporo",
+                  "address": "6-16-1 Minami 5 Jonishi"
+            }
+      ],
+      "Nagoya": [
+            {
+                  "country": "jp",
+                  "rank": 46,
+                  "code": "712350",
+                  "name": "Sotetsu Fresa Inn Nagoya-Shinkansenguchi",
+                  "city": "Nagoya",
+                  "address": "19-16 Tsubakicho Nakamura"
+            },
+            {
+                  "country": "jp",
+                  "rank": 67,
+                  "code": "435294",
+                  "name": "Nagoya Sakae Washington Hotel Plaza",
+                  "city": "Nagoya",
+                  "address": "3-1-32 Sakae Naka-ku"
+            },
+            {
+                  "country": "jp",
+                  "rank": 85,
+                  "code": "294898",
+                  "name": "Vessel Hotel Campana Nagoya",
+                  "city": "Nagoya",
+                  "address": "2-30-7, Meieki, Nakamura-ku"
+            }
+      ],
+      "Gangneung": [
+            {
+                  "country": "kr",
+                  "rank": 1,
+                  "code": "241059",
+                  "name": "Skybay Hotel Gyeongpo",
+                  "city": "Gangneung",
+                  "address": "476 Haean-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 65,
+                  "code": "905282",
+                  "name": "PINEART LABEL",
+                  "city": "Gangneung",
+                  "address": "32, Haean-ro, Gangneung-si, Gangwon-do, South Korea"
+            },
+            {
+                  "country": "kr",
+                  "rank": 85,
+                  "code": "630132",
+                  "name": "SL Hotel Gangneung",
+                  "city": "Gangneung",
+                  "address": "59, Jumun-ro, Jumunjin-eup"
+            }
+      ],
+      "Seoul": [
+            {
+                  "country": "kr",
+                  "rank": 2,
+                  "code": "741474",
+                  "name": "Roynet Hotel Seoul Mapo",
+                  "city": "Seoul",
+                  "address": "67, Mapo-daero, Mapo-gu"
+            },
+            {
+                  "country": "kr",
+                  "rank": 3,
+                  "code": "886479",
+                  "name": "The Stay Classic Myeongdong",
+                  "city": "Seoul",
+                  "address": "27, Namdaemun-ro, Jung-gu, Seoul, Republic of Korea"
+            },
+            {
+                  "country": "kr",
+                  "rank": 4,
+                  "code": "857930",
+                  "name": "Hotel Bernoui Seoul",
+                  "city": "Seoul",
+                  "address": "229, Gyeongin-ro, Guro-gu, Seoul."
+            },
+            {
+                  "country": "kr",
+                  "rank": 5,
+                  "code": "794192",
+                  "name": "Baiton Hotel Seoul Dongdaemun",
+                  "city": "Seoul",
+                  "address": "346, Dongho-ro, Jung-gu"
+            },
+            {
+                  "country": "kr",
+                  "rank": 6,
+                  "code": "738638",
+                  "name": "Golden Seoul Hotel",
+                  "city": "Seoul",
+                  "address": "663, Gonghang-daero, Gangseo-gu"
+            }
+      ],
+      "Busan": [
+            {
+                  "country": "kr",
+                  "rank": 8,
+                  "code": "809241",
+                  "name": "Busan Connect Ocean Hotel",
+                  "city": "Busan",
+                  "address": "115-1 Daegyo-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 12,
+                  "code": "401573",
+                  "name": "Hotel Society",
+                  "city": "Busan",
+                  "address": "37, Gunam-ro, 12beon-gil, Haeundae-gu"
+            },
+            {
+                  "country": "kr",
+                  "rank": 18,
+                  "code": "344354",
+                  "name": "Hotel Nongshim",
+                  "city": "Busan",
+                  "address": "23, Geumganggongwon-ro 20beon-gil Dongnae-gu"
+            },
+            {
+                  "country": "kr",
+                  "rank": 25,
+                  "code": "807588",
+                  "name": "Hotel TT Gupo",
+                  "city": "Busan",
+                  "address": "1684, Nakdong-daero, Buk-gu"
+            },
+            {
+                  "country": "kr",
+                  "rank": 32,
+                  "code": "442536",
+                  "name": "H Avenue Gwangalli Beach",
+                  "city": "Busan",
+                  "address": "42, Gwanganhaebyeon-ro 278beon-gil Suyeong-gu"
+            }
+      ],
+      "Seogwipo": [
+            {
+                  "country": "kr",
+                  "rank": 11,
+                  "code": "886465",
+                  "name": "Youus Hotel",
+                  "city": "Seogwipo",
+                  "address": "21, Cheonjeyeon-ro 178beon-gil, Seogwipo-si, Jeju-do, Republic of Korea"
+            },
+            {
+                  "country": "kr",
+                  "rank": 16,
+                  "code": "748544",
+                  "name": "Jeju Pureun Hotel",
+                  "city": "Seogwipo",
+                  "address": "47, Seohojung-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 42,
+                  "code": "746325",
+                  "name": "Sanbangsan Hotel",
+                  "city": "Seogwipo",
+                  "address": "2093, Iljuseo-ro, Daejeong-eup"
+            },
+            {
+                  "country": "kr",
+                  "rank": 50,
+                  "code": "1001048",
+                  "name": "Seongsan Marina Hotel",
+                  "city": "Seogwipo",
+                  "address": "94, Goseong-ojo-ro, Seongsan-eup, Seogwipo-si, Jeju Special Self-Governing Province, 63639, South Korea"
+            },
+            {
+                  "country": "kr",
+                  "rank": 54,
+                  "code": "710138",
+                  "name": "Kenny Stay Jeju Mosulpo (Hotel Kenny)",
+                  "city": "Seogwipo",
+                  "address": "22, Hamojungang-ro, Daejeong-eup"
+            }
+      ],
+      "Jeju City": [
+            {
+                  "country": "kr",
+                  "rank": 14,
+                  "code": "301540",
+                  "name": "Dyneoceano Hotel",
+                  "city": "Jeju City",
+                  "address": "394, Aewolhaean-ro Aewol-eup"
+            },
+            {
+                  "country": "kr",
+                  "rank": 15,
+                  "code": "213522",
+                  "name": "Gloucester Hotel Jeju",
+                  "city": "Jeju City",
+                  "address": "57, Sammu-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 21,
+                  "code": "397853",
+                  "name": "Best Western Jeju Hotel",
+                  "city": "Jeju City",
+                  "address": "27, Doryeong-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 26,
+                  "code": "857046",
+                  "name": "Manhattan Hotel",
+                  "city": "Jeju City",
+                  "address": "66, Doryeong-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 31,
+                  "code": "886463",
+                  "name": "Ebenezer Hotel",
+                  "city": "Jeju City",
+                  "address": "504, Johamhaean-ro, Jocheon-eup, Jeju-si, Jeju-do, Republic of Korea"
+            }
+      ],
+      "Yeosu": [
+            {
+                  "country": "kr",
+                  "rank": 30,
+                  "code": "670609",
+                  "name": "Ramada Plaza by Wyndham Dolsan Yeosu",
+                  "city": "Yeosu",
+                  "address": "11 Gangnamhaean-ro Dolsan-eup"
+            },
+            {
+                  "country": "kr",
+                  "rank": 34,
+                  "code": "379991",
+                  "name": "La Terrace Boutique Resort & Spa",
+                  "city": "Yeosu",
+                  "address": "29-12, Jinmo 1-gil, Dolsan-eup"
+            },
+            {
+                  "country": "kr",
+                  "rank": 45,
+                  "code": "360900",
+                  "name": "OceanHill Hotel",
+                  "city": "Yeosu",
+                  "address": "81, Gangnamhaean-ro, Dolsan-eup"
+            },
+            {
+                  "country": "kr",
+                  "rank": 61,
+                  "code": "886597",
+                  "name": "Calacatta Hotel & Resort",
+                  "city": "Yeosu",
+                  "address": "1405-50 Pyeongsa-ri, Dolsan-eup Yeosu-si, Jeollanamdo, South Korea, 556905"
+            },
+            {
+                  "country": "kr",
+                  "rank": 79,
+                  "code": "132380",
+                  "name": "Matthieu Yeosu",
+                  "city": "Yeosu",
+                  "address": "20, Odongdo-ro, Yeosu-si, Jeollanam-do"
+            }
+      ],
+      "Sokcho": [
+            {
+                  "country": "kr",
+                  "rank": 43,
+                  "code": "155227",
+                  "name": "Hyundai Soo Resort Sokcho",
+                  "city": "Sokcho",
+                  "address": "153, Imok-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 51,
+                  "code": "293937",
+                  "name": "Shinsegae Youngrangho Resort",
+                  "city": "Sokcho",
+                  "address": "170 Yeongnanghoban-gil"
+            },
+            {
+                  "country": "kr",
+                  "rank": 52,
+                  "code": "692763",
+                  "name": "Sokcho Chonpines Beach Hotel",
+                  "city": "Sokcho",
+                  "address": "B - 1F, 171, Haeoreum-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 64,
+                  "code": "755136",
+                  "name": "Chungchoho Best Hotel",
+                  "city": "Sokcho",
+                  "address": "28, Cheongchohoban-ro"
+            },
+            {
+                  "country": "kr",
+                  "rank": 89,
+                  "code": "1001364",
+                  "name": "Sokcho Mari Vista Hotel",
+                  "city": "Sokcho",
+                  "address": "4027 Donghae-daero, Sokcho-si, Gangwon-do, South Korea"
+            }
+      ],
+      "Yangyang": [
+            {
+                  "country": "kr",
+                  "rank": 53,
+                  "code": "211449",
+                  "name": "Naksan Beach Hotel",
+                  "city": "Yangyang",
+                  "address": "73, Naksansa-ro Ganghyeon-myeon"
+            },
+            {
+                  "country": "kr",
+                  "rank": 63,
+                  "code": "710258",
+                  "name": "CENTUMMARK Hotel Yangyang",
+                  "city": "Yangyang",
+                  "address": "9 Hangogae-gil, Yangyang-eup, Yangyang-gun, Gangwon-do"
+            },
+            {
+                  "country": "kr",
+                  "rank": 81,
+                  "code": "1001627",
+                  "name": "Dignity Hotel Yangyang",
+                  "city": "Yangyang",
+                  "address": "159-5 Ilchul-ro, Yangyang-eup, Yangyang-gun, Gangwon-do"
+            }
+      ],
+      "Gyeongju": [
+            {
+                  "country": "kr",
+                  "rank": 97,
+                  "code": "605837",
+                  "name": "Lahan Select Gyeongju",
+                  "city": "Gyeongju",
+                  "address": "338, Bomun-ro"
+            }
+      ],
+      "Nha Trang": [
+            {
+                  "country": "vn",
+                  "rank": 1,
+                  "code": "886622",
+                  "name": "Seaesta Hotel Nha Trang",
+                  "city": "Nha Trang",
+                  "address": "116A Hong Bang street, Tan Lap Ward, Nha Trang city, Vietnam"
+            },
+            {
+                  "country": "vn",
+                  "rank": 3,
+                  "code": "215829",
+                  "name": "Maple Hotel & Apartment",
+                  "city": "Nha Trang",
+                  "address": "16 Ton Dan, Loc Tho Ward"
+            },
+            {
+                  "country": "vn",
+                  "rank": 7,
+                  "code": "389454",
+                  "name": "Muong Thanh Luxury Khanh Hoa Hotel",
+                  "city": "Nha Trang",
+                  "address": "Khu 01, khu dan cu Con Tan Lap Xuong Huan Ward"
+            },
+            {
+                  "country": "vn",
+                  "rank": 8,
+                  "code": "1001369",
+                  "name": "Seaside Boutique Hotel Nha Trang Beach",
+                  "city": "Nha Trang",
+                  "address": "70 Dong Da, Tan Lap Ward, Tan Lap, Nha Trang, Khanh Hoa, Vietnam"
+            },
+            {
+                  "country": "vn",
+                  "rank": 14,
+                  "code": "396766",
+                  "name": "Le More Hotel",
+                  "city": "Nha Trang",
+                  "address": "33A To Hien Thanh street Tan Lap ward"
+            }
+      ],
+      "Da Nang": [
+            {
+                  "country": "vn",
+                  "rank": 2,
+                  "code": "139868",
+                  "name": "Terra Boutique Hotel",
+                  "city": "Da Nang",
+                  "address": "05 Phan Liem, Ngu Hanh Son"
+            },
+            {
+                  "country": "vn",
+                  "rank": 5,
+                  "code": "805287",
+                  "name": "Minh Toan Galaxy Hotel",
+                  "city": "Da Nang",
+                  "address": "306, 2/9 St., Hai Chau Dist"
+            },
+            {
+                  "country": "vn",
+                  "rank": 18,
+                  "code": "861138",
+                  "name": "Ocean Haven Hotel Danang",
+                  "city": "Da Nang",
+                  "address": "295-297 Ho Nghinh St., Phuoc My Ward, Son Tra District, Da Nang City"
+            },
+            {
+                  "country": "vn",
+                  "rank": 20,
+                  "code": "192950",
+                  "name": "Alani Sea View Hotel (Former Alani Hotel & Spa Da Nang)",
+                  "city": "Da Nang",
+                  "address": "134-136-138 Tran Bach Dang My An Ward, Ngu Hanh Son District"
+            },
+            {
+                  "country": "vn",
+                  "rank": 24,
+                  "code": "886627",
+                  "name": "Mercy Emerald Hotel",
+                  "city": "Da Nang",
+                  "address": "Number 170 – 172 – 174 Nguyen Van Thoai, My An Ward, Ngu Hanh Son District, Da Nang City, Vietnam"
+            }
+      ],
+      "Phu Quoc": [
+            {
+                  "country": "vn",
+                  "rank": 4,
+                  "code": "985239",
+                  "name": "Grand Ocean Bay Resort Phu Quoc",
+                  "city": "Phu Quoc",
+                  "address": "Ong Lang Hamlet, Cua Duong Commune, Phu Quoc, Kien Giang, Vietnam"
+            },
+            {
+                  "country": "vn",
+                  "rank": 6,
+                  "code": "251392",
+                  "name": "Camia Resort & Spa",
+                  "city": "Phu Quoc",
+                  "address": "Lot 3, Ong Lang Hamlet, Cua Duong Ward"
+            },
+            {
+                  "country": "vn",
+                  "rank": 29,
+                  "code": "709121",
+                  "name": "Ocean Bay Phu Quoc Resort & Spa",
+                  "city": "Phu Quoc",
+                  "address": "Duong vao Dinh Ba, Ong Lang, Cua Duong"
+            },
+            {
+                  "country": "vn",
+                  "rank": 52,
+                  "code": "705669",
+                  "name": "Night Sea Hotel",
+                  "city": "Phu Quoc",
+                  "address": "124 Tran Hung Dao"
+            }
+      ],
+      "Ho Chi Minh City": [
+            {
+                  "country": "vn",
+                  "rank": 9,
+                  "code": "606114",
+                  "name": "Rex Hotel Saigon",
+                  "city": "Ho Chi Minh City",
+                  "address": "141 Nguyen Hue Blvd"
+            },
+            {
+                  "country": "vn",
+                  "rank": 15,
+                  "code": "1001076",
+                  "name": "Signature by M Village Hai Ba Trung",
+                  "city": "Ho Chi Minh City",
+                  "address": "74 Hai Ba Trung, Ben Nghe Ward, District 1, Ho Chi Minh City, Vietnam"
+            },
+            {
+                  "country": "vn",
+                  "rank": 39,
+                  "code": "721746",
+                  "name": "Caravelle Hotel",
+                  "city": "Ho Chi Minh City",
+                  "address": "19 - 23 Lam Son Square, District 1"
+            },
+            {
+                  "country": "vn",
+                  "rank": 59,
+                  "code": "1001392",
+                  "name": "M Village Hotel Nguyen Du",
+                  "city": "Ho Chi Minh City",
+                  "address": "149 Nguyen Du, Ben Thanh Ward, District 1, Ho Chi Minh City"
+            },
+            {
+                  "country": "vn",
+                  "rank": 60,
+                  "code": "982790",
+                  "name": "Signature by M Village Le Thanh Ton",
+                  "city": "Ho Chi Minh City",
+                  "address": "24 Le Thanh ton Street, Ben Nghe Ward, District 01, Ho Chi Minh, Vietnam"
+            }
+      ],
+      "Hoi An": [
+            {
+                  "country": "vn",
+                  "rank": 10,
+                  "code": "831975",
+                  "name": "Moodhoian Riverside Resort & Spa",
+                  "city": "Hoi An",
+                  "address": "To 1, thon Vong Nhi, Xa Cam Thanh"
+            },
+            {
+                  "country": "vn",
+                  "rank": 23,
+                  "code": "999166",
+                  "name": "Reu Boutique Hotel",
+                  "city": "Hoi An",
+                  "address": "128/9 Ly Thai To Str"
+            },
+            {
+                  "country": "vn",
+                  "rank": 28,
+                  "code": "776717",
+                  "name": "Bellerive Hoi An Hotel and Spa",
+                  "city": "Hoi An",
+                  "address": "33 Le Dai Hanh Street Cua Dai Ward"
+            },
+            {
+                  "country": "vn",
+                  "rank": 45,
+                  "code": "1001659",
+                  "name": "Grand Signature by M Village Hoi An Resort",
+                  "city": "Hoi An",
+                  "address": "27-28 Nguyen Tat Thanh, Cam Ha, Hoi An City"
+            },
+            {
+                  "country": "vn",
+                  "rank": 53,
+                  "code": "995733",
+                  "name": "Sen Village Hoi An",
+                  "city": "Hoi An",
+                  "address": "488 Cua Dai, Cam Chau, Hoi An, Quang Nam, Vietnam"
+            }
+      ],
+      "Phan Thiet": [
+            {
+                  "country": "vn",
+                  "rank": 12,
+                  "code": "1001415",
+                  "name": "Amana Hotel Phan Thiet",
+                  "city": "Phan Thiet",
+                  "address": "Lo D3-4-6-8 Duong so 5 Ocean Dunes, Phu Thuy, Phan Thiet, Binh Thuan Province"
+            },
+            {
+                  "country": "vn",
+                  "rank": 16,
+                  "code": "179835",
+                  "name": "Pandanus Resort",
+                  "city": "Phan Thiet",
+                  "address": "3 Nguyen Huu Tho, Mui Ne"
+            },
+            {
+                  "country": "vn",
+                  "rank": 17,
+                  "code": "501961",
+                  "name": "TTC Hotel - Phan Thiet",
+                  "city": "Phan Thiet",
+                  "address": "Doi Duong, Le Loi Hung Long"
+            },
+            {
+                  "country": "vn",
+                  "rank": 73,
+                  "code": "850884",
+                  "name": "Muong Thanh Mui Ne Hotel",
+                  "city": "Phan Thiet",
+                  "address": "54 Huynh Thuc Khang, Ham Tien"
+            }
+      ],
+      "Hanoi": [
+            {
+                  "country": "vn",
+                  "rank": 22,
+                  "code": "1001510",
+                  "name": "M Village Hotel Kim Ma",
+                  "city": "Hanoi",
+                  "address": "132-138 Kim Ma, Ba Dinh Ward, Kim Ma ward, Ba Dinh District, Hanoi, Vietnam"
+            },
+            {
+                  "country": "vn",
+                  "rank": 42,
+                  "code": "1001282",
+                  "name": "M Village Hotel Tho Nhuom",
+                  "city": "Hanoi",
+                  "address": "54 Tho Nhuom, Tran Hung Dao Ward, Hoan Kiem District, Ha Noi"
+            },
+            {
+                  "country": "vn",
+                  "rank": 51,
+                  "code": "848249",
+                  "name": "22Land Lake View Hotel",
+                  "city": "Hanoi",
+                  "address": "65 Trich Sai, Thuy Khue, Tay Ho, Hanoi"
+            },
+            {
+                  "country": "vn",
+                  "rank": 54,
+                  "code": "945879",
+                  "name": "Hanoi Calido Hotel",
+                  "city": "Hanoi",
+                  "address": "16 Pho Nguyen Quang Bich 7"
+            },
+            {
+                  "country": "vn",
+                  "rank": 58,
+                  "code": "1001024",
+                  "name": "Signature By M Village Tho Nhuom",
+                  "city": "Hanoi",
+                  "address": "84 Tho Nhuom, Tran Hung Dao Ward, Hoan Kiem District, Hanoi City, Vietnam"
+            }
+      ],
+      "Da Lat": [
+            {
+                  "country": "vn",
+                  "rank": 48,
+                  "code": "1001582",
+                  "name": "Best Western Premier Imperial Dalat",
+                  "city": "Da Lat",
+                  "address": "57 - 59 Hung Vuong, Ward Xuan Huong - Dalat, Lam Dong"
+            },
+            {
+                  "country": "vn",
+                  "rank": 50,
+                  "code": "886485",
+                  "name": "Dalat Paradise Hotel",
+                  "city": "Da Lat",
+                  "address": "28 Ba Trieu, Ward 4, Da Lat City, Viet Nam"
+            },
+            {
+                  "country": "vn",
+                  "rank": 91,
+                  "code": "983182",
+                  "name": "Tala Dalat Hotel",
+                  "city": "Da Lat",
+                  "address": "14/11 Duong Khoi Nghia Bac Son"
+            },
+            {
+                  "country": "vn",
+                  "rank": 93,
+                  "code": "1001394",
+                  "name": "Lumina Dalat Premium",
+                  "city": "Da Lat",
+                  "address": "63/9 Dong Da Street, Ward 3, Da Lat, Lam Dong"
+            },
+            {
+                  "country": "vn",
+                  "rank": 99,
+                  "code": "861321",
+                  "name": "Terracotta Hotel & Resort Dalat",
+                  "city": "Da Lat",
+                  "address": "Zone 7.9, Tuyen Lam Lake Tourist Area, Ward Xuan Huong-Da Lat, Lam Dong Province, Vietnam"
+            }
+      ],
+      "Sa Pa": [
+            {
+                  "country": "vn",
+                  "rank": 49,
+                  "code": "733705",
+                  "name": "Muong Thanh Sapa Hotel",
+                  "city": "Sa Pa",
+                  "address": "No 44 Ngu Chi Son"
+            },
+            {
+                  "country": "vn",
+                  "rank": 79,
+                  "code": "741450",
+                  "name": "DeLaSol Sapa Hotel",
+                  "city": "Sa Pa",
+                  "address": "16 Muong Hoa Street"
+            },
+            {
+                  "country": "vn",
+                  "rank": 82,
+                  "code": "285954",
+                  "name": "Sapa Green Hotel",
+                  "city": "Sa Pa",
+                  "address": "01 Hoang Lien Street"
+            },
+            {
+                  "country": "vn",
+                  "rank": 87,
+                  "code": "1001332",
+                  "name": "Cat Cat Galerie d'Art Hotel",
+                  "city": "Sa Pa",
+                  "address": "46 Fansipan, Sa Pa, Viet Nam"
+            }
+      ]
+};
+
+      const BIRTH_HOUR_OPTIONS = [
+        { value: "자시", label: "자시 (子時)", range: "23:00 - 01:00" },
+        { value: "축시", label: "축시 (丑時)", range: "01:00 - 03:00" },
+        { value: "인시", label: "인시 (寅時)", range: "03:00 - 05:00" },
+        { value: "묘시", label: "묘시 (卯時)", range: "05:00 - 07:00" },
+        { value: "진시", label: "진시 (辰時)", range: "07:00 - 09:00" },
+        { value: "사시", label: "사시 (巳時)", range: "09:00 - 11:00" },
+        { value: "오시", label: "오시 (午時)", range: "11:00 - 13:00" },
+        { value: "미시", label: "미시 (未時)", range: "13:00 - 15:00" },
+        { value: "신시", label: "신시 (申時)", range: "15:00 - 17:00" },
+        { value: "유시", label: "유시 (酉時)", range: "17:00 - 19:00" },
+        { value: "술시", label: "술시 (戌時)", range: "19:00 - 21:00" },
+        { value: "해시", label: "해시 (亥時)", range: "21:00 - 23:00" },
+        { value: "모름", label: "모름", range: "—" },
       ];
 
-      /* ================================================================== */
-      /* Mock 응답 생성                                                      */
-      /* ================================================================== */
-      function buildMockResponse(question, history) {
-        const q = (question || "").trim();
-        const isFollowUp = (history || []).length > 0;
-        const lower = q.toLowerCase();
-        const isFamily = q.includes("아이") || q.includes("가족") || q.includes("초등");
-        const isParents =
-          q.includes("부모님") || q.includes("효도") || q.includes("어머니") || q.includes("아버지");
-        const isHoneymoon = q.includes("허니문") || q.includes("신혼");
-        const isJapan =
-          q.includes("일본") || q.includes("오사카") || q.includes("도쿄") || q.includes("후쿠오카");
-        const isJeju = q.includes("제주");
-        const isDanang = q.includes("다낭");
-        const isPhuquoc = q.includes("푸꾸옥") || lower.includes("phu");
-        const isNhatrang = q.includes("나트랑") || q.includes("나짱");
+      const BIRTHHOUR_VIBE = {
+        자시: { phrase: "깊은 밤의 차분한 물 기운이 도는 사주", keywords: ["깊은 통찰", "차분한 흐름", "물의 기운"] },
+        축시: { phrase: "단단한 흙의 결을 품은 사주", keywords: ["단단한 결심", "안정된 기반", "흙의 기운"] },
+        인시: { phrase: "새벽 나무가 기지개를 켜는 사주", keywords: ["새로운 시작", "푸른 기운", "도약의 결"] },
+        묘시: { phrase: "이른 아침 새싹의 풋풋한 사주", keywords: ["풋풋한 활기", "성장의 결", "맑은 기운"] },
+        진시: { phrase: "든든한 흙과 햇살이 만나는 사주", keywords: ["든든한 결단", "안정과 도약", "흙의 기운"] },
+        사시: { phrase: "한낮을 향해 가는 따뜻한 불의 사주", keywords: ["따뜻한 인연", "밝은 흐름", "불의 기운"] },
+        오시: { phrase: "한낮의 활기찬 불 기운이 도는 사주", keywords: ["활발한 에너지", "환한 흐름", "불의 기운"] },
+        미시: { phrase: "오후의 부드러운 흙 기운을 품은 사주", keywords: ["부드러운 휴식", "여유로운 결", "흙의 기운"] },
+        신시: { phrase: "단단한 쇠의 명료함이 빛나는 사주", keywords: ["명료한 판단", "단정한 결", "쇠의 기운"] },
+        유시: { phrase: "노을빛 쇠의 풍성함이 묻어나는 사주", keywords: ["풍요로운 만남", "결실의 결", "쇠의 기운"] },
+        술시: { phrase: "저녁 흙이 깊이를 더하는 사주", keywords: ["깊은 영감", "차분한 결단", "흙의 기운"] },
+        해시: { phrase: "밤의 고요한 물이 흘러드는 사주", keywords: ["조용한 통찰", "흐르는 직관", "물의 기운"] },
+        모름: { phrase: "오늘 흐름이 도드라지는 결", keywords: ["오늘의 흐름", "마음의 신호", "잔잔한 직관"] },
+      };
 
-        let destination = "동남아 휴양지";
-        let travelType = "휴양 여행";
-        if (isJapan) destination = "일본";
-        else if (isJeju) destination = "제주";
-        else if (isDanang) destination = "베트남 다낭";
-        else if (isPhuquoc && isNhatrang) destination = "베트남 푸꾸옥/나트랑 비교";
-        else if (isPhuquoc) destination = "베트남 푸꾸옥";
-        else if (isNhatrang) destination = "베트남 나트랑";
-
-        if (isFamily) travelType = "가족여행";
-        else if (isParents) travelType = "효도여행";
-        else if (isHoneymoon) travelType = "허니문";
-
-        // 후속 질문 키워드 감지
-        const wantsCheaper = q.includes("저렴") || q.includes("싸") || q.includes("줄이") || q.includes("낮춰") || q.includes("낮추");
-        const wantsPremium = q.includes("프리미엄") || q.includes("럭셔리") || q.includes("올인");
-        const wantsRainy = q.includes("우기") || q.includes("비");
-
-        const summaryPrefix = isFollowUp ? "추가로 알려주신 조건을 반영해서 다시 정리해드릴게요. " : "";
-
-        return {
-          customer_question: q || "여행 추천을 요청하셨습니다.",
-          customer_answer: {
-            summary: summaryPrefix + `${destination} 방향의 ${travelType}을 알아보고 계신 것으로 이해했어요.`,
-            recommendation_direction: wantsCheaper
-              ? `예산을 낮춰도 만족도가 높은 ${destination} 지역과 시즌 오프 일정을 추천드려요. 4성 호텔 + 직항 비수기 조합이 가성비가 좋습니다.`
-              : wantsPremium
-                ? `프리미엄 옵션으로 ${destination}의 5성급 풀빌라/오션뷰 리조트 + 다이닝 패키지를 추천드려요.`
-                : `편안하게 쉬면서도 인기 명소를 함께 즐길 수 있는 ${destination} 일정을 추천드려요. 이동이 짧고 한국인 편의시설이 잘 갖춰진 지역 위주로 잡으면 만족도가 높습니다.`,
-            suggested_itinerary_or_style: wantsPremium
-              ? "5박 7일 / 5성급 리조트 + 프라이빗 다이닝 + 헬리투어 1회"
-              : wantsCheaper
-                ? "3박 4일 / 4성 호텔 비수기 + 자유일정 위주"
-                : "3박 5일 / 호텔 또는 리조트 중심 + 반나절 시내 투어 1회",
-            estimated_budget_range: wantsCheaper
-              ? "1인 60~90만원대 (비수기/4성 기준)"
-              : wantsPremium
-                ? "1인 200~280만원대 (5성 풀빌라 기준)"
-                : isHoneymoon
-                  ? "1인 130~180만원대 (5성급 리조트 기준, 시즌에 따라 변동)"
-                  : isFamily
-                    ? "1인 90~140만원대 (4성 패밀리 리조트 기준)"
-                    : "1인 80~120만원대 (4~5성 호텔 기준)",
-            advantages: [
-              "직항편이 있어 이동이 편안합니다",
-              "한국어 서비스가 가능한 호텔/리조트 선택이 가능합니다",
-              "기후가 안정적이라 일정 변동 부담이 적습니다",
-              isFamily
-                ? "키즈클럽/풀빌라 옵션이 다양합니다"
-                : "휴양과 관광의 균형이 좋은 일정으로 구성할 수 있습니다",
-            ],
-            cautions: [
-              wantsRainy
-                ? "우기에는 오후 스콜이 잦아 실내 옵션을 함께 챙기시면 좋아요"
-                : "성수기에는 항공/숙박 가격이 빠르게 오릅니다",
-              "여권 유효기간 6개월 이상이 필요합니다",
-              "현지 환율과 카드 사용 가능 여부는 출발 전 확인 권장",
-            ],
-            next_message_to_customer: isFollowUp
-              ? "조정해드린 방향으로 상담원에게 이어서 상담받아보세요. 출발일과 인원이 확정되면 더 빠르게 견적을 잡아드릴 수 있어요."
-              : "이 방향이 마음에 드시면, 상담원에게 이어서 상담받아보세요. 출발 날짜와 인원만 알려주시면 더 정확한 견적을 안내해드릴 수 있어요.",
-          },
-          staff_summary: {
-            destination_interest: destination,
-            travel_type: travelType,
-            travelers: isFamily ? "성인 2 + 아동 1~2 추정 (확인 필요)" : "미확인",
-            duration: "3박 5일 추정 (미확인)",
-            budget_hint: wantsCheaper
-              ? "가성비 선호 — 60~90만원대"
-              : wantsPremium
-                ? "프리미엄 선호 — 200만원 이상"
-                : isHoneymoon
-                  ? "프리미엄 선호 추정"
-                  : "중상 가격대 추정 (미확인)",
-            key_needs: [
-              travelType,
-              wantsCheaper ? "가성비" : "균형",
-              wantsPremium ? "프리미엄" : "직항 선호",
-              isFamily ? "키즈프렌들리" : "휴양 중심",
-              "한국인 응대",
-            ],
-            missing_information: [
-              "정확한 출발일/복귀일",
-              "정확한 인원 및 연령",
-              wantsCheaper || wantsPremium ? "여행 우선순위 (가격 vs 경험)" : "1인/총 예산 한도",
-              "비행기 직항/경유 선호",
-              "호텔 등급 선호",
-            ],
-            booking_probability: isFollowUp ? "High" : "Medium",
-            recommended_consulting_direction: isFollowUp
-              ? "고객이 후속 조건을 명확히 해주셨으니, 해당 조건에 맞는 항공+호텔 패키지 2~3개를 바로 비교 제안해주세요."
-              : "고객이 직접 입력해주신 키워드 위주로 가격대/등급을 확인한 뒤, 출발일 가용 항공편부터 잡고 호텔 옵션을 3개 정도 비교 제안해주세요.",
-          },
-          staff_questions: isFollowUp
-            ? [
-                "확정 가능한 출발일이 정해지셨나요?",
-                "지금 알려주신 예산이 1인 기준인지 전체 기준인지요?",
-                "추가로 결정 시 가장 중요한 포인트는 무엇인가요? (가격/일정/등급)",
-                "함께 가시는 분 중 멀미/식이 등 특이사항 있으세요?",
-              ]
-            : [
-                "출발 가능한 날짜는 언제이신가요?",
-                "총 몇 분이 함께 가시나요? (아이가 있다면 나이도 함께)",
-                "1인 또는 전체 예산은 대략 어느 정도 생각하고 계세요?",
-                "직항을 꼭 원하시는지, 경유라도 괜찮은지요?",
-                "호텔/리조트 등급은 어느 정도를 선호하시나요?",
-              ],
-          staff_opening_script:
-            "안녕하세요, 트래블쇼 방문해주셔서 감사합니다. 오마이치 AI가 1차로 추천드린 방향 보셨죠? 제가 이어서 출발일과 인원만 먼저 확인하면, 바로 가능한 항공과 호텔 옵션을 골라 비교해드릴게요.",
-          follow_up_suggestions: isFollowUp
-            ? [
-                "다른 지역도 같이 비교해줘",
-                "더 한적한 곳을 원해",
-                "여행 기간을 늘리면?",
-                "기내식/좌석 등급도 안내해줘",
-              ]
-            : isFamily
-              ? [
-                  "예산을 1인 60만원 이하로 낮추면?",
-                  "아이가 5세 미만이라면?",
-                  "키즈클럽이 좋은 리조트 추천해줘",
-                  "우기 피하려면 언제 가야 해?",
-                  "더 한적한 가족여행지도 알려줘",
-                ]
-              : isHoneymoon
-                ? [
-                    "프라이빗 풀빌라 추천해줘",
-                    "포토스팟이 많은 곳은?",
-                    "5박 이상 일정으로 늘리면?",
-                    "신혼 특전 받을 수 있는 곳은?",
-                  ]
-                : [
-                    "예산을 더 낮추면 어떤 옵션이 있어?",
-                    "프리미엄 등급으로 올리면?",
-                    "다른 지역도 비교해줘",
-                    "우기와 건기 추천 시기는?",
-                    "직항 비행 시간이 얼마나 돼?",
-                  ],
-        };
-      }
-
-      /* ================================================================== */
-      /* Mock 운세 데이터                                                    */
-      /* ================================================================== */
-      function seedHash(s) {
-        let h = 5381;
-        for (let i = 0; i < s.length; i++) h = (h * 33) ^ s.charCodeAt(i);
-        return Math.abs(h);
-      }
-      function pickFrom(arr, seed) {
-        return arr[seed % arr.length];
-      }
-      function scoreFromSeed(seed, min, max) {
-        min = min == null ? 3 : min;
-        max = max == null ? 5 : max;
-        return min + (seed % (max - min + 1));
-      }
-
-      const FORTUNE_HEADLINES = [
-        "새로운 발견이 기다리는 하루",
-        "마음의 나침반이 또렷해지는 날",
-        "익숙한 길 위에서 만나는 작은 행운",
+      const HEADLINES = [
+        "사주가 길을 가만히 알려주는 하루",
+        "오늘 결의 한 자락이 길을 트는 날",
+        "마음의 나침반이 또렷해지는 하루",
+        "익숙한 길 위에서 만나는 작은 운",
         "햇살처럼 부드러운 인연이 다가오는 날",
         "오늘만큼은 망설임 없이 떠나도 좋은 날",
         "조용한 풍경 속에서 빛나는 하루",
-        "여행 가방을 가볍게 꾸리고 싶은 날",
         "잊고 있던 설렘이 깨어나는 하루",
       ];
-      const FORTUNE_SUMMARIES = [
-        "{name} 님, 오늘은 평소 관심 두지 않던 풍경에 마음이 끌리는 날이에요. 작은 결심 하나가 여행의 방향을 바꿔놓을지도 몰라요.",
-        "{name} 님, 오늘은 평온 속에 숨은 기회를 발견하기 좋은 날이에요. 서두르기보다 한 박자 천천히 움직여 보세요.",
-        "{name} 님, 오늘은 익숙한 풍경에서도 새로운 영감을 발견할 수 있어요. 카메라보다 마음으로 먼저 담아보세요.",
-        "{name} 님, 오늘은 작은 친절이 큰 인연이 되는 날이에요. 여행 같은 일상을 만끽해 보세요.",
-        "{name} 님, 오늘은 결단력이 빛나는 날입니다. 미뤄둔 여행 계획을 한 발 앞당겨도 좋겠어요.",
+
+      const SUMMARIES = [
+        "{vibe}이에요. 오늘은 작은 결심 하나가 여행의 방향을 바꿔놓을지도 모르겠네요.",
+        "{vibe}으로, 오늘은 평온 속에 숨은 기회를 발견하기 좋은 날이에요. 서두르기보다 한 박자 천천히 움직여 보세요.",
+        "{vibe}이라, 익숙한 풍경에서도 새로운 영감을 발견할 수 있어요. 카메라보다 마음으로 먼저 담아보세요.",
+        "{vibe}이에요. 작은 친절이 큰 인연으로 이어지는 날이니, 여행 같은 일상을 만끽해 보세요.",
+        "{vibe}이라, 결단력이 빛나는 하루입니다. 미뤄둔 여행 계획을 한 발 앞당겨도 좋겠어요.",
       ];
-      const FORTUNE_CAT_MSGS = {
+
+      const CAT_MSGS = {
         여행운: { 5: ["떠나기 가장 좋은 흐름이에요", "지도 위 어디든 당신 편이에요"], 4: ["좋은 흐름이 살짝 보여요", "여행 운이 부드럽게 흘러요"], 3: ["무난하지만 알찬 하루예요", "기대보다 만족스러운 작은 여행"] },
         재물운: { 5: ["뜻밖의 할인이 다가올 수도", "지갑이 가벼워질 일이 적은 날"], 4: ["계획적인 소비가 빛나는 날", "여유 자금이 또렷해지는 날"], 3: ["과한 소비만 피하면 OK", "꼭 필요한 곳에 집중해 보세요"] },
         인연운: { 5: ["가까운 인연이 더 깊어져요", "낯선 곳에서 좋은 만남"], 4: ["부드러운 인연이 다가와요", "마음이 통하는 대화가 있어요"], 3: ["편안한 동행이 어울리는 날", "혼자 시간도 충분히 빛나요"] },
         건강운: { 5: ["컨디션이 최고조에요", "활력이 넘치는 하루"], 4: ["가벼운 산책이 잘 맞아요", "충분히 자면 더 좋은 하루"], 3: ["무리하지 않는 게 베스트", "수분과 휴식이 핵심"] },
       };
 
-      const DESTINATIONS = [
-              {
-                      "country": "일본",
-                      "city": "도쿄",
-                      "vibe": "도시 & 쇼핑",
-                      "period": "3월~5월, 9월~11월",
-                      "tip": "진보초 책방 한 곳에서 30분",
-                      "gem": "신주쿠 어느 모퉁이에서 찍은 사진 한 장이 인스타 인기 게시물이 될지도 몰라요.",
-                      "hotelCities": [
-                              "Tokyo"
-                      ]
-              },
-              {
-                      "country": "일본",
-                      "city": "오사카",
-                      "vibe": "도시 & 푸드 투어",
-                      "period": "3월~5월, 10월~11월",
-                      "tip": "도톤보리에서 처음 시도하는 메뉴 하나",
-                      "gem": "골목 어딘가 작은 이자카야에서 만난 풍경이 영화처럼 마음에 남을 거예요.",
-                      "hotelCities": [
-                              "Osaka"
-                      ]
-              },
-              {
-                      "country": "일본",
-                      "city": "교토",
-                      "vibe": "전통 & 단풍/벚꽃",
-                      "period": "10월~11월 단풍, 3월~4월 벚꽃",
-                      "tip": "기온 골목 찻집에서 30분",
-                      "gem": "후시미이나리 작은 신사 옆 그림자 속에서 오늘의 답이 살짝 드러날 거예요.",
-                      "hotelCities": [
-                              "Kyoto"
-                      ]
-              },
-              {
-                      "country": "일본",
-                      "city": "후쿠오카",
-                      "vibe": "푸드 & 야경",
-                      "period": "3월~5월, 10월~11월",
-                      "tip": "나카스 야경 산책 20분",
-                      "gem": "텐진 골목 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요.",
-                      "hotelCities": [
-                              "Fukuoka"
-                      ]
-              },
-              {
-                      "country": "일본",
-                      "city": "삿포로",
-                      "vibe": "눈축제 & 라멘",
-                      "period": "12월~2월 설경, 6월~8월 청량",
-                      "tip": "오도리 공원 산책 한 바퀴",
-                      "gem": "스스키노 골목 어딘가 라멘집에서 만난 풍경이 마음에 오래 남을 거예요.",
-                      "hotelCities": [
-                              "Sapporo"
-                      ]
-              },
-              {
-                      "country": "일본",
-                      "city": "오키나와",
-                      "vibe": "에메랄드 바다 & 리조트",
-                      "period": "4월~6월, 9월~10월",
-                      "tip": "츄라우미 수족관 앞 바다 30분",
-                      "gem": "코우리 대교 위에서 본 바다가 평소 답답하던 결정을 가볍게 만들어줄 거예요.",
-                      "hotelCities": [
-                              "Naha",
-                              "Chatan"
-                      ]
-              },
-              {
-                      "country": "일본",
-                      "city": "고베",
-                      "vibe": "야경 & 와규",
-                      "period": "3월~5월, 10월~11월",
-                      "tip": "롯코산에서 본 야경 30분",
-                      "gem": "구거류지 거리 어딘가 베이커리에서 우연히 만난 향이 오래 기억에 남을 거예요.",
-                      "hotelCities": [
-                              "Kobe"
-                      ]
-              },
-              {
-                      "country": "일본",
-                      "city": "나고야",
-                      "vibe": "성과 미소카츠",
-                      "period": "3월~5월, 10월~11월",
-                      "tip": "오스 상점가 한 골목 30분",
-                      "gem": "노리타케 정원 산책 끝에 만난 풍경이 오늘 마음을 가볍게 풀어줄 거예요.",
-                      "hotelCities": [
-                              "Nagoya"
-                      ]
-              },
-              {
-                      "country": "한국",
-                      "city": "서울",
-                      "vibe": "도시 & 카페 & 한옥",
-                      "period": "4월~6월, 9월~11월",
-                      "tip": "북촌 골목 한 곳에서 30분",
-                      "gem": "남산타워에서 본 야경이 평소 답답하던 마음을 시원하게 풀어줄 거예요.",
-                      "hotelCities": [
-                              "Seoul"
-                      ]
-              },
-              {
-                      "country": "한국",
-                      "city": "부산",
-                      "vibe": "해운대 & 광안리 야경",
-                      "period": "5월~10월",
-                      "tip": "광안대교 야경 산책 30분",
-                      "gem": "감천문화마을 어느 골목에서 본 풍경이 마음에 오래 남을 거예요.",
-                      "hotelCities": [
-                              "Busan"
-                      ]
-              },
-              {
-                      "country": "한국",
-                      "city": "제주",
-                      "vibe": "오름 & 바다",
-                      "period": "4월~6월, 9월~10월",
-                      "tip": "오름 하나 천천히 오르기",
-                      "gem": "해변 카페 창가에서 잠시 본 수평선이 오늘 답을 알려줄지도 몰라요.",
-                      "hotelCities": [
-                              "Jeju City",
-                              "Seogwipo"
-                      ]
-              },
-              {
-                      "country": "한국",
-                      "city": "여수",
-                      "vibe": "밤바다 & 케이블카",
-                      "period": "5월~10월",
-                      "tip": "여수 밤바다 산책로 30분",
-                      "gem": "오동도 동백숲에서 만난 바람 한 줄기가 오늘 결정에 답을 줄 거예요.",
-                      "hotelCities": [
-                              "Yeosu"
-                      ]
-              },
-              {
-                      "country": "한국",
-                      "city": "속초",
-                      "vibe": "설악산 & 해변",
-                      "period": "4월~6월, 9월~11월",
-                      "tip": "속초해수욕장 일출 30분",
-                      "gem": "설악산 어귀에서 마신 차 한 잔이 오늘 답을 알려줄지도 몰라요.",
-                      "hotelCities": [
-                              "Sokcho"
-                      ]
-              },
-              {
-                      "country": "한국",
-                      "city": "강릉",
-                      "vibe": "커피 & 바다",
-                      "period": "5월~10월",
-                      "tip": "안목해변 카페거리 30분",
-                      "gem": "경포대 호숫가에서 본 풍경이 평소 답답하던 마음을 풀어줄 거예요.",
-                      "hotelCities": [
-                              "Gangneung"
-                      ]
-              },
-              {
-                      "country": "한국",
-                      "city": "양양",
-                      "vibe": "서핑 & 자연",
-                      "period": "5월~9월",
-                      "tip": "죽도해변에서 발만 담그기 10분",
-                      "gem": "낙산사 어느 모퉁이에서 본 바다가 오늘 마음을 활짝 열어줄 거예요.",
-                      "hotelCities": [
-                              "Yangyang"
-                      ]
-              },
-              {
-                      "country": "한국",
-                      "city": "경주",
-                      "vibe": "역사 & 한옥",
-                      "period": "4월~5월 벚꽃, 10월~11월 단풍",
-                      "tip": "동궁과 월지 야경 30분",
-                      "gem": "첨성대 근처 돌담길에서 본 풍경이 마음에 오래 남을 거예요.",
-                      "hotelCities": [
-                              "Gyeongju"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "다낭",
-                      "vibe": "비치 & 케이블카",
-                      "period": "11월~3월 건기",
-                      "tip": "한 강변 일몰 산책 30분",
-                      "gem": "비치프론트 카페에서 마주친 한국인 가족과의 짧은 대화가 마음에 오래 남을 거예요.",
-                      "hotelCities": [
-                              "Da Nang"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "나트랑",
-                      "vibe": "롱비치 & 머드 스파",
-                      "period": "1월~4월",
-                      "tip": "롱비치에서 새벽 산책 10분",
-                      "gem": "리조트 풀사이드에서 만난 작은 새 한 마리가 오늘의 행운 사인이 되어줄 거예요.",
-                      "hotelCities": [
-                              "Nha Trang"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "호이안",
-                      "vibe": "랜턴 골목 & 올드타운",
-                      "period": "2월~5월",
-                      "tip": "올드타운 작은 랜턴 한 개를 손에",
-                      "gem": "강 위로 띄운 등불이 평소 답답하던 마음을 가볍게 풀어줄 거예요.",
-                      "hotelCities": [
-                              "Hoi An"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "푸꾸옥",
-                      "vibe": "프라이빗 리조트 & 야시장",
-                      "period": "11월~3월 건기",
-                      "tip": "야시장에서 직접 고른 망고 한 봉지",
-                      "gem": "케이블카 위에서 본 바다가 답답하던 결정을 가볍게 만들어줄 거예요.",
-                      "hotelCities": [
-                              "Phu Quoc"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "하노이",
-                      "vibe": "올드 쿼터 & 호수",
-                      "period": "10월~4월",
-                      "tip": "호안끼엠 호수 산책 30분",
-                      "gem": "구시가지 어느 골목에서 마신 베트남 커피 한 잔이 오늘 답을 알려줄지도 몰라요.",
-                      "hotelCities": [
-                              "Hanoi"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "호치민",
-                      "vibe": "도시 & 카페",
-                      "period": "12월~4월 건기",
-                      "tip": "벤탄 시장에서 처음 시도하는 메뉴 하나",
-                      "gem": "사이공 강변 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요.",
-                      "hotelCities": [
-                              "Ho Chi Minh City"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "달랏",
-                      "vibe": "고원 도시 & 꽃",
-                      "period": "12월~3월",
-                      "tip": "쑤언흐엉 호수 산책 30분",
-                      "gem": "달랏 어느 카페에서 본 안개 낀 산이 평소 답답하던 마음을 풀어줄 거예요.",
-                      "hotelCities": [
-                              "Da Lat"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "무이네",
-                      "vibe": "사막 & 어촌",
-                      "period": "12월~4월",
-                      "tip": "화이트 샌듄 일출 30분",
-                      "gem": "어촌 바닷가에서 본 바스켓 보트가 오늘의 작은 미소를 만들어줄 거예요.",
-                      "hotelCities": [
-                              "Phan Thiet"
-                      ]
-              },
-              {
-                      "country": "베트남",
-                      "city": "사파",
-                      "vibe": "산악 트레킹 & 라이스 테라스",
-                      "period": "3월~5월, 9월~11월",
-                      "tip": "캣캣 마을 한 바퀴 산책",
-                      "gem": "함롱 산에서 본 안개 낀 라이스 테라스가 평소 답답하던 결정을 가볍게 만들어줄 거예요.",
-                      "hotelCities": [
-                              "Sa Pa"
-                      ]
-              }
+      const LUCKY_COLORS = ["코랄", "민트", "라벤더", "올리브", "샌드 베이지", "스카이 블루", "선셋 오렌지", "포레스트 그린"];
+      const LUCKY_TIMES = ["오전 10시 ~ 12시", "오후 2시 ~ 4시", "오후 6시 ~ 8시", "해 질 녘 30분", "이른 아침 9시 전후"];
+      const LUCKY_NUMBERS = ["3", "5", "7", "3, 7", "5, 9", "2, 8", "1, 6"];
+      const CLOSINGS = [
+        "사주가 가리킨 {city}, 오마이호텔과 함께라면 더 편안하게 다녀오실 수 있어요.",
+        "오늘의 결이 가리키는 {city}, 오마이호텔의 추천 호텔과 함께 떠나보세요.",
+        "{city} 여행을 더 깊게 풀어보고 싶다면, 오마이치가 곁에서 도와드릴게요.",
       ];
 
-      const HOTELS_BY_CITY = {
-              "Osaka": [
-                      {
-                              "country": "jp",
-                              "rank": 1,
-                              "code": "995715",
-                              "name": "The OneFive Osaka Namba Dotonbori",
-                              "city": "Osaka",
-                              "address": "2-13, Soemoncho, Chuo-ku, Osaka"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 6,
-                              "code": "1001675",
-                              "name": "The OneFive Osaka Shinsekai",
-                              "city": "Osaka",
-                              "address": "2-1-24, Ebisu-higashi, Naniwa-ku, Osaka, 556-0002"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 7,
-                              "code": "763368",
-                              "name": "Smile Hotel Osaka Yotsubashi",
-                              "city": "Osaka",
-                              "address": "1-chome-4-12 Shinmachi Nishi Ward"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 9,
-                              "code": "285030",
-                              "name": "Smile Hotel Premium Osaka Higashi Shinsaibashi",
-                              "city": "Osaka",
-                              "address": "2-13-17 Shimanouchi Chuo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 11,
-                              "code": "206762",
-                              "name": "Red Roof Inn & Suites Osaka - Namba/Nippombashi",
-                              "city": "Osaka",
-                              "address": "2-7-9 Nipponbashi, Chuo-ku"
-                      }
-              ],
-              "Tokyo": [
-                      {
-                              "country": "jp",
-                              "rank": 2,
-                              "code": "581662",
-                              "name": "ICI HOTEL Tokyo Hatchobori",
-                              "city": "Tokyo",
-                              "address": "3-26-11 Hachobori, Chuo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 3,
-                              "code": "327376",
-                              "name": "Sotetsu Grand Fresa Tokyo - Bay Ariake",
-                              "city": "Tokyo",
-                              "address": "3-6-6 Ariake, Koto-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 5,
-                              "code": "752333",
-                              "name": "SOTETSU GRAND FRESA TAKADANOBABA",
-                              "city": "Tokyo",
-                              "address": "1-chome-27-7 Takadanobaba"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 8,
-                              "code": "204439",
-                              "name": "Sotetsu Fresa Inn Tokyo Roppongi",
-                              "city": "Tokyo",
-                              "address": "3-10-1 Roppongi, Minato-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 10,
-                              "code": "566162",
-                              "name": "Smile Hotel Sugamo",
-                              "city": "Tokyo",
-                              "address": "2-4-7 Sugamo Toshima-ku"
-                      }
-              ],
-              "Kyoto": [
-                      {
-                              "country": "jp",
-                              "rank": 4,
-                              "code": "108838",
-                              "name": "Vessel Hotel Campana Kyoto Gojo",
-                              "city": "Kyoto",
-                              "address": "498 Shimomanjuji-cho, Gojo Sagaru Higashinotoin-dori, Shimogyo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 36,
-                              "code": "732266",
-                              "name": "Sotetsu Fresa Inn Kyoto-Kiyomizu Gojo",
-                              "city": "Kyoto",
-                              "address": "391 Shiogamacho Shimogyo Ward"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 37,
-                              "code": "859473",
-                              "name": "Miyako City Kintetsu Kyoto Station",
-                              "city": "Kyoto",
-                              "address": "1-9, Kamadono-cho, Higashi Shiokoji Shimogyo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 43,
-                              "code": "279046",
-                              "name": "The OneFive Kyoto Shijo",
-                              "city": "Kyoto",
-                              "address": "535 Karatsuya-cho Shijo Horikawa Nishiiru, Shimogyo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 53,
-                              "code": "682771",
-                              "name": "Agora Kyoto Karasuma",
-                              "city": "Kyoto",
-                              "address": "701-1 Myodenji-cho Shimogyo-ku"
-                      }
-              ],
-              "Fukuoka": [
-                      {
-                              "country": "jp",
-                              "rank": 17,
-                              "code": "552124",
-                              "name": "Hotel Monterey Fukuoka",
-                              "city": "Fukuoka",
-                              "address": "3-4-13 Watanabedori, Chuo-ku, fukuoka"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 25,
-                              "code": "279206",
-                              "name": "Washington R&B Hotel Hakataekimae Dai 2",
-                              "city": "Fukuoka",
-                              "address": "4-3-20 Hakata Ekimae"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 32,
-                              "code": "163030",
-                              "name": "Hotel Monte Hermana Fukuoka",
-                              "city": "Fukuoka",
-                              "address": "3-4-24 Watanabedori, Chuo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 34,
-                              "code": "560918",
-                              "name": "Hakata Nakasu Washington Hotel Plaza",
-                              "city": "Fukuoka",
-                              "address": "2-8-28 Nakasu, Hakata-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 42,
-                              "code": "399985",
-                              "name": "Oriental Hotel Fukuoka Hakata Station",
-                              "city": "Fukuoka",
-                              "address": "4-23 Hakataekichuogai"
-                      }
-              ],
-              "Kobe": [
-                      {
-                              "country": "jp",
-                              "rank": 23,
-                              "code": "581258",
-                              "name": "Hotel Monterey KOBE",
-                              "city": "Kobe",
-                              "address": "2-11-13 Shimoyamatedori"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 29,
-                              "code": "409119",
-                              "name": "Sotetsu Fresa Inn Kobe Sannomiya",
-                              "city": "Kobe",
-                              "address": "5-2-3, Asahidori, Chuo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 59,
-                              "code": "822540",
-                              "name": "Kobe Meriken Park Oriental Hotel",
-                              "city": "Kobe",
-                              "address": "5-6 Hatobacho Chuo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 65,
-                              "code": "158060",
-                              "name": "Hotel Monte Hermana Kobe Amalie",
-                              "city": "Kobe",
-                              "address": "2-2-28 Nakayamate-dori Chuo-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 87,
-                              "code": "768541",
-                              "name": "KOKO HOTEL Kobe Sannomiya",
-                              "city": "Kobe",
-                              "address": "63 Naniwamachi Chuo Ward"
-                      }
-              ],
-              "Naha": [
-                      {
-                              "country": "jp",
-                              "rank": 27,
-                              "code": "746964",
-                              "name": "hotel androoms Naha Port",
-                              "city": "Naha",
-                              "address": "2-23-1 Nishi"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 31,
-                              "code": "629843",
-                              "name": "Hotel Palm Royal Naha Kokusai Street",
-                              "city": "Naha",
-                              "address": "3-9-10 Makishi"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 70,
-                              "code": "182883",
-                              "name": "Living Inn Asahibashi Ekimae Premier",
-                              "city": "Naha",
-                              "address": "11-17 Higashimachi, Naha-shi, Okinawa, Japan"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 95,
-                              "code": "500813",
-                              "name": "Hotel Lantana Naha matsuyama",
-                              "city": "Naha",
-                              "address": "1-13-20 Matsuyama"
-                      }
-              ],
-              "Chatan": [
-                      {
-                              "country": "jp",
-                              "rank": 33,
-                              "code": "607761",
-                              "name": "Vessel Hotel Campana Okinawa",
-                              "city": "Chatan",
-                              "address": "9-22 Mihama, Chatan Cho Nakagami-gun"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 96,
-                              "code": "570012",
-                              "name": "Lequ Okinawa Chatan Spa & Resort",
-                              "city": "Chatan",
-                              "address": "34-2 Mihama"
-                      }
-              ],
-              "Sapporo": [
-                      {
-                              "country": "jp",
-                              "rank": 45,
-                              "code": "748760",
-                              "name": "Sapporo Washington Hotel Plaza",
-                              "city": "Sapporo",
-                              "address": "1-chome-3-9 Kita 6 Jonishi Kita Ward"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 57,
-                              "code": "584450",
-                              "name": "Keio Plaza Hotel Sapporo",
-                              "city": "Sapporo",
-                              "address": "2-1 North 5 West 7,Chuou-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 62,
-                              "code": "982751",
-                              "name": "the b sapporo",
-                              "city": "Sapporo",
-                              "address": "17-17, Minami 3-jo Nishi 2-chome, Chuo-ku, Sapporo, Hokkaido 060-0063, Japan"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 82,
-                              "code": "235485",
-                              "name": "Smile Hotel PREMIUM SAPPOROSUSUKINO",
-                              "city": "Sapporo",
-                              "address": "1-13-1, Minami4-jonishi"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 94,
-                              "code": "417502",
-                              "name": "Vessel Hotel Campana Susukino",
-                              "city": "Sapporo",
-                              "address": "6-16-1 Minami 5 Jonishi"
-                      }
-              ],
-              "Nagoya": [
-                      {
-                              "country": "jp",
-                              "rank": 46,
-                              "code": "712350",
-                              "name": "Sotetsu Fresa Inn Nagoya-Shinkansenguchi",
-                              "city": "Nagoya",
-                              "address": "19-16 Tsubakicho Nakamura"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 67,
-                              "code": "435294",
-                              "name": "Nagoya Sakae Washington Hotel Plaza",
-                              "city": "Nagoya",
-                              "address": "3-1-32 Sakae Naka-ku"
-                      },
-                      {
-                              "country": "jp",
-                              "rank": 85,
-                              "code": "294898",
-                              "name": "Vessel Hotel Campana Nagoya",
-                              "city": "Nagoya",
-                              "address": "2-30-7, Meieki, Nakamura-ku"
-                      }
-              ],
-              "Gangneung": [
-                      {
-                              "country": "kr",
-                              "rank": 1,
-                              "code": "241059",
-                              "name": "Skybay Hotel Gyeongpo",
-                              "city": "Gangneung",
-                              "address": "476 Haean-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 65,
-                              "code": "905282",
-                              "name": "PINEART LABEL",
-                              "city": "Gangneung",
-                              "address": "32, Haean-ro, Gangneung-si, Gangwon-do, South Korea"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 85,
-                              "code": "630132",
-                              "name": "SL Hotel Gangneung",
-                              "city": "Gangneung",
-                              "address": "59, Jumun-ro, Jumunjin-eup"
-                      }
-              ],
-              "Seoul": [
-                      {
-                              "country": "kr",
-                              "rank": 2,
-                              "code": "741474",
-                              "name": "Roynet Hotel Seoul Mapo",
-                              "city": "Seoul",
-                              "address": "67, Mapo-daero, Mapo-gu"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 3,
-                              "code": "886479",
-                              "name": "The Stay Classic Myeongdong",
-                              "city": "Seoul",
-                              "address": "27, Namdaemun-ro, Jung-gu, Seoul, Republic of Korea"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 4,
-                              "code": "857930",
-                              "name": "Hotel Bernoui Seoul",
-                              "city": "Seoul",
-                              "address": "229, Gyeongin-ro, Guro-gu, Seoul."
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 5,
-                              "code": "794192",
-                              "name": "Baiton Hotel Seoul Dongdaemun",
-                              "city": "Seoul",
-                              "address": "346, Dongho-ro, Jung-gu"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 6,
-                              "code": "738638",
-                              "name": "Golden Seoul Hotel",
-                              "city": "Seoul",
-                              "address": "663, Gonghang-daero, Gangseo-gu"
-                      }
-              ],
-              "Busan": [
-                      {
-                              "country": "kr",
-                              "rank": 8,
-                              "code": "809241",
-                              "name": "Busan Connect Ocean Hotel",
-                              "city": "Busan",
-                              "address": "115-1 Daegyo-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 12,
-                              "code": "401573",
-                              "name": "Hotel Society",
-                              "city": "Busan",
-                              "address": "37, Gunam-ro, 12beon-gil, Haeundae-gu"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 18,
-                              "code": "344354",
-                              "name": "Hotel Nongshim",
-                              "city": "Busan",
-                              "address": "23, Geumganggongwon-ro 20beon-gil Dongnae-gu"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 25,
-                              "code": "807588",
-                              "name": "Hotel TT Gupo",
-                              "city": "Busan",
-                              "address": "1684, Nakdong-daero, Buk-gu"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 32,
-                              "code": "442536",
-                              "name": "H Avenue Gwangalli Beach",
-                              "city": "Busan",
-                              "address": "42, Gwanganhaebyeon-ro 278beon-gil Suyeong-gu"
-                      }
-              ],
-              "Seogwipo": [
-                      {
-                              "country": "kr",
-                              "rank": 11,
-                              "code": "886465",
-                              "name": "Youus Hotel",
-                              "city": "Seogwipo",
-                              "address": "21, Cheonjeyeon-ro 178beon-gil, Seogwipo-si, Jeju-do, Republic of Korea"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 16,
-                              "code": "748544",
-                              "name": "Jeju Pureun Hotel",
-                              "city": "Seogwipo",
-                              "address": "47, Seohojung-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 42,
-                              "code": "746325",
-                              "name": "Sanbangsan Hotel",
-                              "city": "Seogwipo",
-                              "address": "2093, Iljuseo-ro, Daejeong-eup"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 50,
-                              "code": "1001048",
-                              "name": "Seongsan Marina Hotel",
-                              "city": "Seogwipo",
-                              "address": "94, Goseong-ojo-ro, Seongsan-eup, Seogwipo-si, Jeju Special Self-Governing Province, 63639, South Korea"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 54,
-                              "code": "710138",
-                              "name": "Kenny Stay Jeju Mosulpo (Hotel Kenny)",
-                              "city": "Seogwipo",
-                              "address": "22, Hamojungang-ro, Daejeong-eup"
-                      }
-              ],
-              "Jeju City": [
-                      {
-                              "country": "kr",
-                              "rank": 14,
-                              "code": "301540",
-                              "name": "Dyneoceano Hotel",
-                              "city": "Jeju City",
-                              "address": "394, Aewolhaean-ro Aewol-eup"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 15,
-                              "code": "213522",
-                              "name": "Gloucester Hotel Jeju",
-                              "city": "Jeju City",
-                              "address": "57, Sammu-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 21,
-                              "code": "397853",
-                              "name": "Best Western Jeju Hotel",
-                              "city": "Jeju City",
-                              "address": "27, Doryeong-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 26,
-                              "code": "857046",
-                              "name": "Manhattan Hotel",
-                              "city": "Jeju City",
-                              "address": "66, Doryeong-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 31,
-                              "code": "886463",
-                              "name": "Ebenezer Hotel",
-                              "city": "Jeju City",
-                              "address": "504, Johamhaean-ro, Jocheon-eup, Jeju-si, Jeju-do, Republic of Korea"
-                      }
-              ],
-              "Yeosu": [
-                      {
-                              "country": "kr",
-                              "rank": 30,
-                              "code": "670609",
-                              "name": "Ramada Plaza by Wyndham Dolsan Yeosu",
-                              "city": "Yeosu",
-                              "address": "11 Gangnamhaean-ro Dolsan-eup"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 34,
-                              "code": "379991",
-                              "name": "La Terrace Boutique Resort & Spa",
-                              "city": "Yeosu",
-                              "address": "29-12, Jinmo 1-gil, Dolsan-eup"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 45,
-                              "code": "360900",
-                              "name": "OceanHill Hotel",
-                              "city": "Yeosu",
-                              "address": "81, Gangnamhaean-ro, Dolsan-eup"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 61,
-                              "code": "886597",
-                              "name": "Calacatta Hotel & Resort",
-                              "city": "Yeosu",
-                              "address": "1405-50 Pyeongsa-ri, Dolsan-eup Yeosu-si, Jeollanamdo, South Korea, 556905"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 79,
-                              "code": "132380",
-                              "name": "Matthieu Yeosu",
-                              "city": "Yeosu",
-                              "address": "20, Odongdo-ro, Yeosu-si, Jeollanam-do"
-                      }
-              ],
-              "Sokcho": [
-                      {
-                              "country": "kr",
-                              "rank": 43,
-                              "code": "155227",
-                              "name": "Hyundai Soo Resort Sokcho",
-                              "city": "Sokcho",
-                              "address": "153, Imok-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 51,
-                              "code": "293937",
-                              "name": "Shinsegae Youngrangho Resort",
-                              "city": "Sokcho",
-                              "address": "170 Yeongnanghoban-gil"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 52,
-                              "code": "692763",
-                              "name": "Sokcho Chonpines Beach Hotel",
-                              "city": "Sokcho",
-                              "address": "B - 1F, 171, Haeoreum-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 64,
-                              "code": "755136",
-                              "name": "Chungchoho Best Hotel",
-                              "city": "Sokcho",
-                              "address": "28, Cheongchohoban-ro"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 89,
-                              "code": "1001364",
-                              "name": "Sokcho Mari Vista Hotel",
-                              "city": "Sokcho",
-                              "address": "4027 Donghae-daero, Sokcho-si, Gangwon-do, South Korea"
-                      }
-              ],
-              "Yangyang": [
-                      {
-                              "country": "kr",
-                              "rank": 53,
-                              "code": "211449",
-                              "name": "Naksan Beach Hotel",
-                              "city": "Yangyang",
-                              "address": "73, Naksansa-ro Ganghyeon-myeon"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 63,
-                              "code": "710258",
-                              "name": "CENTUMMARK Hotel Yangyang",
-                              "city": "Yangyang",
-                              "address": "9 Hangogae-gil, Yangyang-eup, Yangyang-gun, Gangwon-do"
-                      },
-                      {
-                              "country": "kr",
-                              "rank": 81,
-                              "code": "1001627",
-                              "name": "Dignity Hotel Yangyang",
-                              "city": "Yangyang",
-                              "address": "159-5 Ilchul-ro, Yangyang-eup, Yangyang-gun, Gangwon-do"
-                      }
-              ],
-              "Gyeongju": [
-                      {
-                              "country": "kr",
-                              "rank": 97,
-                              "code": "605837",
-                              "name": "Lahan Select Gyeongju",
-                              "city": "Gyeongju",
-                              "address": "338, Bomun-ro"
-                      }
-              ],
-              "Nha Trang": [
-                      {
-                              "country": "vn",
-                              "rank": 1,
-                              "code": "886622",
-                              "name": "Seaesta Hotel Nha Trang",
-                              "city": "Nha Trang",
-                              "address": "116A Hong Bang street, Tan Lap Ward, Nha Trang city, Vietnam"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 3,
-                              "code": "215829",
-                              "name": "Maple Hotel & Apartment",
-                              "city": "Nha Trang",
-                              "address": "16 Ton Dan, Loc Tho Ward"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 7,
-                              "code": "389454",
-                              "name": "Muong Thanh Luxury Khanh Hoa Hotel",
-                              "city": "Nha Trang",
-                              "address": "Khu 01, khu dan cu Con Tan Lap Xuong Huan Ward"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 8,
-                              "code": "1001369",
-                              "name": "Seaside Boutique Hotel Nha Trang Beach",
-                              "city": "Nha Trang",
-                              "address": "70 Dong Da, Tan Lap Ward, Tan Lap, Nha Trang, Khanh Hoa, Vietnam"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 14,
-                              "code": "396766",
-                              "name": "Le More Hotel",
-                              "city": "Nha Trang",
-                              "address": "33A To Hien Thanh street Tan Lap ward"
-                      }
-              ],
-              "Da Nang": [
-                      {
-                              "country": "vn",
-                              "rank": 2,
-                              "code": "139868",
-                              "name": "Terra Boutique Hotel",
-                              "city": "Da Nang",
-                              "address": "05 Phan Liem, Ngu Hanh Son"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 5,
-                              "code": "805287",
-                              "name": "Minh Toan Galaxy Hotel",
-                              "city": "Da Nang",
-                              "address": "306, 2/9 St., Hai Chau Dist"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 18,
-                              "code": "861138",
-                              "name": "Ocean Haven Hotel Danang",
-                              "city": "Da Nang",
-                              "address": "295-297 Ho Nghinh St., Phuoc My Ward, Son Tra District, Da Nang City"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 20,
-                              "code": "192950",
-                              "name": "Alani Sea View Hotel (Former Alani Hotel & Spa Da Nang)",
-                              "city": "Da Nang",
-                              "address": "134-136-138 Tran Bach Dang My An Ward, Ngu Hanh Son District"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 24,
-                              "code": "886627",
-                              "name": "Mercy Emerald Hotel",
-                              "city": "Da Nang",
-                              "address": "Number 170 – 172 – 174 Nguyen Van Thoai, My An Ward, Ngu Hanh Son District, Da Nang City, Vietnam"
-                      }
-              ],
-              "Phu Quoc": [
-                      {
-                              "country": "vn",
-                              "rank": 4,
-                              "code": "985239",
-                              "name": "Grand Ocean Bay Resort Phu Quoc",
-                              "city": "Phu Quoc",
-                              "address": "Ong Lang Hamlet, Cua Duong Commune, Phu Quoc, Kien Giang, Vietnam"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 6,
-                              "code": "251392",
-                              "name": "Camia Resort & Spa",
-                              "city": "Phu Quoc",
-                              "address": "Lot 3, Ong Lang Hamlet, Cua Duong Ward"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 29,
-                              "code": "709121",
-                              "name": "Ocean Bay Phu Quoc Resort & Spa",
-                              "city": "Phu Quoc",
-                              "address": "Duong vao Dinh Ba, Ong Lang, Cua Duong"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 52,
-                              "code": "705669",
-                              "name": "Night Sea Hotel",
-                              "city": "Phu Quoc",
-                              "address": "124 Tran Hung Dao"
-                      }
-              ],
-              "Ho Chi Minh City": [
-                      {
-                              "country": "vn",
-                              "rank": 9,
-                              "code": "606114",
-                              "name": "Rex Hotel Saigon",
-                              "city": "Ho Chi Minh City",
-                              "address": "141 Nguyen Hue Blvd"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 15,
-                              "code": "1001076",
-                              "name": "Signature by M Village Hai Ba Trung",
-                              "city": "Ho Chi Minh City",
-                              "address": "74 Hai Ba Trung, Ben Nghe Ward, District 1, Ho Chi Minh City, Vietnam"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 39,
-                              "code": "721746",
-                              "name": "Caravelle Hotel",
-                              "city": "Ho Chi Minh City",
-                              "address": "19 - 23 Lam Son Square, District 1"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 59,
-                              "code": "1001392",
-                              "name": "M Village Hotel Nguyen Du",
-                              "city": "Ho Chi Minh City",
-                              "address": "149 Nguyen Du, Ben Thanh Ward, District 1, Ho Chi Minh City"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 60,
-                              "code": "982790",
-                              "name": "Signature by M Village Le Thanh Ton",
-                              "city": "Ho Chi Minh City",
-                              "address": "24 Le Thanh ton Street, Ben Nghe Ward, District 01, Ho Chi Minh, Vietnam"
-                      }
-              ],
-              "Hoi An": [
-                      {
-                              "country": "vn",
-                              "rank": 10,
-                              "code": "831975",
-                              "name": "Moodhoian Riverside Resort & Spa",
-                              "city": "Hoi An",
-                              "address": "To 1, thon Vong Nhi, Xa Cam Thanh"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 23,
-                              "code": "999166",
-                              "name": "Reu Boutique Hotel",
-                              "city": "Hoi An",
-                              "address": "128/9 Ly Thai To Str"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 28,
-                              "code": "776717",
-                              "name": "Bellerive Hoi An Hotel and Spa",
-                              "city": "Hoi An",
-                              "address": "33 Le Dai Hanh Street Cua Dai Ward"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 45,
-                              "code": "1001659",
-                              "name": "Grand Signature by M Village Hoi An Resort",
-                              "city": "Hoi An",
-                              "address": "27-28 Nguyen Tat Thanh, Cam Ha, Hoi An City"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 53,
-                              "code": "995733",
-                              "name": "Sen Village Hoi An",
-                              "city": "Hoi An",
-                              "address": "488 Cua Dai, Cam Chau, Hoi An, Quang Nam, Vietnam"
-                      }
-              ],
-              "Phan Thiet": [
-                      {
-                              "country": "vn",
-                              "rank": 12,
-                              "code": "1001415",
-                              "name": "Amana Hotel Phan Thiet",
-                              "city": "Phan Thiet",
-                              "address": "Lo D3-4-6-8 Duong so 5 Ocean Dunes, Phu Thuy, Phan Thiet, Binh Thuan Province"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 16,
-                              "code": "179835",
-                              "name": "Pandanus Resort",
-                              "city": "Phan Thiet",
-                              "address": "3 Nguyen Huu Tho, Mui Ne"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 17,
-                              "code": "501961",
-                              "name": "TTC Hotel - Phan Thiet",
-                              "city": "Phan Thiet",
-                              "address": "Doi Duong, Le Loi Hung Long"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 73,
-                              "code": "850884",
-                              "name": "Muong Thanh Mui Ne Hotel",
-                              "city": "Phan Thiet",
-                              "address": "54 Huynh Thuc Khang, Ham Tien"
-                      }
-              ],
-              "Hanoi": [
-                      {
-                              "country": "vn",
-                              "rank": 22,
-                              "code": "1001510",
-                              "name": "M Village Hotel Kim Ma",
-                              "city": "Hanoi",
-                              "address": "132-138 Kim Ma, Ba Dinh Ward, Kim Ma ward, Ba Dinh District, Hanoi, Vietnam"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 42,
-                              "code": "1001282",
-                              "name": "M Village Hotel Tho Nhuom",
-                              "city": "Hanoi",
-                              "address": "54 Tho Nhuom, Tran Hung Dao Ward, Hoan Kiem District, Ha Noi"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 51,
-                              "code": "848249",
-                              "name": "22Land Lake View Hotel",
-                              "city": "Hanoi",
-                              "address": "65 Trich Sai, Thuy Khue, Tay Ho, Hanoi"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 54,
-                              "code": "945879",
-                              "name": "Hanoi Calido Hotel",
-                              "city": "Hanoi",
-                              "address": "16 Pho Nguyen Quang Bich 7"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 58,
-                              "code": "1001024",
-                              "name": "Signature By M Village Tho Nhuom",
-                              "city": "Hanoi",
-                              "address": "84 Tho Nhuom, Tran Hung Dao Ward, Hoan Kiem District, Hanoi City, Vietnam"
-                      }
-              ],
-              "Da Lat": [
-                      {
-                              "country": "vn",
-                              "rank": 48,
-                              "code": "1001582",
-                              "name": "Best Western Premier Imperial Dalat",
-                              "city": "Da Lat",
-                              "address": "57 - 59 Hung Vuong, Ward Xuan Huong - Dalat, Lam Dong"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 50,
-                              "code": "886485",
-                              "name": "Dalat Paradise Hotel",
-                              "city": "Da Lat",
-                              "address": "28 Ba Trieu, Ward 4, Da Lat City, Viet Nam"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 91,
-                              "code": "983182",
-                              "name": "Tala Dalat Hotel",
-                              "city": "Da Lat",
-                              "address": "14/11 Duong Khoi Nghia Bac Son"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 93,
-                              "code": "1001394",
-                              "name": "Lumina Dalat Premium",
-                              "city": "Da Lat",
-                              "address": "63/9 Dong Da Street, Ward 3, Da Lat, Lam Dong"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 99,
-                              "code": "861321",
-                              "name": "Terracotta Hotel & Resort Dalat",
-                              "city": "Da Lat",
-                              "address": "Zone 7.9, Tuyen Lam Lake Tourist Area, Ward Xuan Huong-Da Lat, Lam Dong Province, Vietnam"
-                      }
-              ],
-              "Sa Pa": [
-                      {
-                              "country": "vn",
-                              "rank": 49,
-                              "code": "733705",
-                              "name": "Muong Thanh Sapa Hotel",
-                              "city": "Sa Pa",
-                              "address": "No 44 Ngu Chi Son"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 79,
-                              "code": "741450",
-                              "name": "DeLaSol Sapa Hotel",
-                              "city": "Sa Pa",
-                              "address": "16 Muong Hoa Street"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 82,
-                              "code": "285954",
-                              "name": "Sapa Green Hotel",
-                              "city": "Sa Pa",
-                              "address": "01 Hoang Lien Street"
-                      },
-                      {
-                              "country": "vn",
-                              "rank": 87,
-                              "code": "1001332",
-                              "name": "Cat Cat Galerie d'Art Hotel",
-                              "city": "Sa Pa",
-                              "address": "46 Fansipan, Sa Pa, Viet Nam"
-                      }
-              ]
+      /* ================================================================== */
+      /* Util                                                                */
+      /* ================================================================== */
+
+      const state = {
+        view: "input", // input | loading | result
+        input: { name: "", birthdate: "", birthtime: "모름" },
+        result: null,
+        error: null,
       };
 
+      function seedHash(s) {
+        let h = 5381;
+        for (let i = 0; i < s.length; i++) h = (h * 33) ^ s.charCodeAt(i);
+        return Math.abs(h);
+      }
+      function pick(arr, seed) { return arr[seed % arr.length]; }
+      function scoreFromSeed(seed, min, max) {
+        if (min == null) min = 3;
+        if (max == null) max = 5;
+        return min + (seed % (max - min + 1));
+      }
       function findHotelsForCities(cityEnList, limit) {
         if (limit == null) limit = 3;
         const seen = new Set();
@@ -1693,982 +1486,302 @@
         out.sort((a, b) => a.rank - b.rank);
         return out.slice(0, limit);
       }
-      const VIBE_KEYWORDS = [
-        "차분한 영감을 찾고 싶은",
-        "들뜬 설렘이 깨어나는",
-        "단단한 결심이 익어가는",
-        "부드러운 휴식이 필요한",
-        "새로운 도전을 망설이는",
-        "조용한 위로가 마음을 데우는",
-        "활기찬 에너지가 차오르는",
-      ];
-      const LUCKY_COLORS = ["코랄", "민트", "라벤더", "올리브", "샌드 베이지", "스카이 블루", "선셋 오렌지", "포레스트 그린"];
-      const LUCKY_TIMES = ["오전 10시 ~ 12시", "오후 2시 ~ 4시", "오후 6시 ~ 8시", "해 질 녘 30분", "이른 아침 9시 전후"];
-      const LUCKY_NUMBERS = ["3", "5", "7", "3, 7", "5, 9", "2, 8", "1, 6"];
-      const FORTUNE_CLOSINGS = [
-        "더 자세한 {country} 여행 일정은 오마이치 AI 여행상담에서 이어서 받아보세요.",
-        "오늘 운세에 맞춘 {country} 추천 일정이 궁금하다면 오마이치에게 물어봐 주세요.",
-        "{country} 여행을 더 깊게 풀어보고 싶다면, 오마이치 AI 상담이 도움이 될 거예요.",
-      ];
+      function escapeHtml(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+      }
 
       function buildMockFortune(input) {
         const today = new Date().toISOString().slice(0, 10);
-        const seed = seedHash(input.name + "|" + input.birthdate + "|" + today);
+        const seed = seedHash(input.name + "|" + input.birthdate + "|" + input.birthtime + "|" + today);
         const overall = scoreFromSeed(seed, 3, 5);
         const sTravel = scoreFromSeed(seed >> 1, 3, 5);
         const sMoney = scoreFromSeed(seed >> 2, 3, 5);
         const sLove = scoreFromSeed(seed >> 3, 3, 5);
         const sHealth = scoreFromSeed(seed >> 4, 3, 5);
-        const dest = pickFrom(DESTINATIONS, seed >> 5);
-        const destScore = scoreFromSeed(seed >> 6, 4, 5); // 추천한 곳이니 살짝 후하게
-        const vibeKeyword = pickFrom(VIBE_KEYWORDS, seed >> 7);
-        const reason = "오늘 " + input.name + " 님의 흐름은 " + vibeKeyword + " 결이라서, " + dest.city + "의 " + dest.vibe + " 분위기가 잘 어울려요.";
-        const summaryTpl = pickFrom(FORTUNE_SUMMARIES, seed >> 8);
+        const dest = pick(DESTINATIONS, seed >> 5);
+        const destScore = scoreFromSeed(seed >> 6, 4, 5);
+        const vibe = BIRTHHOUR_VIBE[input.birthtime] || BIRTHHOUR_VIBE["모름"];
+        const summaryTpl = pick(SUMMARIES, seed >> 8);
+        const reason = input.name + " 님의 " + vibe.phrase + "이라, " + dest.city + "의 " + dest.vibe + " 분위기가 잘 어울려요.";
         return {
           name: input.name,
-          headline: pickFrom(FORTUNE_HEADLINES, seed >> 9),
+          headline: pick(HEADLINES, seed >> 7),
           overall_score: overall,
-          fortune_summary: summaryTpl.replace("{name}", input.name),
+          fortune_summary: summaryTpl.replace("{vibe}", vibe.phrase),
+          saju_keywords: vibe.keywords,
           categories: [
-            { label: "여행운", score: sTravel, message: pickFrom(FORTUNE_CAT_MSGS["여행운"][sTravel], seed >> 14) },
-            { label: "재물운", score: sMoney, message: pickFrom(FORTUNE_CAT_MSGS["재물운"][sMoney], seed >> 15) },
-            { label: "인연운", score: sLove, message: pickFrom(FORTUNE_CAT_MSGS["인연운"][sLove], seed >> 16) },
-            { label: "건강운", score: sHealth, message: pickFrom(FORTUNE_CAT_MSGS["건강운"][sHealth], seed >> 17) },
+            { label: "여행운", score: sTravel, message: pick(CAT_MSGS["여행운"][sTravel], seed >> 9) },
+            { label: "재물운", score: sMoney, message: pick(CAT_MSGS["재물운"][sMoney], seed >> 10) },
+            { label: "인연운", score: sLove, message: pick(CAT_MSGS["인연운"][sLove], seed >> 11) },
+            { label: "건강운", score: sHealth, message: pick(CAT_MSGS["건강운"][sHealth], seed >> 12) },
           ],
           recommended_destination: {
-            country: dest.country,
-            city: dest.city,
-            vibe: dest.vibe,
-            match_score: destScore,
-            reason: reason,
-            best_period: dest.period,
-            travel_tip: dest.tip,
-            hidden_gem: dest.gem,
+            country: dest.country, city: dest.city, vibe: dest.vibe,
+            match_score: destScore, reason: reason,
+            best_period: dest.period, travel_tip: dest.tip, hidden_gem: dest.gem,
           },
           recommended_hotels: findHotelsForCities(dest.hotelCities || [], 3),
           lucky: {
-            color: pickFrom(LUCKY_COLORS, seed >> 11),
-            time: pickFrom(LUCKY_TIMES, seed >> 12),
-            number: pickFrom(LUCKY_NUMBERS, seed >> 13),
+            color: pick(LUCKY_COLORS, seed >> 13),
+            time: pick(LUCKY_TIMES, seed >> 14),
+            number: pick(LUCKY_NUMBERS, seed >> 15),
           },
-          closing_message: pickFrom(FORTUNE_CLOSINGS, seed >> 10).replace("{country}", dest.city),
+          closing_message: pick(CLOSINGS, seed >> 16).replace("{city}", dest.city),
         };
       }
 
       /* ================================================================== */
-      /* LocalStorage                                                        */
+      /* Actions                                                             */
       /* ================================================================== */
-      function loadHistory() {
-        try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) return [];
-          const parsed = JSON.parse(raw);
-          return Array.isArray(parsed) ? parsed.slice(0, MAX_HISTORY) : [];
-        } catch {
-          return [];
-        }
-      }
-      function saveHistory(item) {
-        const next = [item, ...state.history.filter((h) => h.id !== item.id)].slice(
-          0,
-          MAX_HISTORY,
-        );
-        state.history = next;
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-        } catch {}
-      }
-      function updateHistoryNote(id, newNote) {
-        state.history = state.history.map((h) => (h.id === id ? { ...h, note: newNote } : h));
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history));
-        } catch {}
-      }
 
-      /* ================================================================== */
-      /* 동작                                                                */
-      /* ================================================================== */
-      function ask(raw, opts) {
-        opts = opts || {};
-        const isFollowUp = !!opts.isFollowUp;
-        const q = (raw != null
-          ? raw
-          : isFollowUp
-            ? state.followUpInput
-            : state.question
-        ).trim();
-        if (!q) return;
-
-        if (!isFollowUp) {
-          state.question = q;
-          state.note = "";
-          state.questionTrail = [q];
-        } else {
-          state.questionTrail = state.questionTrail.concat([q]);
-        }
-        state.followUpInput = "";
-        state.view = "loading";
-        state.copyMsg = null;
-        render();
-
-        const requestHistory = isFollowUp ? state.turns : [];
-
-        // 0.7~1.2초 지연으로 실제 API 호출처럼 보이게
-        const delay = 700 + Math.random() * 500;
-        setTimeout(() => {
-          const data = buildMockResponse(q, requestHistory);
-          state.result = data;
-          state.view = "answer";
-
-          // 멀티턴 history 갱신
-          state.turns = requestHistory.concat([
-            { role: "user", content: q },
-            { role: "assistant", content: JSON.stringify(data) },
-          ]);
-
-          if (!isFollowUp) {
-            saveHistory({
-              id: String(Date.now()),
-              createdAt: new Date().toISOString(),
-              question: q,
-              response: data,
-            });
-          } else if (state.history.length > 0) {
-            // 직전 세션의 최신 결과로 갱신
-            const latest = state.history[0];
-            const updated = Object.assign({}, latest, { response: data });
-            state.history = [updated].concat(state.history.slice(1));
-            try {
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history));
-            } catch {}
-          }
-          render();
-        }, delay);
-      }
-
-      function reset() {
-        state.view = "input";
-        state.question = "";
-        state.result = null;
-        state.note = "";
-        state.copyMsg = null;
-        state.turns = [];
-        state.questionTrail = [];
-        state.followUpInput = "";
-        render();
-      }
-
-      function goHome() {
-        state.view = "home";
-        state.question = "";
-        state.result = null;
-        state.note = "";
-        state.copyMsg = null;
-        state.turns = [];
-        state.questionTrail = [];
-        state.followUpInput = "";
-        state.fortuneResult = null;
-        state.fortuneError = null;
-        render();
-      }
-
-      function startFortune() {
-        state.view = "fortune-input";
-        state.fortuneError = null;
-        state.fortuneResult = null;
-        render();
-      }
-
-      function startConsult() {
-        state.view = "input";
-        state.question = "";
-        render();
-      }
-
-      function setFortuneField(field, value) {
-        state.fortuneInput = Object.assign({}, state.fortuneInput, { [field]: value });
-        // 미세 동기화: 운세 시작 버튼 enabled/disabled 토글
+      function setField(field, value) {
+        state.input = Object.assign({}, state.input, { [field]: value });
         const root = document.getElementById("app");
         if (!root) return;
-        const btn = root.querySelector('[data-action="fortune-submit"]');
+        const btn = root.querySelector('[data-action="submit"]');
         if (btn) {
-          const ok = state.fortuneInput.name.trim() && state.fortuneInput.birthdate.trim();
+          const ok = state.input.name.trim() && state.input.birthdate.trim();
           if (ok) btn.removeAttribute("disabled");
           else btn.setAttribute("disabled", "");
         }
       }
 
-      function askFortune() {
-        const name = (state.fortuneInput.name || "").trim();
-        const birthdate = (state.fortuneInput.birthdate || "").trim();
+      function setBirthtime(v) {
+        state.input.birthtime = v;
+        render();
+      }
+
+      function ask() {
+        const name = state.input.name.trim();
+        const birthdate = state.input.birthdate.trim();
         if (!name || !birthdate) {
-          state.fortuneError = "이름과 생년월일을 모두 입력해주세요.";
+          state.error = "이름과 생년월일을 모두 입력해주세요.";
           render();
           return;
         }
-        state.fortuneError = null;
-        state.view = "fortune-loading";
+        state.error = null;
+        state.view = "loading";
         render();
         const delay = 700 + Math.random() * 500;
         setTimeout(() => {
-          state.fortuneResult = buildMockFortune({ name, birthdate });
-          state.view = "fortune-result";
+          state.result = buildMockFortune(state.input);
+          state.view = "result";
           render();
         }, delay);
       }
 
-      function againFortune() {
-        state.fortuneResult = null;
-        state.view = "fortune-input";
-        render();
-      }
-
-      function consultFromFortune() {
-        // 오마이치가 추천한 도시를 상담 질문으로 자동 prefill
-        const dest = state.fortuneResult && state.fortuneResult.recommended_destination;
-        if (dest && dest.city) state.question = dest.city + " 여행을 추천해줘";
+      function again() {
+        state.result = null;
+        state.error = null;
         state.view = "input";
         render();
       }
 
-      function copyAnswer() {
-        if (!state.result) return;
-        const a = state.result.customer_answer;
-        const text = [
-          "[고객 질문]",
-          state.result.customer_question,
-          "",
-          "[요약]",
-          a.summary,
-          "",
-          "[추천 방향]",
-          a.recommendation_direction,
-          "",
-          "[추천 일정 / 스타일]",
-          a.suggested_itinerary_or_style,
-          "",
-          "[예상 예산대]",
-          a.estimated_budget_range,
-          "",
-          "[장점]",
-          ...a.advantages.map((v) => "- " + v),
-          "",
-          "[주의사항]",
-          ...a.cautions.map((v) => "- " + v),
-          "",
-          a.next_message_to_customer,
-        ].join("\n");
-
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard
-            .writeText(text)
-            .then(() => {
-              state.copyMsg = "답변이 복사되었습니다.";
-              render();
-              setTimeout(() => {
-                state.copyMsg = null;
-                render();
-              }, 2000);
-            })
-            .catch(() => {
-              state.copyMsg = "복사에 실패했습니다.";
-              render();
-              setTimeout(() => {
-                state.copyMsg = null;
-                render();
-              }, 2000);
-            });
-        } else {
-          state.copyMsg = "이 브라우저는 클립보드를 지원하지 않습니다.";
-          render();
-        }
-      }
-
-      function loadHistoryItem(id) {
-        const h = state.history.find((x) => x.id === id);
-        if (!h) return;
-        state.question = h.question;
-        state.result = h.response;
-        state.note = h.note || "";
-        state.view = "answer";
-        // 멀티턴 컨텍스트 재구성 (저장된 결과 위에 후속 질문 이어가기 가능)
-        state.turns = [
-          { role: "user", content: h.question },
-          { role: "assistant", content: JSON.stringify(h.response) },
-        ];
-        state.questionTrail = [h.question];
-        state.followUpInput = "";
+      function reset() {
+        state.input = { name: "", birthdate: "", birthtime: "모름" };
+        state.result = null;
+        state.error = null;
+        state.view = "input";
         render();
       }
 
-      function setNote(value) {
-        state.note = value;
-        const latest = state.history[0];
-        if (latest && state.result && latest.question === state.result.customer_question) {
-          updateHistoryNote(latest.id, value);
-        }
-        // 노트는 textarea 가 자체 관리하니까 render 안 함
-      }
-
       /* ================================================================== */
-      /* Utilities                                                           */
+      /* Render                                                              */
       /* ================================================================== */
-      function escapeHtml(s) {
-        return String(s ?? "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-      }
-      function probColor(p) {
-        if (p === "High") return "bg-emerald-100 text-emerald-700";
-        if (p === "Medium") return "bg-amber-100 text-amber-700";
-        return "bg-slate-200 text-slate-700";
-      }
-
-      /* ================================================================== */
-      /* 렌더링                                                              */
-      /* ================================================================== */
-      function render() {
-        const root = document.getElementById("app");
-        let html = "";
-        if (state.view === "home") html = renderHome();
-        else if (state.view === "input") html = renderInput();
-        else if (state.view === "loading") html = renderLoading();
-        else if (state.view === "fortune-input") html = renderFortuneInput();
-        else if (state.view === "fortune-loading") html = renderFortuneLoading();
-        else if (state.view === "fortune-result") html = renderFortuneResult();
-        else html = renderResult();
-        root.innerHTML = html;
-        bindEvents();
-      }
-
-      function renderInput() {
-        const quick = QUICK_QUESTIONS.map(
-          (q) => `
-          <button
-            type="button"
-            data-action="quick"
-            data-question="${escapeHtml(q)}"
-            class="rounded-xl border border-brand-100 bg-white px-4 py-3.5 text-left text-sm font-medium leading-relaxed text-slate-700 shadow-sm transition hover:border-brand-400 hover:bg-brand-50 sm:text-base"
-          >${escapeHtml(q)}</button>`,
-        ).join("");
-
-        const history =
-          state.history.length > 0
-            ? `
-          <div>
-            <h2 class="mb-3 text-sm font-semibold text-slate-500">최근 상담 기록 (최대 5건)</h2>
-            <ul class="space-y-2">
-              ${state.history
-                .map(
-                  (h) => `
-                <li>
-                  <button
-                    type="button"
-                    data-action="load-history"
-                    data-id="${escapeHtml(h.id)}"
-                    class="block w-full rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:border-brand-300 hover:bg-brand-50"
-                  >
-                    <div class="text-xs text-slate-400">${escapeHtml(
-                      new Date(h.createdAt).toLocaleString("ko-KR"),
-                    )}</div>
-                    <div class="mt-1 line-clamp-1 text-sm font-medium text-slate-800">${escapeHtml(
-                      h.question,
-                    )}</div>
-                    ${
-                      h.note
-                        ? `<div class="mt-1 line-clamp-1 text-xs text-brand-600">메모: ${escapeHtml(
-                            h.note,
-                          )}</div>`
-                        : ""
-                    }
-                  </button>
-                </li>`,
-                )
-                .join("")}
-            </ul>
-          </div>`
-            : "";
-
-        return `
-        <section class="space-y-6">
-          <div>
-            <button type="button" data-action="back-home" class="text-sm font-medium text-brand-600 hover:text-brand-700">← 홈으로</button>
-          </div>
-          <div class="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
-            <label class="block text-base font-semibold text-slate-800 sm:text-lg">
-              어떤 여행을 추천해드릴까요?
-            </label>
-            <textarea
-              id="question-input"
-              placeholder="예: 초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해주세요"
-              rows="4"
-              class="mt-3 w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-base outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 sm:text-lg"
-            >${escapeHtml(state.question)}</textarea>
-
-            <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
-              <span class="text-xs text-slate-400" id="char-count">${state.question.length} / 2000</span>
-              <button
-                type="button"
-                data-action="ask"
-                ${state.question.trim() ? "" : "disabled"}
-                class="inline-flex h-14 min-w-44 items-center justify-center rounded-xl bg-brand-600 px-6 text-base font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:text-lg"
-              >오마이치에게 물어보기</button>
-            </div>
-          </div>
-
-          <div>
-            <h2 class="mb-3 text-sm font-semibold text-slate-500">빠른 질문 예시</h2>
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">${quick}</div>
-          </div>
-
-          ${history}
-        </section>
-      `;
-      }
-
-      function renderLoading() {
-        return `
-        <section class="rounded-2xl border border-brand-100 bg-white p-10 text-center shadow-sm">
-          <div class="mx-auto mb-6 h-12 w-12 rounded-full border-4 border-chi-200 border-t-chi-500 spin"></div>
-          <p class="text-lg font-semibold text-slate-800">오마이치 AI가 여행 추천을 준비하고 있어요</p>
-          <p class="mt-2 line-clamp-2 text-sm text-slate-500">“${escapeHtml(state.question)}”</p>
-        </section>
-      `;
-      }
-
-      function renderResult() {
-        const tabs = `
-        <div class="flex flex-wrap items-center gap-2">
-          <button type="button" data-action="show-answer" class="rounded-xl px-4 py-2 text-sm font-semibold transition ${
-            state.view === "answer"
-              ? "bg-brand-600 text-white"
-              : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-brand-50"
-          }">고객 답변 화면</button>
-          <button type="button" data-action="show-staff" class="rounded-xl px-4 py-2 text-sm font-semibold transition ${
-            state.view === "staff"
-              ? "bg-brand-600 text-white"
-              : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-brand-50"
-          }">상담원 화면</button>
-        </div>`;
-
-        let card;
-        if (state.view === "answer") {
-          const trail = state.questionTrail.length > 1 ? renderTrail() : "";
-          card = trail + renderCustomerCard() + renderFollowUp();
-        } else {
-          card = renderStaffCard();
-        }
-
-        const actions =
-          state.view === "answer"
-            ? `
-          <button type="button" data-action="show-staff"
-            class="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 sm:text-base">
-            상담원과 이어서 상담하기 →
-          </button>
-          <button type="button" data-action="copy"
-            class="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-            답변 복사
-          </button>`
-            : `
-          <button type="button" data-action="show-answer"
-            class="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-            ← 고객 답변 다시 보기
-          </button>`;
-
-        return `
-        <section class="space-y-4">
-          ${tabs}
-          ${card}
-          <div class="flex flex-wrap items-center gap-3 pt-2">
-            ${actions}
-            <button type="button" data-action="reset"
-              class="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-              다시 질문하기
-            </button>
-            <button type="button" data-action="back-home"
-              class="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-              ← 홈으로
-            </button>
-            ${
-              state.copyMsg
-                ? `<span class="text-sm font-medium text-brand-600">${escapeHtml(state.copyMsg)}</span>`
-                : ""
-            }
-          </div>
-        </section>
-      `;
-      }
-
-      function renderCustomerCard() {
-        const a = state.result.customer_answer;
-        return `
-        <div class="space-y-4 rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
-          ${section("1. 고객 질문 요약", `
-            <p class="text-base leading-relaxed text-slate-700">${escapeHtml(a.summary)}</p>
-            <p class="mt-2 text-xs text-slate-400">원문: ${escapeHtml(state.result.customer_question)}</p>
-          `)}
-          ${section("2. 추천 여행 방향", `
-            <p class="text-base leading-relaxed text-slate-700">${escapeHtml(a.recommendation_direction)}</p>
-          `)}
-          ${section("3. 추천 일정 또는 여행 스타일", `
-            <p class="text-base leading-relaxed text-slate-700">${escapeHtml(a.suggested_itinerary_or_style)}</p>
-          `)}
-          ${section("4. 예상 예산대", `
-            <p class="text-base font-semibold leading-relaxed text-brand-700">${escapeHtml(a.estimated_budget_range)}</p>
-            <p class="mt-1 text-xs text-slate-400">※ 시즌, 항공편, 호텔 등급에 따라 변동될 수 있습니다.</p>
-          `)}
-          ${section("5. 장점", `
-            <ul class="space-y-1.5">
-              ${a.advantages.map((v) => `<li class="flex gap-2 text-base leading-relaxed text-slate-700"><span class="text-brand-500">✓</span><span>${escapeHtml(v)}</span></li>`).join("")}
-            </ul>
-          `)}
-          ${section("6. 주의사항", `
-            <ul class="space-y-1.5">
-              ${a.cautions.map((v) => `<li class="flex gap-2 text-base leading-relaxed text-slate-700"><span class="text-amber-500">!</span><span>${escapeHtml(v)}</span></li>`).join("")}
-            </ul>
-          `)}
-          ${section("7. 상담원에게 이어서 확인하면 좋은 내용", `
-            <p class="rounded-xl bg-brand-50 p-4 text-base leading-relaxed text-slate-800">${escapeHtml(a.next_message_to_customer)}</p>
-          `)}
-        </div>
-      `;
-      }
-
-      function renderStaffCard() {
-        const s = state.result.staff_summary;
-        const kv = (k, v) => `
-          <div class="rounded-lg bg-slate-50 px-3 py-2 text-sm">
-            <span class="mr-2 font-semibold text-slate-500">${escapeHtml(k)}</span>
-            <span class="text-slate-800">${v}</span>
-          </div>`;
-        return `
-        <div class="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          ${section("1. 고객 질문 원문", `
-            <p class="rounded-xl bg-slate-50 p-3 text-sm text-slate-700">${escapeHtml(state.result.customer_question)}</p>
-          `)}
-          ${section("2. AI 답변 요약 (고객용)", `
-            <p class="text-sm leading-relaxed text-slate-700">${escapeHtml(state.result.customer_answer.summary)} · ${escapeHtml(state.result.customer_answer.estimated_budget_range)}</p>
-            <p class="mt-1 text-sm leading-relaxed text-slate-600">${escapeHtml(state.result.customer_answer.recommendation_direction)}</p>
-          `)}
-          ${section("3. 상담원용 니즈 분석", `
-            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              ${kv("관심 목적지", escapeHtml(s.destination_interest))}
-              ${kv("여행 유형", escapeHtml(s.travel_type))}
-              ${kv("인원", escapeHtml(s.travelers))}
-              ${kv("일정", escapeHtml(s.duration))}
-              ${kv("예산 힌트", escapeHtml(s.budget_hint))}
-              ${kv("예약 가능성", `<span class="inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${probColor(s.booking_probability)}">${escapeHtml(s.booking_probability)}</span>`)}
-            </div>
-            <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div>
-                <h4 class="mb-1 text-xs font-semibold text-slate-500">핵심 니즈</h4>
-                <div class="flex flex-wrap gap-1.5">
-                  ${s.key_needs.map((v) => `<span class="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700">${escapeHtml(v)}</span>`).join("")}
-                </div>
-              </div>
-              <div>
-                <h4 class="mb-1 text-xs font-semibold text-slate-500">미확인 정보</h4>
-                <ul class="list-disc pl-4 text-sm text-slate-700">
-                  ${s.missing_information.map((v) => `<li>${escapeHtml(v)}</li>`).join("")}
-                </ul>
-              </div>
-            </div>
-            <div class="mt-3">
-              <h4 class="mb-1 text-xs font-semibold text-slate-500">추천 상담 방향</h4>
-              <p class="rounded-xl bg-slate-50 p-3 text-sm leading-relaxed text-slate-700">${escapeHtml(s.recommended_consulting_direction)}</p>
-            </div>
-          `)}
-          ${section("4. 바로 물어볼 질문", `
-            <ol class="list-decimal space-y-1.5 pl-5 text-base text-slate-800">
-              ${state.result.staff_questions.map((q) => `<li>${escapeHtml(q)}</li>`).join("")}
-            </ol>
-          `)}
-          ${section("5. 상담 시작 멘트", `
-            <p class="rounded-xl border border-brand-100 bg-brand-50 p-4 text-base leading-relaxed text-slate-800">“${escapeHtml(state.result.staff_opening_script)}”</p>
-          `)}
-          ${section("6. 상담 메모", `
-            <textarea id="note-input" rows="4" placeholder="고객 응답, 추천 상품, 다음 액션 등을 메모하세요"
-              class="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200">${escapeHtml(state.note)}</textarea>
-            <p class="mt-1 text-xs text-slate-400">메모는 자동으로 최근 상담 기록(localStorage)에 저장됩니다.</p>
-          `)}
-        </div>
-      `;
-      }
-
-      function section(title, inner) {
-        return `<div><h3 class="mb-2 text-sm font-bold text-brand-700">${escapeHtml(title)}</h3>${inner}</div>`;
-      }
-
-      function renderTrail() {
-        const items = state.questionTrail;
-        return `
-        <div class="rounded-xl border border-brand-100 bg-brand-50 p-3">
-          <div class="mb-1.5 text-xs font-semibold text-brand-700">대화 흐름 (${items.length})</div>
-          <ol class="space-y-1 text-sm text-ink">
-            ${items
-              .map(
-                (q, i) => `
-              <li class="flex gap-2">
-                <span class="shrink-0 font-bold text-brand-600">${i === 0 ? "Q." : "Q" + (i + 1) + "."}</span>
-                <span class="leading-relaxed">${escapeHtml(q)}</span>
-              </li>`,
-              )
-              .join("")}
-          </ol>
-        </div>`;
-      }
-
-      function renderFollowUp() {
-        const suggestions = (state.result && state.result.follow_up_suggestions) || [];
-        const chips =
-          suggestions.length > 0
-            ? `
-          <div class="mb-3 flex flex-wrap gap-2">
-            ${suggestions
-              .map(
-                (s) => `
-              <button type="button" data-action="follow-up-chip" data-question="${escapeHtml(s)}"
-                class="rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100">${escapeHtml(s)}</button>`,
-              )
-              .join("")}
-          </div>`
-            : "";
-
-        return `
-        <div class="rounded-2xl border border-brand-100 bg-white p-5 shadow-sm sm:p-6">
-          <h3 class="mb-3 text-sm font-bold text-brand-700">오마이치에게 더 깊게 물어보기</h3>
-          ${chips}
-          <div class="flex flex-col gap-2 sm:flex-row">
-            <input type="text" id="follow-up-input" value="${escapeHtml(state.followUpInput)}"
-              placeholder="예: 5박 6일로 늘려서 다시 추천해줘"
-              class="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200" />
-            <button type="button" data-action="follow-up-submit" ${state.followUpInput.trim() ? "" : "disabled"}
-              class="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300">이어서 물어보기</button>
-          </div>
-        </div>`;
-      }
-
-      /* ================================================================== */
-      /* Home / 운세 화면 렌더링                                              */
-      /* ================================================================== */
-
-      function renderHome() {
-        return `
-        <section class="space-y-6">
-          <div class="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
-            <p class="text-base leading-relaxed text-ink sm:text-lg">
-              오마이호텔 트래블쇼에서만 만나는 두 가지 체험,<br class="hidden sm:block" />
-              <strong class="font-bold text-brand-600">오늘의 여행운세</strong>로 가볍게 시작해보고,
-              <strong class="font-bold text-brand-600"> 오마이치 AI 여행상담</strong>으로 진짜 여행을 계획해보세요.
-            </p>
-          </div>
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <button type="button" data-action="start-fortune"
-              class="group relative flex flex-col items-start gap-3 overflow-hidden rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-100 p-6 text-left shadow-sm transition hover:border-brand-400 hover:shadow-md sm:p-8">
-              <div class="flex items-center gap-2">
-                <span class="text-3xl">✨</span>
-                <span class="rounded-full bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-700">마케팅 EVENT</span>
-              </div>
-              <h2 class="text-2xl font-bold text-ink sm:text-3xl">오늘의 여행운세</h2>
-              <p class="text-sm leading-relaxed text-ink-soft sm:text-base">
-                이름과 생년월일, 가고 싶은 국가만 알려주시면 오마이치가 오늘 당신만의 여행 운세를 살짝 풀어드릴게요. 30초면 끝나요.
-              </p>
-              <div class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-brand-600">운세 보러 가기 →</div>
-            </button>
-            <button type="button" data-action="start-consult"
-              class="group relative flex flex-col items-start gap-3 overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-6 text-left shadow-sm transition hover:border-brand-400 hover:shadow-md sm:p-8">
-              <div class="flex items-center gap-2">
-                <span class="text-3xl">💬</span>
-                <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-700">실제 상담</span>
-              </div>
-              <h2 class="text-2xl font-bold text-ink sm:text-3xl">오마이치 AI 여행상담</h2>
-              <p class="text-sm leading-relaxed text-ink-soft sm:text-base">
-                "초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해줘" 처럼 자연스럽게 물어보세요. 상담원이 이어서 견적과 일정을 안내해드려요.
-              </p>
-              <div class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-brand-600">상담 시작하기 →</div>
-            </button>
-          </div>
-        </section>`;
-      }
 
       function renderStars(score, size) {
         const cls = size === "lg" ? "text-2xl" : size === "sm" ? "text-base" : "text-xl";
         let stars = "";
         for (let i = 0; i < 5; i++) {
-          stars += `<span class="${i < score ? "text-brand-500" : "text-slate-200"}">★</span>`;
+          stars += '<span class="' + (i < score ? "text-brand-500" : "text-slate-200") + '">★</span>';
         }
-        return `<div class="inline-flex tracking-tight ${cls}" aria-label="${score}/5">${stars}</div>`;
+        return '<div class="inline-flex tracking-tight ' + cls + '">' + stars + '</div>';
       }
 
-      function renderFortuneInput() {
-        const v = state.fortuneInput;
+      function renderInput() {
+        const v = state.input;
         const canSubmit = v.name.trim() && v.birthdate.trim();
         const todayMax = new Date().toISOString().slice(0, 10);
-        return `
-        <section class="space-y-6">
-          <div>
-            <button type="button" data-action="back-home" class="text-sm font-medium text-brand-600 hover:text-brand-700">← 홈으로</button>
-          </div>
-          <div class="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-6 shadow-sm sm:p-8">
-            <div class="mb-4 flex items-center gap-2">
-              <span class="text-2xl">✨</span>
-              <h2 class="text-2xl font-bold text-ink sm:text-3xl">오늘의 여행운세</h2>
-            </div>
-            <p class="mb-6 text-sm leading-relaxed text-ink-soft sm:text-base">
-              이름과 생년월일만 알려주시면 오마이치가 오늘의 여행 운세를 풀어드리고, <strong class="font-bold text-brand-700">오늘 흐름에 가장 어울리는 나라와 도시</strong>도 한 곳 골라드릴게요. (입력 정보는 저장되지 않습니다.)
-            </p>
-            <div class="space-y-4">
-              <div>
-                <label class="mb-1.5 block text-sm font-semibold text-ink">이름</label>
-                <input type="text" id="fortune-name" value="${escapeHtml(v.name)}" maxlength="40" placeholder="예: 김민지"
-                  class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200" />
-              </div>
-              <div>
-                <label class="mb-1.5 block text-sm font-semibold text-ink">생년월일</label>
-                <input type="date" id="fortune-birthdate" value="${escapeHtml(v.birthdate)}" min="1900-01-01" max="${todayMax}"
-                  class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200" />
-              </div>
-            </div>
-            ${state.fortuneError ? `<p class="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">${escapeHtml(state.fortuneError)}</p>` : ""}
-            <div class="mt-6">
-              <button type="button" data-action="fortune-submit" ${canSubmit ? "" : "disabled"}
-                class="inline-flex h-14 w-full items-center justify-center rounded-xl bg-brand-600 px-6 text-base font-bold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:text-lg">오늘의 운세 보기</button>
-            </div>
-          </div>
-        </section>`;
+        const hourBtns = BIRTH_HOUR_OPTIONS.map(function (opt) {
+          const sel = v.birthtime === opt.value;
+          return '<button type="button" data-action="hour" data-value="' + escapeHtml(opt.value) + '" ' +
+            'class="rounded-xl border px-2 py-2 text-left text-sm font-medium transition ' +
+            (sel ? "border-brand-500 bg-brand-50 text-brand-700" : "border-slate-200 bg-white text-ink hover:border-brand-300 hover:bg-brand-50") +
+            '">' +
+            '<div class="font-bold">' + escapeHtml(opt.label) + '</div>' +
+            '<div class="text-xs text-ink-soft">' + escapeHtml(opt.range) + '</div>' +
+            '</button>';
+        }).join("");
+
+        return '' +
+          '<section class="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-6 shadow-sm sm:p-8">' +
+            '<div class="space-y-4">' +
+              '<div>' +
+                '<label class="mb-1.5 block text-sm font-semibold text-ink">이름</label>' +
+                '<input type="text" id="name-input" value="' + escapeHtml(v.name) + '" maxlength="40" placeholder="예: 김민지" ' +
+                  'class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200" />' +
+              '</div>' +
+              '<div>' +
+                '<label class="mb-1.5 block text-sm font-semibold text-ink">생년월일</label>' +
+                '<input type="date" id="birthdate-input" value="' + escapeHtml(v.birthdate) + '" min="1900-01-01" max="' + todayMax + '" ' +
+                  'class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200" />' +
+              '</div>' +
+              '<div>' +
+                '<label class="mb-1.5 block text-sm font-semibold text-ink">태어난 시(時)' +
+                  '<span class="ml-1 text-xs font-normal text-ink-soft">모르시면 「모름」 으로 두셔도 돼요</span>' +
+                '</label>' +
+                '<div class="grid grid-cols-3 gap-2 sm:grid-cols-4">' + hourBtns + '</div>' +
+              '</div>' +
+            '</div>' +
+            (state.error ? '<p class="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">' + escapeHtml(state.error) + '</p>' : '') +
+            '<div class="mt-6">' +
+              '<button type="button" data-action="submit" ' + (canSubmit ? '' : 'disabled') + ' ' +
+                'class="inline-flex h-14 w-full items-center justify-center rounded-xl bg-brand-600 px-6 text-base font-bold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:text-lg">' +
+                '오늘의 사주 여행지 보기' +
+              '</button>' +
+            '</div>' +
+          '</section>';
       }
 
-      function renderFortuneLoading() {
-        return `
-        <section class="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-10 text-center shadow-sm">
-          <div class="mb-4 text-5xl">✨</div>
-          <p class="text-lg font-bold text-ink">${escapeHtml(state.fortuneInput.name)} 님의 오늘의 여행 운세를 살펴보고 있어요</p>
-          <p class="mt-2 text-sm text-ink-soft">오마이치가 별과 풍경을 들여다보는 중...</p>
-        </section>`;
+      function renderLoading() {
+        return '' +
+          '<section class="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-10 text-center shadow-sm">' +
+            '<div class="mb-4 text-5xl pulse">✨</div>' +
+            '<p class="text-lg font-bold text-ink">' + escapeHtml(state.input.name || "") + ' 님의 사주를 살피고 있어요</p>' +
+            '<p class="mt-2 text-sm text-ink-soft">오마이치가 오늘 결을 들여다보는 중...</p>' +
+          '</section>';
       }
 
-      function renderFortuneResult() {
-        const r = state.fortuneResult;
-        const today = new Date().toLocaleDateString("ko-KR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          weekday: "long",
-        });
-        const categories = r.categories
-          .map(
-            (cat) => `
-          <div class="rounded-2xl border border-brand-100 bg-white p-4 shadow-sm">
-            <div class="text-xs font-semibold text-brand-700">${escapeHtml(cat.label)}</div>
-            <div class="mt-1.5">${renderStars(cat.score, "sm")}</div>
-            <p class="mt-2 text-sm leading-snug text-ink">${escapeHtml(cat.message)}</p>
-          </div>`,
-          )
-          .join("");
-        const luckyTile = (label, value) => `
-          <div class="rounded-2xl border border-brand-100 bg-white p-3 text-center shadow-sm sm:p-4">
-            <div class="text-xs font-semibold text-brand-600">${escapeHtml(label)}</div>
-            <div class="mt-1 text-sm font-bold text-ink sm:text-base">${escapeHtml(value)}</div>
-          </div>`;
+      function renderResult() {
+        const r = state.result;
+        const today = new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric", weekday: "long" });
         const COUNTRY_LABEL = { jp: "일본", kr: "한국", vn: "베트남" };
+
+        const keywords = (r.saju_keywords || []).map(function (k) {
+          return '<span class="rounded-full border border-brand-200 bg-white/70 px-2.5 py-1 text-xs font-medium text-brand-700">#' + escapeHtml(k) + '</span>';
+        }).join("");
+
+        const categories = r.categories.map(function (cat) {
+          return '<div class="rounded-2xl border border-brand-100 bg-white p-4 shadow-sm">' +
+            '<div class="text-xs font-semibold text-brand-700">' + escapeHtml(cat.label) + '</div>' +
+            '<div class="mt-1.5">' + renderStars(cat.score, "sm") + '</div>' +
+            '<p class="mt-2 text-sm leading-snug text-ink">' + escapeHtml(cat.message) + '</p>' +
+            '</div>';
+        }).join("");
+
         const hotels = r.recommended_hotels || [];
-        const hotelsBlock = hotels.length > 0
-          ? `
-            <div class="rounded-2xl border-2 border-leaf bg-white p-6 shadow-sm sm:p-8">
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-semibold uppercase tracking-widest text-leaf">OHMYHOTEL &amp; CO 추천</span>
-                <span class="inline-flex h-2 w-2 rounded-full bg-leaf"></span>
-              </div>
-              <h3 class="mt-1.5 text-lg font-bold text-ink sm:text-xl">${escapeHtml(r.recommended_destination.city)}에서 묵기 좋은 호텔</h3>
-              <p class="mt-1 text-xs text-ink-soft">오마이호텔 Top 100 (${escapeHtml(COUNTRY_LABEL[hotels[0].country] || "")}) 기준 상위 추천</p>
-              <ul class="mt-4 space-y-2.5">
-                ${hotels.map((h) => `
-                  <li class="flex items-start gap-3 rounded-xl border border-slate-200 bg-cream p-3 sm:p-4">
-                    <span class="shrink-0 rounded-md bg-leaf-50 px-2 py-1 text-xs font-bold text-leaf-600">TOP ${h.rank}</span>
-                    <div class="min-w-0 flex-1">
-                      <div class="text-sm font-bold text-ink sm:text-base">${escapeHtml(h.name)}</div>
-                      <div class="mt-0.5 text-xs text-ink-soft sm:text-sm">${escapeHtml(h.city)} · ${escapeHtml(h.address)}</div>
-                    </div>
-                  </li>`).join("")}
-              </ul>
-            </div>`
-          : "";
-        return `
-        <section class="space-y-4">
-          <div>
-            <button type="button" data-action="back-home" class="text-sm font-medium text-brand-600 hover:text-brand-700">← 홈으로</button>
-          </div>
-          <div class="overflow-hidden rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-100 p-6 shadow-sm sm:p-8">
-            <div class="text-xs font-semibold uppercase tracking-widest text-brand-600">OHMYCHI FORTUNE · ${escapeHtml(today)}</div>
-            <h2 class="mt-2 text-2xl font-bold text-ink sm:text-3xl">${escapeHtml(r.name)} 님의 오늘 여행 운세</h2>
-            <p class="mt-2 text-lg font-semibold text-brand-700 sm:text-xl">“${escapeHtml(r.headline)}”</p>
-            <div class="mt-4 flex items-center gap-2">${renderStars(r.overall_score, "lg")}<span class="text-sm font-medium text-ink-soft">(${r.overall_score} / 5)</span></div>
-            <p class="mt-4 leading-relaxed text-ink">${escapeHtml(r.fortune_summary)}</p>
-          </div>
-          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">${categories}</div>
-          <div class="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-50 p-6 shadow-sm sm:p-8">
-            <div class="text-xs font-semibold uppercase tracking-widest text-brand-600">오마이치가 고른 오늘의 여행지</div>
-            <div class="mt-2 flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <div class="text-sm font-medium text-ink-soft">${escapeHtml(r.recommended_destination.country)}</div>
-                <h3 class="text-2xl font-bold text-ink sm:text-3xl">${escapeHtml(r.recommended_destination.city)}</h3>
-                <div class="mt-1 inline-flex rounded-full bg-brand-100 px-2.5 py-1 text-xs font-semibold text-brand-700">${escapeHtml(r.recommended_destination.vibe)}</div>
-              </div>
-              <div class="shrink-0 text-right">
-                ${renderStars(r.recommended_destination.match_score, "md")}
-                <div class="mt-0.5 text-xs text-ink-soft">매치 ${r.recommended_destination.match_score} / 5</div>
-              </div>
-            </div>
-            <p class="mt-4 rounded-xl bg-white/70 p-3 text-sm leading-relaxed text-ink sm:text-base">${escapeHtml(r.recommended_destination.reason)}</p>
-            <dl class="mt-4 space-y-3 text-sm sm:text-base">
-              <div><dt class="text-xs font-semibold text-brand-600">추천 시기</dt><dd class="mt-0.5 text-ink">${escapeHtml(r.recommended_destination.best_period)}</dd></div>
-              <div><dt class="text-xs font-semibold text-brand-600">오늘의 작은 팁</dt><dd class="mt-0.5 text-ink">${escapeHtml(r.recommended_destination.travel_tip)}</dd></div>
-              <div><dt class="text-xs font-semibold text-brand-600">여행지에서 만날 좋은 일</dt><dd class="mt-0.5 leading-relaxed text-ink">${escapeHtml(r.recommended_destination.hidden_gem)}</dd></div>
-            </dl>
-          </div>
-          ${hotelsBlock}
-          <div class="grid grid-cols-3 gap-3">
-            ${luckyTile("행운의 색", r.lucky.color)}
-            ${luckyTile("행운의 시간", r.lucky.time)}
-            ${luckyTile("행운의 숫자", r.lucky.number)}
-          </div>
-          <div class="rounded-2xl border border-brand-200 bg-brand-50 p-5 sm:p-6">
-            <p class="text-sm leading-relaxed text-ink sm:text-base">${escapeHtml(r.closing_message)}</p>
-            <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-              <button type="button" data-action="fortune-consult"
-                class="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 sm:text-base">오마이치 AI에게 여행 상담받기 →</button>
-              <button type="button" data-action="fortune-again"
-                class="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">다시 보기</button>
-            </div>
-          </div>
-        </section>`;
+        const hotelsBlock = hotels.length === 0 ? "" :
+          '<div class="rounded-2xl border-2 border-leaf bg-white p-6 shadow-sm sm:p-8">' +
+            '<div class="flex items-center gap-2">' +
+              '<span class="text-xs font-semibold uppercase tracking-widest text-leaf">OHMYHOTEL &amp; CO 추천</span>' +
+              '<span class="inline-flex h-2 w-2 rounded-full bg-leaf"></span>' +
+            '</div>' +
+            '<h3 class="mt-1.5 text-lg font-bold text-ink sm:text-xl">' + escapeHtml(r.recommended_destination.city) + '에서 묵기 좋은 호텔</h3>' +
+            '<p class="mt-1 text-xs text-ink-soft">오마이호텔 Top 100 (' + escapeHtml(COUNTRY_LABEL[hotels[0].country] || "") + ') 기준 상위 추천</p>' +
+            '<ul class="mt-4 space-y-2.5">' +
+              hotels.map(function (h) {
+                return '<li class="flex items-start gap-3 rounded-xl border border-slate-200 bg-cream p-3 sm:p-4">' +
+                  '<span class="shrink-0 rounded-md bg-leaf-50 px-2 py-1 text-xs font-bold text-leaf-600">TOP ' + h.rank + '</span>' +
+                  '<div class="min-w-0 flex-1">' +
+                    '<div class="text-sm font-bold text-ink sm:text-base">' + escapeHtml(h.name) + '</div>' +
+                    '<div class="mt-0.5 text-xs text-ink-soft sm:text-sm">' + escapeHtml(h.city) + ' · ' + escapeHtml(h.address) + '</div>' +
+                  '</div>' +
+                '</li>';
+              }).join("") +
+            '</ul>' +
+          '</div>';
+
+        const luckyTile = function (label, value) {
+          return '<div class="rounded-2xl border border-brand-100 bg-white p-3 text-center shadow-sm sm:p-4">' +
+            '<div class="text-xs font-semibold text-brand-600">' + escapeHtml(label) + '</div>' +
+            '<div class="mt-1 text-sm font-bold text-ink sm:text-base">' + escapeHtml(value) + '</div>' +
+            '</div>';
+        };
+
+        return '' +
+          '<section class="space-y-4">' +
+            '<div class="overflow-hidden rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-100 p-6 shadow-sm sm:p-8">' +
+              '<div class="text-xs font-semibold uppercase tracking-widest text-brand-600">OHMYCHI SAJU · ' + escapeHtml(today) + '</div>' +
+              '<h2 class="mt-2 text-2xl font-bold text-ink sm:text-3xl">' + escapeHtml(r.name) + ' 님의 오늘 사주 여행운세</h2>' +
+              '<p class="mt-2 text-lg font-semibold text-brand-700 sm:text-xl">"' + escapeHtml(r.headline) + '"</p>' +
+              '<div class="mt-4 flex items-center gap-2">' + renderStars(r.overall_score, "lg") + '<span class="text-sm font-medium text-ink-soft">(' + r.overall_score + ' / 5)</span></div>' +
+              (keywords ? '<div class="mt-3 flex flex-wrap gap-1.5">' + keywords + '</div>' : '') +
+              '<p class="mt-4 leading-relaxed text-ink">' + escapeHtml(r.fortune_summary) + '</p>' +
+            '</div>' +
+            '<div class="grid grid-cols-2 gap-3 sm:grid-cols-4">' + categories + '</div>' +
+            '<div class="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-50 p-6 shadow-sm sm:p-8">' +
+              '<div class="text-xs font-semibold uppercase tracking-widest text-brand-600">오마이치가 사주로 골라준 오늘의 여행지</div>' +
+              '<div class="mt-2 flex flex-wrap items-end justify-between gap-3">' +
+                '<div>' +
+                  '<div class="text-sm font-medium text-ink-soft">' + escapeHtml(r.recommended_destination.country) + '</div>' +
+                  '<h3 class="text-2xl font-bold text-ink sm:text-3xl">' + escapeHtml(r.recommended_destination.city) + '</h3>' +
+                  '<div class="mt-1 inline-flex rounded-full bg-brand-100 px-2.5 py-1 text-xs font-semibold text-brand-700">' + escapeHtml(r.recommended_destination.vibe) + '</div>' +
+                '</div>' +
+                '<div class="shrink-0 text-right">' +
+                  renderStars(r.recommended_destination.match_score, "md") +
+                  '<div class="mt-0.5 text-xs text-ink-soft">매치 ' + r.recommended_destination.match_score + ' / 5</div>' +
+                '</div>' +
+              '</div>' +
+              '<p class="mt-4 rounded-xl bg-white/70 p-3 text-sm leading-relaxed text-ink sm:text-base">' + escapeHtml(r.recommended_destination.reason) + '</p>' +
+              '<dl class="mt-4 space-y-3 text-sm sm:text-base">' +
+                '<div><dt class="text-xs font-semibold text-brand-600">추천 시기</dt><dd class="mt-0.5 text-ink">' + escapeHtml(r.recommended_destination.best_period) + '</dd></div>' +
+                '<div><dt class="text-xs font-semibold text-brand-600">오늘의 작은 팁</dt><dd class="mt-0.5 text-ink">' + escapeHtml(r.recommended_destination.travel_tip) + '</dd></div>' +
+                '<div><dt class="text-xs font-semibold text-brand-600">여행지에서 만날 좋은 일</dt><dd class="mt-0.5 leading-relaxed text-ink">' + escapeHtml(r.recommended_destination.hidden_gem) + '</dd></div>' +
+              '</dl>' +
+            '</div>' +
+            hotelsBlock +
+            '<div class="grid grid-cols-3 gap-3">' +
+              luckyTile("행운의 색", r.lucky.color) +
+              luckyTile("행운의 시간", r.lucky.time) +
+              luckyTile("행운의 숫자", r.lucky.number) +
+            '</div>' +
+            '<div class="rounded-2xl border border-brand-200 bg-brand-50 p-5 sm:p-6">' +
+              '<p class="text-sm leading-relaxed text-ink sm:text-base">' + escapeHtml(r.closing_message) + '</p>' +
+              '<div class="mt-4 flex flex-col gap-2 sm:flex-row">' +
+                '<button type="button" data-action="again" class="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 sm:text-base">다른 사주로 다시 보기</button>' +
+                '<button type="button" data-action="reset" class="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">처음으로</button>' +
+              '</div>' +
+            '</div>' +
+          '</section>';
       }
 
-      /* ================================================================== */
-      /* 이벤트 바인딩                                                       */
-      /* ================================================================== */
-      function bindEvents() {
+      function render() {
         const root = document.getElementById("app");
+        let html;
+        if (state.view === "input") html = renderInput();
+        else if (state.view === "loading") html = renderLoading();
+        else html = renderResult();
+        root.innerHTML = html;
+        bind();
+      }
 
-        // 입력창
-        const q = root.querySelector("#question-input");
-        if (q) {
-          q.addEventListener("input", (e) => {
-            state.question = e.target.value;
-            const cc = root.querySelector("#char-count");
-            if (cc) cc.textContent = state.question.length + " / 2000";
-            const btn = root.querySelector('[data-action="ask"]');
-            if (btn) {
-              if (state.question.trim()) btn.removeAttribute("disabled");
-              else btn.setAttribute("disabled", "");
-            }
-          });
-          q.addEventListener("keydown", (e) => {
-            // Ctrl/Cmd + Enter 로 빠르게 제출
-            if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      function bind() {
+        const root = document.getElementById("app");
+        const n = root.querySelector("#name-input");
+        if (n) {
+          n.addEventListener("input", function (e) { setField("name", e.target.value); });
+          n.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && state.input.name.trim() && state.input.birthdate.trim()) {
               e.preventDefault();
               ask();
             }
           });
         }
-
-        // 메모
-        const note = root.querySelector("#note-input");
-        if (note) {
-          note.addEventListener("input", (e) => setNote(e.target.value));
+        const b = root.querySelector("#birthdate-input");
+        if (b) {
+          b.addEventListener("input", function (e) { setField("birthdate", e.target.value); });
+          b.addEventListener("change", function (e) { setField("birthdate", e.target.value); });
         }
-
-        // 운세 - 이름 입력
-        const fortuneName = root.querySelector("#fortune-name");
-        if (fortuneName) {
-          fortuneName.addEventListener("input", (e) => setFortuneField("name", e.target.value));
-        }
-        // 운세 - 생년월일 입력
-        const fortuneBirth = root.querySelector("#fortune-birthdate");
-        if (fortuneBirth) {
-          fortuneBirth.addEventListener("input", (e) => setFortuneField("birthdate", e.target.value));
-          fortuneBirth.addEventListener("change", (e) => setFortuneField("birthdate", e.target.value));
-        }
-
-        // Follow-up 입력창
-        const followInput = root.querySelector("#follow-up-input");
-        if (followInput) {
-          followInput.addEventListener("input", (e) => {
-            state.followUpInput = e.target.value;
-            const btn = root.querySelector('[data-action="follow-up-submit"]');
-            if (btn) {
-              if (state.followUpInput.trim()) btn.removeAttribute("disabled");
-              else btn.setAttribute("disabled", "");
-            }
-          });
-          followInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" && state.followUpInput.trim()) {
-              e.preventDefault();
-              ask(null, { isFollowUp: true });
-            }
-          });
-        }
-
-        // 버튼 위임
-        root.addEventListener("click", (e) => {
-          const target = e.target.closest("[data-action]");
-          if (!target) return;
-          const action = target.getAttribute("data-action");
-          switch (action) {
-            case "ask":
-              ask();
-              break;
-            case "quick":
-              ask(target.getAttribute("data-question"));
-              break;
-            case "show-answer":
-              state.view = "answer";
-              render();
-              break;
-            case "show-staff":
-              state.view = "staff";
-              render();
-              break;
-            case "reset":
-              reset();
-              break;
-            case "copy":
-              copyAnswer();
-              break;
-            case "load-history":
-              loadHistoryItem(target.getAttribute("data-id"));
-              break;
-            case "follow-up-chip":
-              ask(target.getAttribute("data-question"), { isFollowUp: true });
-              break;
-            case "follow-up-submit":
-              if (state.followUpInput.trim()) {
-                ask(null, { isFollowUp: true });
-              }
-              break;
-            case "back-home":
-              goHome();
-              break;
-            case "start-fortune":
-              startFortune();
-              break;
-            case "start-consult":
-              startConsult();
-              break;
-            case "fortune-submit":
-              askFortune();
-              break;
-            case "fortune-again":
-              againFortune();
-              break;
-            case "fortune-consult":
-              consultFromFortune();
-              break;
-          }
+        root.addEventListener("click", function (e) {
+          const t = e.target.closest("[data-action]");
+          if (!t) return;
+          const a = t.getAttribute("data-action");
+          if (a === "hour") setBirthtime(t.getAttribute("data-value"));
+          else if (a === "submit") ask();
+          else if (a === "again") again();
+          else if (a === "reset") reset();
         });
       }
 

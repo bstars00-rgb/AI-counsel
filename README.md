@@ -1,79 +1,49 @@
-# 트래블쇼 AI 여행상담 웹앱
+# 오마이치가 봐주는 사주 여행지
 
-부스 방문 고객이 직접 여행 질문을 입력하면 **AI가 1차 상담 답변**을 제공하고, **상담원이 그 답변을 보고 곧바로 실 상담을 시작**할 수 있도록 돕는 단순한 웹앱입니다.
+OHMYHOTEL & CO 트래블쇼 부스용 마케팅 미니 웹앱.
+방문 고객이 **이름 / 생년월일 / 태어난 시(時)** 만 알려주면, 오마이치 AI가 사주를 가볍게 풀어주고
+오늘 어울리는 **여행지 한 곳** 과 그 도시의 **오마이호텔 Top 호텔 3개** 를 골라줍니다.
 
 - 예약/결제/CRM 시스템이 **아닙니다.**
-- 호텔/항공 API 연동 시스템이 **아닙니다.**
-- **AI 상담 진입 도구**입니다.
+- AI 여행상담 시스템이 **아닙니다.** (이전 버전에서 제거됨)
+- **부스 마케팅 전용** 의 단순한 운세 + 호텔 추천 도구입니다.
 
-## 🚀 GitHub Pages 라이브 데모
+## 🚀 라이브 데모
 
-**Mock 데이터 기반 프로토타입**이 GitHub Pages 로 배포되어 있습니다.
-
-→ https://bstars00-rgb.github.io/AI-counsel/
-
-`index.html` 단일 파일이라 npm install 없이 더블클릭으로 열어도 동일하게 동작합니다.
+- GitHub Pages — https://bstars00-rgb.github.io/AI-counsel/
+- `index.html` 단일 파일이라 npm 없이 더블클릭으로도 동작합니다.
 
 ## 두 가지 형태
 
 | 파일/디렉토리 | 용도 | 동작 방식 |
 |---|---|---|
-| `index.html` | **이해관계자 데모 / 시연용 프로토타입** | Mock 데이터로만 동작. GitHub Pages 로 자동 배포됨. API 키 불필요. |
-| `app/`, `lib/`, `package.json` 등 | **부스 현장 운영용 Next.js 풀스택** | Claude API 실제 호출. 로컬 `npm run dev` 또는 Vercel/Render 등에 배포. |
+| `index.html` | **부스 현장 / 이해관계자 데모** | Mock 데이터로만 동작. GitHub Pages 로 자동 배포. API 키 불필요. |
+| `app/`, `lib/`, `package.json` 등 | **Next.js 풀스택 (선택)** | Claude API 실제 호출. 더 풍부한 사주 풀이. Vercel/Render 등에 배포. |
 
-## GitHub Pages 배포 절차
+## 부스 운영 (이틀 안에 시작하는 가장 빠른 방법)
 
-이미 `index.html` 이 repo root 에 있으면 다음 절차로 활성화됩니다.
+### 옵션 A — GitHub Pages (가장 단순)
 
-1. GitHub repo 페이지로 이동: https://github.com/bstars00-rgb/AI-counsel
-2. **Settings** → 왼쪽 메뉴 **Pages** 클릭
-3. **Source** 를 `Deploy from a branch` 로 설정
-4. **Branch** 를 `main` / `(root)` 로 선택 후 **Save**
-5. 1~2 분 후 https://bstars00-rgb.github.io/AI-counsel/ 에서 접속 가능
+이미 활성화되어 있다면 URL만 열어 두면 끝.
 
-### 처음 푸시할 때 명령어
+1. https://bstars00-rgb.github.io/AI-counsel/ 접속
+2. 부스 PC/태블릿 브라우저를 전체화면(F11) 모드로
+3. 인터넷이 끊겨도 동작하도록 페이지를 1회 로드 후 비행기 모드에서도 확인
 
-```powershell
-# 프로젝트 폴더에서
-git init
-git branch -M main
-git add .
-git commit -m "AI 여행상담 프로토타입 + Next.js 앱"
-git remote add origin https://github.com/bstars00-rgb/AI-counsel.git
-git push -u origin main
-```
+### 옵션 B — 로컬 파일 (오프라인 부스)
 
-> 한 번이라도 푸시해본 적이 없다면 GitHub 가 push 시 인증을 요구합니다. 브라우저 로그인 또는 [Personal Access Token](https://github.com/settings/tokens) 을 사용하세요.
+1. `index.html` 파일 하나만 부스 PC에 복사
+2. 더블클릭으로 열기 → 끝
 
-이후 수정 사항은:
-
-```powershell
-git add .
-git commit -m "수정 메시지"
-git push
-```
-
-## 로컬 실행 (Next.js 풀스택 버전)
+### 옵션 C — Next.js 풀스택 (실제 Claude API)
 
 ```bash
-# 1. 의존성 설치
 npm install
-
-# 2. 환경변수 설정 (선택)
-cp .env.example .env
-# .env 파일 열어서 ANTHROPIC_API_KEY 입력
-# 키를 입력하지 않으면 자동으로 Mock 응답 모드로 동작합니다.
-
-# 3. 개발 서버 실행
-npm run dev
-# → http://localhost:3000
-
-# 4. 빌드 / 프로덕션
-npm run build
-npm run start
+cp .env.example .env       # ANTHROPIC_API_KEY 입력 (없으면 Mock)
+npm run dev                # http://localhost:3000
+# 또는 빌드/프로덕션
+npm run build && npm run start
 ```
-
-부스 현장 PC/태블릿에서는 그냥 `npm run start` 후 브라우저로 `http://localhost:3000` 띄워두면 됩니다.
 
 ## 환경변수 (Next.js 버전만)
 
@@ -83,112 +53,112 @@ npm run start
 | `ANTHROPIC_MODEL` | 사용할 모델 | `claude-opus-4-7` |
 | `USE_MOCK` | `true` 면 API 키가 있어도 Mock 강제 사용 | `false` |
 
-**비용을 줄이려면** `ANTHROPIC_MODEL=claude-sonnet-4-6` 또는 `claude-haiku-4-5` 로 변경하세요.
-
-## 기능
-
-1. 고객 질문 입력 + 빠른 질문 8개 버튼
-2. AI 상담받기 (로딩 표시)
-3. 고객용 AI 답변 카드 (7개 섹션)
-4. 답변 복사 / 다시 질문하기
-5. 상담원 화면 전환 (니즈 분석 / 바로 물어볼 질문 / 시작 멘트 / 메모)
-6. 최근 상담 기록 5건 localStorage 저장 + 다시 불러오기
-7. 메모 자동 저장
-
 ## 사용자 흐름
 
 ```
-[입력] → [AI 답변 (고객용)] → "상담원과 이어서 상담하기" → [상담원 화면]
-   ↑                                                            ↓
-   └────────────── "다시 질문하기" ─────────────────────────────┘
+[입력] 이름 / 생년월일 / 태어난 시(12 시진 또는 모름)
+   ↓
+[로딩] 0.7~1.2초
+   ↓
+[결과] 헤드라인 + 종합 별점 + 사주 키워드
+       → 카테고리 4종 (여행운 / 재물운 / 인연운 / 건강운)
+       → 오마이치가 사주로 골라준 오늘의 여행지 (나라 + 도시 + 매치 점수 + 이유)
+       → 오마이호텔 추천 호텔 TOP 3
+       → 행운의 색 / 시간 / 숫자
+       → 다른 사주로 다시 보기 / 처음으로
 ```
 
-## 화면 구성
+## 12 시진 옵션
 
-### 첫 화면
-- 타이틀 / 부제 / 입력창 (placeholder 포함) / 빠른 질문 8개 / "AI 상담받기" 버튼 / 최근 상담 기록
+| 시진 | 시간대 |
+|---|---|
+| 자시 (子時) | 23:00 - 01:00 |
+| 축시 (丑時) | 01:00 - 03:00 |
+| 인시 (寅時) | 03:00 - 05:00 |
+| 묘시 (卯時) | 05:00 - 07:00 |
+| 진시 (辰時) | 07:00 - 09:00 |
+| 사시 (巳時) | 09:00 - 11:00 |
+| 오시 (午時) | 11:00 - 13:00 |
+| 미시 (未時) | 13:00 - 15:00 |
+| 신시 (申時) | 15:00 - 17:00 |
+| 유시 (酉時) | 17:00 - 19:00 |
+| 술시 (戌時) | 19:00 - 21:00 |
+| 해시 (亥時) | 21:00 - 23:00 |
+| 모름 | 시진 대신 생년월일 위주로 풀이 |
 
-### AI 답변 화면 (고객용)
-1. 고객 질문 요약
-2. 추천 여행 방향
-3. 추천 일정 또는 여행 스타일
-4. 예상 예산대
-5. 장점
-6. 주의사항
-7. 상담원에게 이어서 확인하면 좋은 내용
+## 추천 여행지 풀 (25개)
 
-하단 버튼: 상담원과 이어서 상담하기 / 답변 복사 / 다시 질문하기
+| 일본 (8) | 한국 (8) | 베트남 (9) |
+|---|---|---|
+| 도쿄, 오사카, 교토, 후쿠오카, 삿포로, 오키나와, 고베, 나고야 | 서울, 부산, 제주, 여수, 속초, 강릉, 양양, 경주 | 다낭, 나트랑, 호이안, 푸꾸옥, 하노이, 호치민, 달랏, 무이네, 사파 |
 
-### 상담원 화면
-1. 고객 질문 원문
-2. AI 답변 요약
-3. 상담원용 니즈 분석 (목적지/유형/인원/일정/예산/핵심 니즈/미확인 정보/예약 가능성/추천 상담 방향)
-4. 바로 물어볼 질문 3~5개
-5. 상담 시작 멘트
-6. 상담 메모 (자동 localStorage 저장)
+## 호텔 데이터
+
+- 출처: `Hotel data/Hotel Top List - May 2026.xlsx` (오마이호텔 Top 100, 일본/한국/베트남)
+- 도시별 상위 5개씩 [lib/hotels.ts](lib/hotels.ts) 에 임베드 (총 118개 / 27 도시)
+- 운세 결과의 도시에 자동 매칭 → 상위 3개 호텔 표시
 
 ## AI 응답 JSON 구조
 
 ```json
 {
-  "customer_question": "",
-  "customer_answer": {
-    "summary": "",
-    "recommendation_direction": "",
-    "suggested_itinerary_or_style": "",
-    "estimated_budget_range": "",
-    "advantages": [],
-    "cautions": [],
-    "next_message_to_customer": ""
+  "name": "",
+  "headline": "",
+  "overall_score": 1,
+  "fortune_summary": "",
+  "saju_keywords": [],
+  "categories": [{ "label": "여행운", "score": 4, "message": "" }],
+  "recommended_destination": {
+    "country": "일본",
+    "city": "",
+    "vibe": "",
+    "match_score": 4,
+    "reason": "",
+    "best_period": "",
+    "travel_tip": "",
+    "hidden_gem": ""
   },
-  "staff_summary": {
-    "destination_interest": "",
-    "travel_type": "",
-    "travelers": "",
-    "duration": "",
-    "budget_hint": "",
-    "key_needs": [],
-    "missing_information": [],
-    "booking_probability": "High | Medium | Low",
-    "recommended_consulting_direction": ""
-  },
-  "staff_questions": [],
-  "staff_opening_script": ""
+  "recommended_hotels": [
+    { "rank": 2, "code": "", "name": "", "city": "", "address": "", "country": "vn" }
+  ],
+  "lucky": { "color": "", "time": "", "number": "" },
+  "closing_message": ""
 }
 ```
 
-이 JSON 스키마는 [lib/prompts.ts](lib/prompts.ts) 의 `RESPONSE_SCHEMA` 에 정의되어 있으며, Claude API 의 `output_config.format` (structured outputs) 으로 강제됩니다.
+스키마 정의는 [lib/prompts.ts](lib/prompts.ts), 호텔 매칭은 [lib/destinations.ts](lib/destinations.ts) + [lib/hotels.ts](lib/hotels.ts).
 
 ## 파일 구조
 
 ```
-index.html            ← GitHub Pages 진입점 (Mock 단일 파일 프로토타입)
+index.html              ← GitHub Pages 진입점 (Mock 단일 파일, 자체 완결)
+Hotel data/             ← 원본 xlsx 호텔 데이터
 
-app/                  ← Next.js 풀스택 앱
+app/                    ← Next.js 풀스택
   layout.tsx
-  page.tsx
+  page.tsx              ← 입력 → 로딩 → 결과 단일 흐름
   globals.css
-  api/consult/
-    route.ts          Claude API 호출 + Mock 폴백
+  api/fortune/route.ts  ← Claude API 호출 + 호텔 자동 매칭 (서버 측)
 lib/
-  types.ts            ConsultResponse 등 타입 정의
-  prompts.ts          시스템 프롬프트 + JSON 스키마
-  mockData.ts         API 없이도 시연 가능한 Mock 응답
+  types.ts              ← FortuneInput / FortuneResponse / 12 시진 옵션
+  prompts.ts            ← 사주 풀이 시스템 프롬프트 + JSON 스키마
+  destinations.ts       ← 25개 도시 풀 (한국어/영문/호텔 매칭 키)
+  hotels.ts             ← 호텔 데이터 + findHotelsForCities()
+  mockData.ts           ← buildMockFortune (시드 기반 결정론)
 ```
 
 ## 운영 팁
 
-- 부스 현장에서는 **Wi-Fi 끊김에 대비**해 `USE_MOCK=true` 로 한 번 점검 후 시연하세요. (또는 GitHub Pages 버전을 미리 PC 에 저장해두면 오프라인에서도 동작합니다.)
-- 메모는 localStorage 에만 저장되므로 브라우저 캐시를 비우면 사라집니다.
-- 같은 PC 에서 여러 고객이 사용할 때는 "다시 질문하기" 만 누르면 됩니다 (개인정보는 입력받지 않음).
+- **오프라인 대비**: 인터넷 끊김에 대비해 `index.html` 을 USB 에도 백업, 또는 `USE_MOCK=true` 로 점검 후 시연
+- **재현성**: 같은 이름·생년월일·시·날짜로는 항상 같은 결과 (Mock 시드 기반)
+- **개인정보**: 입력은 메모리에만 머물고 서버 저장 없음. 부스에서 안내 가능
+- **다음 손님**: "처음으로" 버튼 한 번으로 깔끔하게 초기화
 
-## 절대 포함하지 않은 기능 (의도적 미포함)
+## 의도적으로 미포함
 
 - 실시간 예약 / 결제
-- 호텔/항공 API 연동
-- 고객 DB / CRM
-- 관리자 페이지 / 상품 등록
-- 직원 KPI / 대시보드
-- 자동 견적서 발송
-- 외부 검색엔진 연동
-- 복잡한 로그인
+- 호텔/항공 API 연동 (호텔 데이터는 정적 xlsx)
+- 고객 DB / CRM / 입력 저장
+- AI 여행상담 (이전 버전 제거)
+- 관리자 페이지 / KPI / 대시보드
+- 복잡한 로그인 / 회원가입

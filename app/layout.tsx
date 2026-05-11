@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "오마이치 AI (OHMYCHI AI) - 오마이호텔 트래블쇼",
+  title: "오마이치가 봐주는 사주 여행지 - OHMYHOTEL & CO",
   description:
-    "오마이호텔 트래블쇼의 AI 여행상담 도우미, 오마이치 AI 입니다. 궁금한 여행을 입력하면 1차 추천을 받고, 상담원이 이어서 상담해드립니다.",
+    "이름과 생년월일, 태어난 시(時)를 알려주시면 오마이치 AI가 사주를 가볍게 풀어주고, 오늘 어울리는 여행지와 오마이호텔의 추천 호텔을 골라드립니다.",
 };
 
 export const viewport: Viewport = {

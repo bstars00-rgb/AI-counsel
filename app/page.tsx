@@ -1,37 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import type {
-  ConsultHistoryItem,
-  ConsultResponse,
-  ConsultTurn,
-  FortuneInput,
-  FortuneResponse,
-} from "@/lib/types";
+import { useState } from "react";
+import { BIRTH_HOUR_OPTIONS } from "@/lib/types";
+import type { BirthHour, FortuneInput, FortuneResponse } from "@/lib/types";
 
-type View =
-  | "home"
-  | "input"
-  | "loading"
-  | "answer"
-  | "staff"
-  | "fortune-input"
-  | "fortune-loading"
-  | "fortune-result";
-
-const QUICK_QUESTIONS: string[] = [
-  "초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해줘",
-  "부모님 모시고 갈 일본 온천 4박 5일 효도여행 추천해줘",
-  "직장인 3박 4일 오사카 자유여행 일정 추천해줘",
-  "1인 80만원 예산으로 동남아 휴양 3박 5일 추천해줘",
-  "제주 호텔 위주 3박 4일 여행 일정 추천해줘",
-  "신혼부부 5박 7일 동남아 허니문 리조트 추천해줘",
-  "푸꾸옥 vs 나트랑, 가족여행으로 어디가 더 좋아?",
-  "1인 100만원 이하로 갈 만한 4박 5일 해외 여행 추천해줘",
-];
-
-const STORAGE_KEY = "travelshow.history.v1";
-const MAX_HISTORY = 5;
+type View = "input" | "loading" | "result";
 
 const COUNTRY_LABELS: Record<"jp" | "kr" | "vn", string> = {
   jp: "일본",
@@ -40,272 +13,61 @@ const COUNTRY_LABELS: Record<"jp" | "kr" | "vn", string> = {
 };
 
 export default function Page() {
-  const [view, setView] = useState<View>("home");
-  const [question, setQuestion] = useState("");
-  const [result, setResult] = useState<ConsultResponse | null>(null);
-  const [mode, setMode] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [note, setNote] = useState("");
-  const [copyMsg, setCopyMsg] = useState<string | null>(null);
-  const [history, setHistory] = useState<ConsultHistoryItem[]>([]);
-  /** 멀티턴 대화 이력 (Claude messages 형식). 후속 질문 누적용. */
-  const [turns, setTurns] = useState<ConsultTurn[]>([]);
-  /** 화면 상단에 표시할 누적 질문 트레일 (사용자가 어떤 흐름이었는지 보여줌) */
-  const [questionTrail, setQuestionTrail] = useState<string[]>([]);
-  const [followUpInput, setFollowUpInput] = useState("");
-  /** 운세 입력값 */
-  const [fortuneInput, setFortuneInput] = useState<FortuneInput>({
+  const [view, setView] = useState<View>("input");
+  const [input, setInput] = useState<FortuneInput>({
     name: "",
     birthdate: "",
+    birthtime: "모름",
   });
-  const [fortuneResult, setFortuneResult] = useState<FortuneResponse | null>(null);
-  const [fortuneError, setFortuneError] = useState<string | null>(null);
+  const [result, setResult] = useState<FortuneResponse | null>(null);
+  const [mode, setMode] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  // localStorage 로딩
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as ConsultHistoryItem[];
-        if (Array.isArray(parsed)) setHistory(parsed.slice(0, MAX_HISTORY));
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  const saveHistory = (item: ConsultHistoryItem) => {
-    const next = [item, ...history.filter((h) => h.id !== item.id)].slice(
-      0,
-      MAX_HISTORY,
-    );
-    setHistory(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      // ignore quota errors
-    }
-  };
-
-  const updateHistoryNote = (id: string, newNote: string) => {
-    const next = history.map((h) => (h.id === id ? { ...h, note: newNote } : h));
-    setHistory(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      // ignore
-    }
-  };
-
-  const handleGoHome = () => {
-    setView("home");
-    setQuestion("");
-    setResult(null);
-    setError(null);
-    setNote("");
-    setMode(null);
-    setTurns([]);
-    setQuestionTrail([]);
-    setFollowUpInput("");
-    setFortuneResult(null);
-    setFortuneError(null);
-  };
-
-  const handleStartConsult = () => {
-    setView("input");
-    setError(null);
-    setQuestion("");
-  };
-
-  const handleStartFortune = () => {
-    setView("fortune-input");
-    setFortuneError(null);
-    setFortuneResult(null);
-  };
-
-  const handleAskFortune = async () => {
-    const name = fortuneInput.name.trim();
-    const birthdate = fortuneInput.birthdate.trim();
+  const handleAsk = async () => {
+    const name = input.name.trim();
+    const birthdate = input.birthdate.trim();
     if (!name || !birthdate) {
-      setFortuneError("이름과 생년월일을 모두 입력해주세요.");
+      setError("이름과 생년월일을 모두 입력해주세요.");
       return;
     }
-    setFortuneError(null);
-    setView("fortune-loading");
-
+    setError(null);
+    setView("loading");
     try {
       const res = await fetch("/api/fortune", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, birthdate }),
+        body: JSON.stringify({ name, birthdate, birthtime: input.birthtime }),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json?.error || "요청에 실패했습니다.");
-      setFortuneResult(json.data as FortuneResponse);
+      setResult(json.data as FortuneResponse);
       setMode(json.mode || null);
-      setView("fortune-result");
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      setFortuneError(msg);
-      setView("fortune-input");
-    }
-  };
-
-  const handleConsultFromFortune = () => {
-    // 운세 결과에서 자연스럽게 상담으로 진입 — 오마이치가 추천한 도시가 자동 prefill
-    const dest = fortuneResult?.recommended_destination;
-    if (dest) {
-      setQuestion(`${dest.city} 여행을 추천해줘`);
-    }
-    setView("input");
-    setError(null);
-  };
-
-  const handleAsk = async (
-    raw?: string,
-    opts: { isFollowUp?: boolean } = {},
-  ) => {
-    const isFollowUp = !!opts.isFollowUp;
-    const q = (raw ?? (isFollowUp ? followUpInput : question)).trim();
-    if (!q) return;
-
-    if (!isFollowUp) {
-      setQuestion(q);
-      setNote("");
-      setQuestionTrail([q]);
-    } else {
-      setQuestionTrail((prev) => [...prev, q]);
-    }
-    setFollowUpInput("");
-    setView("loading");
-    setError(null);
-
-    const requestHistory = isFollowUp ? turns : [];
-
-    try {
-      const res = await fetch("/api/consult", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: q, history: requestHistory }),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json?.error || "요청에 실패했습니다.");
-      }
-      const data = json.data as ConsultResponse;
-      setResult(data);
-      setMode(json.mode || null);
-      setView("answer");
-
-      // 멀티턴 history 갱신: user + assistant(JSON 직렬화)
-      const newTurns: ConsultTurn[] = [
-        ...requestHistory,
-        { role: "user", content: q },
-        { role: "assistant", content: JSON.stringify(data) },
-      ];
-      setTurns(newTurns);
-
-      // localStorage 저장: 첫 질문이면 새 항목, 후속이면 같은 세션의 최신 결과로 갱신
-      if (!isFollowUp) {
-        const item: ConsultHistoryItem = {
-          id: `${Date.now()}`,
-          createdAt: new Date().toISOString(),
-          question: q,
-          response: data,
-        };
-        saveHistory(item);
-      } else {
-        // 직전 세션 갱신 (가장 최근 항목)
-        setHistory((prev) => {
-          if (prev.length === 0) return prev;
-          const [latest, ...rest] = prev;
-          const updated: ConsultHistoryItem = {
-            ...latest,
-            response: data,
-          };
-          const next = [updated, ...rest];
-          try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-          } catch {
-            // ignore
-          }
-          return next;
-        });
-      }
+      setView("result");
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setError(msg);
-      setView(isFollowUp ? "answer" : "input");
+      setView("input");
     }
   };
 
-  const handleReset = () => {
-    setView("input");
-    setQuestion("");
+  const handleAgain = () => {
     setResult(null);
     setMode(null);
     setError(null);
-    setNote("");
-    setTurns([]);
-    setQuestionTrail([]);
-    setFollowUpInput("");
+    setView("input");
   };
 
-  const handleCopyAnswer = async () => {
-    if (!result) return;
-    const a = result.customer_answer;
-    const text = [
-      `[고객 질문]`,
-      result.customer_question,
-      ``,
-      `[요약]`,
-      a.summary,
-      ``,
-      `[추천 방향]`,
-      a.recommendation_direction,
-      ``,
-      `[추천 일정 / 스타일]`,
-      a.suggested_itinerary_or_style,
-      ``,
-      `[예상 예산대]`,
-      a.estimated_budget_range,
-      ``,
-      `[장점]`,
-      ...a.advantages.map((v) => `- ${v}`),
-      ``,
-      `[주의사항]`,
-      ...a.cautions.map((v) => `- ${v}`),
-      ``,
-      a.next_message_to_customer,
-    ].join("\n");
-
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopyMsg("답변이 복사되었습니다.");
-    } catch {
-      setCopyMsg("복사에 실패했습니다. 브라우저에서 권한을 확인해주세요.");
-    }
-    setTimeout(() => setCopyMsg(null), 2000);
-  };
-
-  const handleLoadHistory = (h: ConsultHistoryItem) => {
-    setQuestion(h.question);
-    setResult(h.response);
-    setNote(h.note || "");
-    setMode("history");
-    setView("answer");
-    // 저장된 결과로 멀티턴 컨텍스트 재구성 (이어서 후속 질문 가능)
-    setTurns([
-      { role: "user", content: h.question },
-      { role: "assistant", content: JSON.stringify(h.response) },
-    ]);
-    setQuestionTrail([h.question]);
-    setFollowUpInput("");
+  const handleReset = () => {
+    setInput({ name: "", birthdate: "", birthtime: "모름" });
+    setResult(null);
+    setMode(null);
+    setError(null);
+    setView("input");
   };
 
   return (
     <main className="min-h-screen px-4 py-8 sm:px-8 sm:py-12">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-3xl">
         <header className="mb-8">
           {/* 회사 로고 띠 */}
           <div className="mb-6 flex items-center gap-2">
@@ -318,129 +80,66 @@ export default function Page() {
             </span>
           </div>
 
-          <div className="flex items-end justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 ring-brand-300 shadow-sm sm:h-20 sm:w-20">
-                <span className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">
-                  🍊
-                </span>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/mascot.png"
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
-                  }}
-                />
-              </div>
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
-                  OHMYCHI AI
-                </div>
-                <h1 className="text-3xl font-bold text-ink sm:text-4xl">
-                  오마이치 AI
-                </h1>
-                <p className="mt-1 text-base text-ink-soft sm:text-lg">
-                  오마이호텔 트래블쇼의 AI 여행상담 도우미. 궁금한 여행을 입력하면
-                  먼저 추천해드릴게요.
-                </p>
-              </div>
-            </div>
-            {mode && (
-              <span
-                className="ml-2 hidden shrink-0 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500 sm:inline-block"
-                title="응답 모드"
-              >
-                {mode === "live"
-                  ? "Claude 실시간"
-                  : mode === "mock"
-                    ? "Mock 응답"
-                    : mode === "mock-fallback"
-                      ? "Mock (API 실패 폴백)"
-                      : mode === "history"
-                        ? "히스토리"
-                        : mode}
+          <div className="flex items-end gap-4">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 ring-brand-300 shadow-sm sm:h-20 sm:w-20">
+              <span className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">
+                🍊
               </span>
-            )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/mascot.png"
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
+              />
+            </div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
+                OHMYCHI AI · 사주 여행운세
+              </div>
+              <h1 className="text-3xl font-bold text-ink sm:text-4xl">
+                오마이치가 봐주는 사주 여행지
+              </h1>
+              <p className="mt-1 text-base text-ink-soft sm:text-lg">
+                이름과 생년월일, 태어난 시(時)만 알려주시면 오늘 어울리는 여행지와 호텔을
+                골라드릴게요.
+              </p>
+            </div>
           </div>
+          {mode && (
+            <div className="mt-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500">
+              {mode === "live"
+                ? "Claude 실시간"
+                : mode === "mock"
+                  ? "Mock 응답"
+                  : mode === "mock-fallback"
+                    ? "Mock (API 실패 폴백)"
+                    : mode}
+            </div>
+          )}
         </header>
-
-        {view === "home" && (
-          <HomeView
-            onStartFortune={handleStartFortune}
-            onStartConsult={handleStartConsult}
-          />
-        )}
 
         {view === "input" && (
           <InputView
-            question={question}
-            onChangeQuestion={setQuestion}
-            onAsk={handleAsk}
+            value={input}
+            onChange={setInput}
+            onSubmit={handleAsk}
             error={error}
-            history={history}
-            onLoadHistory={handleLoadHistory}
-            onBackHome={handleGoHome}
           />
         )}
 
-        {view === "loading" && <LoadingView question={question} />}
+        {view === "loading" && <LoadingView name={input.name} />}
 
-        {(view === "answer" || view === "staff") && result && (
-          <ResultView
-            result={result}
-            view={view}
-            onShowStaff={() => setView("staff")}
-            onShowAnswer={() => setView("answer")}
-            onReset={handleReset}
-            onBackHome={handleGoHome}
-            onCopy={handleCopyAnswer}
-            copyMsg={copyMsg}
-            note={note}
-            onChangeNote={(v) => {
-              setNote(v);
-              const latest = history[0];
-              if (latest && latest.question === questionTrail[0]) {
-                updateHistoryNote(latest.id, v);
-              }
-            }}
-            questionTrail={questionTrail}
-            followUpInput={followUpInput}
-            onChangeFollowUpInput={setFollowUpInput}
-            onFollowUp={(q) => handleAsk(q, { isFollowUp: true })}
-          />
-        )}
-
-        {view === "fortune-input" && (
-          <FortuneInputView
-            value={fortuneInput}
-            onChange={setFortuneInput}
-            onSubmit={handleAskFortune}
-            onBackHome={handleGoHome}
-            error={fortuneError}
-          />
-        )}
-
-        {view === "fortune-loading" && (
-          <FortuneLoadingView name={fortuneInput.name} />
-        )}
-
-        {view === "fortune-result" && fortuneResult && (
-          <FortuneResultView
-            result={fortuneResult}
-            onAgain={() => {
-              setFortuneResult(null);
-              setView("fortune-input");
-            }}
-            onConsult={handleConsultFromFortune}
-            onBackHome={handleGoHome}
-          />
+        {view === "result" && result && (
+          <ResultView result={result} onAgain={handleAgain} onReset={handleReset} />
         )}
 
         <footer className="mt-12 text-center text-xs text-slate-400">
-          본 답변은 오마이치 AI 의 1차 추천이며 확정 가격/실시간 예약 가능 여부는
-          오마이호텔 상담원이 확인해드립니다.
+          본 운세는 오마이치 AI 의 가벼운 사주 풀이이며, 정통 명리학과는 다를 수 있습니다.
+          <br className="hidden sm:block" />
+          입력하신 이름·생년월일·시(時)는 저장되지 않습니다.
         </footer>
       </div>
     </main>
@@ -451,793 +150,138 @@ export default function Page() {
 /*                                Input view                                  */
 /* -------------------------------------------------------------------------- */
 
-function InputView(props: {
-  question: string;
-  onChangeQuestion: (v: string) => void;
-  onAsk: (raw?: string) => void;
-  error: string | null;
-  history: ConsultHistoryItem[];
-  onLoadHistory: (h: ConsultHistoryItem) => void;
-  onBackHome: () => void;
-}) {
-  const {
-    question,
-    onChangeQuestion,
-    onAsk,
-    error,
-    history,
-    onLoadHistory,
-    onBackHome,
-  } = props;
-
-  return (
-    <section className="space-y-6">
-      <div>
-        <button
-          type="button"
-          onClick={onBackHome}
-          className="text-sm font-medium text-brand-600 hover:text-brand-700"
-        >
-          ← 홈으로
-        </button>
-      </div>
-      <div className="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
-        <label className="block text-base font-semibold text-slate-800 sm:text-lg">
-          어떤 여행을 추천해드릴까요?
-        </label>
-        <textarea
-          value={question}
-          onChange={(e) => onChangeQuestion(e.target.value)}
-          placeholder="예: 초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해주세요"
-          rows={4}
-          className="mt-3 w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-base outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 sm:text-lg"
-        />
-
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-          <span className="text-xs text-slate-400">
-            {question.length} / 2000
-          </span>
-          <button
-            type="button"
-            onClick={() => onAsk()}
-            disabled={!question.trim()}
-            className="inline-flex h-14 min-w-44 items-center justify-center rounded-xl bg-brand-600 px-6 text-base font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:text-lg"
-          >
-            오마이치에게 물어보기
-          </button>
-        </div>
-
-        {error && (
-          <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-            {error}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <h2 className="mb-3 text-sm font-semibold text-slate-500">
-          빠른 질문 예시
-        </h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {QUICK_QUESTIONS.map((q) => (
-            <button
-              key={q}
-              type="button"
-              onClick={() => {
-                onChangeQuestion(q);
-                onAsk(q);
-              }}
-              className="rounded-xl border border-brand-100 bg-white px-4 py-3.5 text-left text-sm font-medium leading-relaxed text-slate-700 shadow-sm transition hover:border-brand-400 hover:bg-brand-50 sm:text-base"
-            >
-              {q}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {history.length > 0 && (
-        <div>
-          <h2 className="mb-3 text-sm font-semibold text-slate-500">
-            최근 상담 기록 (최대 5건)
-          </h2>
-          <ul className="space-y-2">
-            {history.map((h) => (
-              <li key={h.id}>
-                <button
-                  type="button"
-                  onClick={() => onLoadHistory(h)}
-                  className="block w-full rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:border-brand-300 hover:bg-brand-50"
-                >
-                  <div className="text-xs text-slate-400">
-                    {new Date(h.createdAt).toLocaleString("ko-KR")}
-                  </div>
-                  <div className="mt-1 line-clamp-1 text-sm font-medium text-slate-800">
-                    {h.question}
-                  </div>
-                  {h.note && (
-                    <div className="mt-1 line-clamp-1 text-xs text-brand-600">
-                      메모: {h.note}
-                    </div>
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </section>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                 Loading                                    */
-/* -------------------------------------------------------------------------- */
-
-function LoadingView({ question }: { question: string }) {
-  return (
-    <section className="rounded-2xl border border-brand-100 bg-white p-10 text-center shadow-sm">
-      <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-4 border-chi-200 border-t-chi-500" />
-      <p className="text-lg font-semibold text-slate-800">
-        오마이치 AI가 여행 추천을 준비하고 있어요
-      </p>
-      <p className="mt-2 line-clamp-2 text-sm text-slate-500">
-        “{question}”
-      </p>
-    </section>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                              Result (tabs)                                 */
-/* -------------------------------------------------------------------------- */
-
-function ResultView(props: {
-  result: ConsultResponse;
-  view: "answer" | "staff";
-  onShowStaff: () => void;
-  onShowAnswer: () => void;
-  onReset: () => void;
-  onBackHome: () => void;
-  onCopy: () => void;
-  copyMsg: string | null;
-  note: string;
-  onChangeNote: (v: string) => void;
-  questionTrail: string[];
-  followUpInput: string;
-  onChangeFollowUpInput: (v: string) => void;
-  onFollowUp: (q: string) => void;
-}) {
-  const {
-    result,
-    view,
-    onShowStaff,
-    onShowAnswer,
-    onReset,
-    onBackHome,
-    onCopy,
-    copyMsg,
-    note,
-    onChangeNote,
-    questionTrail,
-    followUpInput,
-    onChangeFollowUpInput,
-    onFollowUp,
-  } = props;
-
-  return (
-    <section className="space-y-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          onClick={onShowAnswer}
-          className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
-            view === "answer"
-              ? "bg-brand-600 text-white"
-              : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-brand-50"
-          }`}
-        >
-          고객 답변 화면
-        </button>
-        <button
-          type="button"
-          onClick={onShowStaff}
-          className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
-            view === "staff"
-              ? "bg-brand-600 text-white"
-              : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-brand-50"
-          }`}
-        >
-          상담원 화면
-        </button>
-      </div>
-
-      {questionTrail.length > 1 && view === "answer" && (
-        <QuestionTrail items={questionTrail} />
-      )}
-
-      {view === "answer" ? (
-        <>
-          <CustomerAnswerCard result={result} />
-          <FollowUpSection
-            suggestions={result.follow_up_suggestions || []}
-            input={followUpInput}
-            onChangeInput={onChangeFollowUpInput}
-            onSubmit={onFollowUp}
-          />
-        </>
-      ) : (
-        <StaffCard result={result} note={note} onChangeNote={onChangeNote} />
-      )}
-
-      <div className="flex flex-wrap items-center gap-3 pt-2">
-        {view === "answer" ? (
-          <>
-            <button
-              type="button"
-              onClick={onShowStaff}
-              className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 sm:text-base"
-            >
-              상담원과 이어서 상담하기 →
-            </button>
-            <button
-              type="button"
-              onClick={onCopy}
-              className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-            >
-              답변 복사
-            </button>
-          </>
-        ) : (
-          <button
-            type="button"
-            onClick={onShowAnswer}
-            className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-          >
-            ← 고객 답변 다시 보기
-          </button>
-        )}
-        <button
-          type="button"
-          onClick={onReset}
-          className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-        >
-          다시 질문하기
-        </button>
-        <button
-          type="button"
-          onClick={onBackHome}
-          className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-        >
-          ← 홈으로
-        </button>
-        {copyMsg && (
-          <span className="text-sm font-medium text-brand-600">{copyMsg}</span>
-        )}
-      </div>
-    </section>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                            Customer answer card                            */
-/* -------------------------------------------------------------------------- */
-
-function CustomerAnswerCard({ result }: { result: ConsultResponse }) {
-  const a = result.customer_answer;
-  return (
-    <div className="space-y-4 rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
-      <Section title="1. 고객 질문 요약">
-        <p className="text-base leading-relaxed text-slate-700">{a.summary}</p>
-        <p className="mt-2 text-xs text-slate-400">
-          원문: {result.customer_question}
-        </p>
-      </Section>
-
-      <Section title="2. 추천 여행 방향">
-        <p className="text-base leading-relaxed text-slate-700">
-          {a.recommendation_direction}
-        </p>
-      </Section>
-
-      <Section title="3. 추천 일정 또는 여행 스타일">
-        <p className="text-base leading-relaxed text-slate-700">
-          {a.suggested_itinerary_or_style}
-        </p>
-      </Section>
-
-      <Section title="4. 예상 예산대">
-        <p className="text-base font-semibold leading-relaxed text-brand-700">
-          {a.estimated_budget_range}
-        </p>
-        <p className="mt-1 text-xs text-slate-400">
-          ※ 시즌, 항공편, 호텔 등급에 따라 변동될 수 있습니다.
-        </p>
-      </Section>
-
-      <Section title="5. 장점">
-        <ul className="space-y-1.5">
-          {a.advantages.map((v, i) => (
-            <li
-              key={i}
-              className="flex gap-2 text-base leading-relaxed text-slate-700"
-            >
-              <span className="text-brand-500">✓</span>
-              <span>{v}</span>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section title="6. 주의사항">
-        <ul className="space-y-1.5">
-          {a.cautions.map((v, i) => (
-            <li
-              key={i}
-              className="flex gap-2 text-base leading-relaxed text-slate-700"
-            >
-              <span className="text-amber-500">!</span>
-              <span>{v}</span>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section title="7. 상담원에게 이어서 확인하면 좋은 내용">
-        <p className="rounded-xl bg-brand-50 p-4 text-base leading-relaxed text-slate-800">
-          {a.next_message_to_customer}
-        </p>
-      </Section>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                 Staff card                                 */
-/* -------------------------------------------------------------------------- */
-
-function StaffCard(props: {
-  result: ConsultResponse;
-  note: string;
-  onChangeNote: (v: string) => void;
-}) {
-  const { result, note, onChangeNote } = props;
-  const s = result.staff_summary;
-  const probColor = useMemo(() => {
-    switch (s.booking_probability) {
-      case "High":
-        return "bg-emerald-100 text-emerald-700";
-      case "Medium":
-        return "bg-amber-100 text-amber-700";
-      case "Low":
-      default:
-        return "bg-slate-200 text-slate-700";
-    }
-  }, [s.booking_probability]);
-
-  return (
-    <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-      <Section title="1. 고객 질문 원문">
-        <p className="rounded-xl bg-slate-50 p-3 text-sm text-slate-700">
-          {result.customer_question}
-        </p>
-      </Section>
-
-      <Section title="2. AI 답변 요약 (고객용)">
-        <p className="text-sm leading-relaxed text-slate-700">
-          {result.customer_answer.summary} · {result.customer_answer.estimated_budget_range}
-        </p>
-        <p className="mt-1 text-sm leading-relaxed text-slate-600">
-          {result.customer_answer.recommendation_direction}
-        </p>
-      </Section>
-
-      <Section title="3. 상담원용 니즈 분석">
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          <KV k="관심 목적지" v={s.destination_interest} />
-          <KV k="여행 유형" v={s.travel_type} />
-          <KV k="인원" v={s.travelers} />
-          <KV k="일정" v={s.duration} />
-          <KV k="예산 힌트" v={s.budget_hint} />
-          <KV
-            k="예약 가능성"
-            v={
-              <span
-                className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${probColor}`}
-              >
-                {s.booking_probability}
-              </span>
-            }
-          />
-        </div>
-
-        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div>
-            <h4 className="mb-1 text-xs font-semibold text-slate-500">
-              핵심 니즈
-            </h4>
-            <div className="flex flex-wrap gap-1.5">
-              {s.key_needs.map((v, i) => (
-                <span
-                  key={i}
-                  className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700"
-                >
-                  {v}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h4 className="mb-1 text-xs font-semibold text-slate-500">
-              미확인 정보
-            </h4>
-            <ul className="list-disc pl-4 text-sm text-slate-700">
-              {s.missing_information.map((v, i) => (
-                <li key={i}>{v}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-3">
-          <h4 className="mb-1 text-xs font-semibold text-slate-500">
-            추천 상담 방향
-          </h4>
-          <p className="rounded-xl bg-slate-50 p-3 text-sm leading-relaxed text-slate-700">
-            {s.recommended_consulting_direction}
-          </p>
-        </div>
-      </Section>
-
-      <Section title="4. 바로 물어볼 질문">
-        <ol className="list-decimal space-y-1.5 pl-5 text-base text-slate-800">
-          {result.staff_questions.map((q, i) => (
-            <li key={i}>{q}</li>
-          ))}
-        </ol>
-      </Section>
-
-      <Section title="5. 상담 시작 멘트">
-        <p className="rounded-xl border border-brand-100 bg-brand-50 p-4 text-base leading-relaxed text-slate-800">
-          “{result.staff_opening_script}”
-        </p>
-      </Section>
-
-      <Section title="6. 상담 메모">
-        <textarea
-          value={note}
-          onChange={(e) => onChangeNote(e.target.value)}
-          placeholder="고객 응답, 추천 상품, 다음 액션 등을 메모하세요"
-          rows={4}
-          className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200"
-        />
-        <p className="mt-1 text-xs text-slate-400">
-          메모는 자동으로 최근 상담 기록(localStorage)에 저장됩니다.
-        </p>
-      </Section>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                Small helpers                               */
-/* -------------------------------------------------------------------------- */
-
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <h3 className="mb-2 text-sm font-bold text-brand-700">{title}</h3>
-      {children}
-    </div>
-  );
-}
-
-function KV({ k, v }: { k: string; v: React.ReactNode }) {
-  return (
-    <div className="rounded-lg bg-slate-50 px-3 py-2 text-sm">
-      <span className="mr-2 font-semibold text-slate-500">{k}</span>
-      <span className="text-slate-800">{v}</span>
-    </div>
-  );
-}
-
-/**
- * 누적 질문 트레일 — 후속 질문이 1회 이상 있었을 때 답변 상단에 표시.
- */
-function QuestionTrail({ items }: { items: string[] }) {
-  return (
-    <div className="rounded-xl border border-brand-100 bg-brand-50 p-3">
-      <div className="mb-1.5 text-xs font-semibold text-brand-700">
-        대화 흐름 ({items.length})
-      </div>
-      <ol className="space-y-1 text-sm text-ink">
-        {items.map((q, i) => (
-          <li key={i} className="flex gap-2">
-            <span className="shrink-0 font-bold text-brand-600">
-              {i === 0 ? "Q." : `Q${i + 1}.`}
-            </span>
-            <span className="leading-relaxed">{q}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-  );
-}
-
-/**
- * 후속 질문 칩 + 자유 입력 — 답변 카드 아래에 표시.
- */
-function FollowUpSection({
-  suggestions,
-  input,
-  onChangeInput,
-  onSubmit,
-}: {
-  suggestions: string[];
-  input: string;
-  onChangeInput: (v: string) => void;
-  onSubmit: (q: string) => void;
-}) {
-  return (
-    <div className="rounded-2xl border border-brand-100 bg-white p-5 shadow-sm sm:p-6">
-      <h3 className="mb-3 text-sm font-bold text-brand-700">
-        오마이치에게 더 깊게 물어보기
-      </h3>
-
-      {suggestions.length > 0 && (
-        <div className="mb-3 flex flex-wrap gap-2">
-          {suggestions.map((s, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => onSubmit(s)}
-              className="rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100"
-            >
-              {s}
-            </button>
-          ))}
-        </div>
-      )}
-
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => onChangeInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && input.trim()) {
-              e.preventDefault();
-              onSubmit(input.trim());
-            }
-          }}
-          placeholder="예: 5박 6일로 늘려서 다시 추천해줘"
-          className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200"
-        />
-        <button
-          type="button"
-          onClick={() => input.trim() && onSubmit(input.trim())}
-          disabled={!input.trim()}
-          className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300"
-        >
-          이어서 물어보기
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                Home (두 카드)                              */
-/* -------------------------------------------------------------------------- */
-
-function HomeView({
-  onStartFortune,
-  onStartConsult,
-}: {
-  onStartFortune: () => void;
-  onStartConsult: () => void;
-}) {
-  return (
-    <section className="space-y-6">
-      <div className="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-base leading-relaxed text-ink sm:text-lg">
-          오마이호텔 트래블쇼에서만 만나는 두 가지 체험,
-          <br className="hidden sm:block" />
-          <strong className="font-bold text-brand-600">오늘의 여행운세</strong>로 가볍게 시작해보고,
-          <strong className="font-bold text-brand-600"> 오마이치 AI 여행상담</strong>으로 진짜 여행을
-          계획해보세요.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <button
-          type="button"
-          onClick={onStartFortune}
-          className="group relative flex flex-col items-start gap-3 overflow-hidden rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-100 p-6 text-left shadow-sm transition hover:border-brand-400 hover:shadow-md sm:p-8"
-        >
-          <div className="flex items-center gap-2">
-            <span className="text-3xl">✨</span>
-            <span className="rounded-full bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-700">
-              마케팅 EVENT
-            </span>
-          </div>
-          <h2 className="text-2xl font-bold text-ink sm:text-3xl">
-            오늘의 여행운세
-          </h2>
-          <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
-            이름과 생년월일, 가고 싶은 국가만 알려주시면 오마이치가 오늘 당신만의 여행 운세를
-            살짝 풀어드릴게요. 30초면 끝나요.
-          </p>
-          <div className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-brand-600">
-            운세 보러 가기 →
-          </div>
-        </button>
-
-        <button
-          type="button"
-          onClick={onStartConsult}
-          className="group relative flex flex-col items-start gap-3 overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-6 text-left shadow-sm transition hover:border-brand-400 hover:shadow-md sm:p-8"
-        >
-          <div className="flex items-center gap-2">
-            <span className="text-3xl">💬</span>
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-700">
-              실제 상담
-            </span>
-          </div>
-          <h2 className="text-2xl font-bold text-ink sm:text-3xl">
-            오마이치 AI 여행상담
-          </h2>
-          <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
-            "초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해줘" 처럼 자연스럽게 물어보세요.
-            상담원이 이어서 견적과 일정을 안내해드려요.
-          </p>
-          <div className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-brand-600">
-            상담 시작하기 →
-          </div>
-        </button>
-      </div>
-    </section>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                              운세 — 입력 화면                              */
-/* -------------------------------------------------------------------------- */
-
-function FortuneInputView({
+function InputView({
   value,
   onChange,
   onSubmit,
-  onBackHome,
   error,
 }: {
   value: FortuneInput;
   onChange: (v: FortuneInput) => void;
   onSubmit: () => void;
-  onBackHome: () => void;
   error: string | null;
 }) {
   const canSubmit = value.name.trim() && value.birthdate.trim();
 
   return (
-    <section className="space-y-6">
-      <div>
-        <button
-          type="button"
-          onClick={onBackHome}
-          className="text-sm font-medium text-brand-600 hover:text-brand-700"
-        >
-          ← 홈으로
-        </button>
+    <section className="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-6 shadow-sm sm:p-8">
+      <div className="space-y-4">
+        <div>
+          <label className="mb-1.5 block text-sm font-semibold text-ink">
+            이름
+          </label>
+          <input
+            type="text"
+            value={value.name}
+            maxLength={40}
+            onChange={(e) => onChange({ ...value, name: e.target.value })}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && canSubmit) {
+                e.preventDefault();
+                onSubmit();
+              }
+            }}
+            placeholder="예: 김민지"
+            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-sm font-semibold text-ink">
+            생년월일
+          </label>
+          <input
+            type="date"
+            value={value.birthdate}
+            min="1900-01-01"
+            max={new Date().toISOString().slice(0, 10)}
+            onChange={(e) => onChange({ ...value, birthdate: e.target.value })}
+            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-sm font-semibold text-ink">
+            태어난 시(時)
+            <span className="ml-1 text-xs font-normal text-ink-soft">
+              모르시면 「모름」 으로 두셔도 돼요
+            </span>
+          </label>
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+            {BIRTH_HOUR_OPTIONS.map((opt) => {
+              const selected = value.birthtime === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() =>
+                    onChange({ ...value, birthtime: opt.value as BirthHour })
+                  }
+                  className={`rounded-xl border px-2 py-2 text-left text-sm font-medium transition ${
+                    selected
+                      ? "border-brand-500 bg-brand-50 text-brand-700"
+                      : "border-slate-200 bg-white text-ink hover:border-brand-300 hover:bg-brand-50"
+                  }`}
+                >
+                  <div className="font-bold">{opt.label}</div>
+                  <div className="text-xs text-ink-soft">{opt.range}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      <div className="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-6 shadow-sm sm:p-8">
-        <div className="mb-4 flex items-center gap-2">
-          <span className="text-2xl">✨</span>
-          <h2 className="text-2xl font-bold text-ink sm:text-3xl">
-            오늘의 여행운세
-          </h2>
-        </div>
-        <p className="mb-6 text-sm leading-relaxed text-ink-soft sm:text-base">
-          이름과 생년월일만 알려주시면 오마이치가 오늘의 여행 운세를 풀어드리고,
-          <strong className="font-bold text-brand-700"> 오늘 흐름에 가장 어울리는 나라와 도시</strong>도
-          한 곳 골라드릴게요. (입력 정보는 저장되지 않습니다.)
+      {error && (
+        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+          {error}
         </p>
+      )}
 
-        <div className="space-y-4">
-          <div>
-            <label className="mb-1.5 block text-sm font-semibold text-ink">
-              이름
-            </label>
-            <input
-              type="text"
-              value={value.name}
-              maxLength={40}
-              onChange={(e) => onChange({ ...value, name: e.target.value })}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && canSubmit) {
-                  e.preventDefault();
-                  onSubmit();
-                }
-              }}
-              placeholder="예: 김민지"
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-sm font-semibold text-ink">
-              생년월일
-            </label>
-            <input
-              type="date"
-              value={value.birthdate}
-              min="1900-01-01"
-              max={new Date().toISOString().slice(0, 10)}
-              onChange={(e) => onChange({ ...value, birthdate: e.target.value })}
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
-            />
-          </div>
-        </div>
-
-        {error && (
-          <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-            {error}
-          </p>
-        )}
-
-        <div className="mt-6">
-          <button
-            type="button"
-            onClick={onSubmit}
-            disabled={!canSubmit}
-            className="inline-flex h-14 w-full items-center justify-center rounded-xl bg-brand-600 px-6 text-base font-bold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:text-lg"
-          >
-            오늘의 운세 보기
-          </button>
-        </div>
+      <div className="mt-6">
+        <button
+          type="button"
+          onClick={onSubmit}
+          disabled={!canSubmit}
+          className="inline-flex h-14 w-full items-center justify-center rounded-xl bg-brand-600 px-6 text-base font-bold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:text-lg"
+        >
+          오늘의 사주 여행지 보기
+        </button>
       </div>
     </section>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*                              운세 — 로딩 화면                              */
+/*                                Loading                                     */
 /* -------------------------------------------------------------------------- */
 
-function FortuneLoadingView({ name }: { name: string }) {
+function LoadingView({ name }: { name: string }) {
   return (
     <section className="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-10 text-center shadow-sm">
       <div className="mb-4 text-5xl animate-pulse">✨</div>
       <p className="text-lg font-bold text-ink">
-        {name ? `${name} 님의 ` : ""}오늘의 여행 운세를 살펴보고 있어요
+        {name ? `${name} 님의 ` : ""}사주를 살피고 있어요
       </p>
       <p className="mt-2 text-sm text-ink-soft">
-        오마이치가 별과 풍경을 들여다보는 중...
+        오마이치가 오늘 결을 들여다보는 중...
       </p>
     </section>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*                              운세 — 결과 화면                              */
+/*                                Result                                      */
 /* -------------------------------------------------------------------------- */
 
-function FortuneResultView({
+function ResultView({
   result,
   onAgain,
-  onConsult,
-  onBackHome,
+  onReset,
 }: {
   result: FortuneResponse;
   onAgain: () => void;
-  onConsult: () => void;
-  onBackHome: () => void;
+  onReset: () => void;
 }) {
   const today = new Date().toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -1248,23 +292,13 @@ function FortuneResultView({
 
   return (
     <section className="space-y-4">
-      <div>
-        <button
-          type="button"
-          onClick={onBackHome}
-          className="text-sm font-medium text-brand-600 hover:text-brand-700"
-        >
-          ← 홈으로
-        </button>
-      </div>
-
       {/* 헤드라인 카드 */}
       <div className="overflow-hidden rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-100 p-6 shadow-sm sm:p-8">
         <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
-          OHMYCHI FORTUNE · {today}
+          OHMYCHI SAJU · {today}
         </div>
         <h2 className="mt-2 text-2xl font-bold text-ink sm:text-3xl">
-          {result.name} 님의 오늘 여행 운세
+          {result.name} 님의 오늘 사주 여행운세
         </h2>
         <p className="mt-2 text-lg font-semibold text-brand-700 sm:text-xl">
           “{result.headline}”
@@ -1275,6 +309,18 @@ function FortuneResultView({
             ({result.overall_score} / 5)
           </span>
         </div>
+        {result.saju_keywords?.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {result.saju_keywords.map((k, i) => (
+              <span
+                key={i}
+                className="rounded-full border border-brand-200 bg-white/70 px-2.5 py-1 text-xs font-medium text-brand-700"
+              >
+                #{k}
+              </span>
+            ))}
+          </div>
+        )}
         <p className="mt-4 leading-relaxed text-ink">{result.fortune_summary}</p>
       </div>
 
@@ -1294,10 +340,10 @@ function FortuneResultView({
         ))}
       </div>
 
-      {/* 오마이치 추천 여행지 카드 */}
+      {/* 추천 여행지 */}
       <div className="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-50 p-6 shadow-sm sm:p-8">
         <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
-          오마이치가 고른 오늘의 여행지
+          오마이치가 사주로 골라준 오늘의 여행지
         </div>
         <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
           <div>
@@ -1347,12 +393,12 @@ function FortuneResultView({
         </dl>
       </div>
 
-      {/* 오마이호텔 추천 호텔 */}
+      {/* 추천 호텔 */}
       {result.recommended_hotels && result.recommended_hotels.length > 0 && (
         <div className="rounded-2xl border-2 border-leaf bg-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold uppercase tracking-widest text-leaf">
-              OHMYHOTEL & CO 추천
+              OHMYHOTEL &amp; CO 추천
             </span>
             <span className="inline-flex h-2 w-2 rounded-full bg-leaf" />
           </div>
@@ -1360,7 +406,8 @@ function FortuneResultView({
             {result.recommended_destination.city}에서 묵기 좋은 호텔
           </h3>
           <p className="mt-1 text-xs text-ink-soft">
-            오마이호텔 Top 100 ({COUNTRY_LABELS[result.recommended_hotels[0].country]}) 기준 상위 추천
+            오마이호텔 Top 100 ({COUNTRY_LABELS[result.recommended_hotels[0].country]})
+            기준 상위 추천
           </p>
           <ul className="mt-4 space-y-2.5">
             {result.recommended_hotels.map((h) => (
@@ -1373,7 +420,9 @@ function FortuneResultView({
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="text-sm font-bold text-ink sm:text-base">{h.name}</div>
-                  <div className="mt-0.5 text-xs text-ink-soft sm:text-sm">{h.city} · {h.address}</div>
+                  <div className="mt-0.5 text-xs text-ink-soft sm:text-sm">
+                    {h.city} · {h.address}
+                  </div>
                 </div>
               </li>
             ))}
@@ -1388,7 +437,7 @@ function FortuneResultView({
         <LuckyTile label="행운의 숫자" value={result.lucky.number} />
       </div>
 
-      {/* 클로징 CTA */}
+      {/* 클로징 */}
       <div className="rounded-2xl border border-brand-200 bg-brand-50 p-5 sm:p-6">
         <p className="text-sm leading-relaxed text-ink sm:text-base">
           {result.closing_message}
@@ -1396,23 +445,27 @@ function FortuneResultView({
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <button
             type="button"
-            onClick={onConsult}
+            onClick={onAgain}
             className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 sm:text-base"
           >
-            오마이치 AI에게 여행 상담받기 →
+            다른 사주로 다시 보기
           </button>
           <button
             type="button"
-            onClick={onAgain}
+            onClick={onReset}
             className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
           >
-            다시 보기
+            처음으로
           </button>
         </div>
       </div>
     </section>
   );
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                  Helpers                                   */
+/* -------------------------------------------------------------------------- */
 
 function Stars({
   score,
@@ -1421,11 +474,10 @@ function Stars({
   score: number;
   size?: "sm" | "md" | "lg";
 }) {
-  const max = 5;
   const cls = size === "lg" ? "text-2xl" : size === "sm" ? "text-base" : "text-xl";
   return (
     <div className={`inline-flex tracking-tight ${cls}`} aria-label={`${score}/5`}>
-      {Array.from({ length: max }).map((_, i) => (
+      {Array.from({ length: 5 }).map((_, i) => (
         <span
           key={i}
           className={i < score ? "text-brand-500" : "text-slate-200"}
@@ -1474,12 +526,10 @@ function Logo({ className }: { className?: string }) {
             <stop offset="1" stopColor="#ffb000" />
           </linearGradient>
         </defs>
-        {/* 잎 */}
         <path
           d="M22 8 C 26 2, 32 4, 30 10 C 26 12, 22 11, 22 8 Z"
           fill="#009505"
         />
-        {/* 오렌지 원 (굵은 stroke) */}
         <circle
           cx="20"
           cy="27"
