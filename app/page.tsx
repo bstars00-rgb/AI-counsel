@@ -410,13 +410,13 @@ function ResultView({
             기준 상위 추천
           </p>
           <ul className="mt-4 space-y-2.5">
-            {result.recommended_hotels.map((h) => (
+            {result.recommended_hotels.map((h, i) => (
               <li
                 key={h.code}
                 className="flex items-start gap-3 rounded-xl border border-slate-200 bg-cream p-3 sm:p-4"
               >
                 <span className="shrink-0 rounded-md bg-leaf-50 px-2 py-1 text-xs font-bold text-leaf-600">
-                  TOP {h.rank}
+                  TOP {i + 1}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="text-sm font-bold text-ink sm:text-base">{h.name}</div>

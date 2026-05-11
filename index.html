@@ -1681,9 +1681,9 @@
             '<h3 class="mt-1.5 text-lg font-bold text-ink sm:text-xl">' + escapeHtml(r.recommended_destination.city) + '에서 묵기 좋은 호텔</h3>' +
             '<p class="mt-1 text-xs text-ink-soft">오마이호텔 Top 100 (' + escapeHtml(COUNTRY_LABEL[hotels[0].country] || "") + ') 기준 상위 추천</p>' +
             '<ul class="mt-4 space-y-2.5">' +
-              hotels.map(function (h) {
+              hotels.map(function (h, i) {
                 return '<li class="flex items-start gap-3 rounded-xl border border-slate-200 bg-cream p-3 sm:p-4">' +
-                  '<span class="shrink-0 rounded-md bg-leaf-50 px-2 py-1 text-xs font-bold text-leaf-600">TOP ' + h.rank + '</span>' +
+                  '<span class="shrink-0 rounded-md bg-leaf-50 px-2 py-1 text-xs font-bold text-leaf-600">TOP ' + (i + 1) + '</span>' +
                   '<div class="min-w-0 flex-1">' +
                     '<div class="text-sm font-bold text-ink sm:text-base">' + escapeHtml(h.name) + '</div>' +
                     '<div class="mt-0.5 text-xs text-ink-soft sm:text-sm">' + escapeHtml(h.city) + ' · ' + escapeHtml(h.address) + '</div>' +
