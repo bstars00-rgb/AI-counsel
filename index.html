@@ -396,35 +396,1303 @@
         인연운: { 5: ["가까운 인연이 더 깊어져요", "낯선 곳에서 좋은 만남"], 4: ["부드러운 인연이 다가와요", "마음이 통하는 대화가 있어요"], 3: ["편안한 동행이 어울리는 날", "혼자 시간도 충분히 빛나요"] },
         건강운: { 5: ["컨디션이 최고조에요", "활력이 넘치는 하루"], 4: ["가벼운 산책이 잘 맞아요", "충분히 자면 더 좋은 하루"], 3: ["무리하지 않는 게 베스트", "수분과 휴식이 핵심"] },
       };
+
       const DESTINATIONS = [
-        { country: "베트남", city: "다낭", vibe: "비치 & 케이블카", period: "11월~3월 건기", tip: "한 강변 일몰 산책 30분", gem: "비치프론트 카페에서 마주친 한국인 가족과의 짧은 대화가 마음에 오래 남을 거예요." },
-        { country: "베트남", city: "푸꾸옥", vibe: "프라이빗 리조트 & 야시장", period: "11월~3월 건기", tip: "야시장에서 직접 고른 망고 한 봉지", gem: "케이블카 위에서 본 바다가 답답하던 결정을 가볍게 만들어줄 거예요." },
-        { country: "베트남", city: "나트랑", vibe: "롱비치 & 머드 스파", period: "1월~4월", tip: "롱비치에서 새벽 산책 10분", gem: "리조트 풀사이드에서 만난 작은 새 한 마리가 오늘의 행운 사인이 되어줄 거예요." },
-        { country: "베트남", city: "호이안", vibe: "랜턴 골목 & 올드타운", period: "2월~5월", tip: "올드타운 작은 랜턴 한 개를 손에", gem: "강 위로 띄운 등불이 평소 답답하던 마음을 가볍게 풀어줄 거예요." },
-        { country: "일본", city: "교토", vibe: "전통 & 단풍/벚꽃", period: "10월~11월 단풍, 3월~4월 벚꽃", tip: "기온 골목 찻집에서 30분", gem: "후시미이나리 작은 신사 옆 그림자 속에서 오늘의 답이 살짝 드러날 거예요." },
-        { country: "일본", city: "오사카", vibe: "도시 & 푸드 투어", period: "3월~5월, 10월~11월", tip: "도톤보리에서 처음 시도하는 메뉴 하나", gem: "골목 어딘가 작은 이자카야에서 만난 풍경이 영화처럼 마음에 남을 거예요." },
-        { country: "일본", city: "후쿠오카", vibe: "푸드 & 야경", period: "3월~5월, 10월~11월", tip: "나카스 야경 산책 20분", gem: "텐진 골목 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요." },
-        { country: "일본", city: "도쿄", vibe: "도시 & 쇼핑", period: "3월~5월, 9월~11월", tip: "진보초 책방 한 곳에서 30분", gem: "신주쿠 어느 모퉁이에서 찍은 사진 한 장이 인스타 인기 게시물이 될지도 몰라요." },
-        { country: "일본", city: "오키나와", vibe: "에메랄드 바다 & 리조트", period: "4월~6월, 9월~10월", tip: "츄라우미 수족관 앞 바다 30분", gem: "코우리 대교 위에서 본 바다가 평소 답답하던 결정을 가볍게 만들어줄 거예요." },
-        { country: "태국", city: "방콕", vibe: "도시 & 야시장", period: "11월~2월 건기", tip: "왓아룬 일몰 사진 한 장", gem: "차오프라야 강 위에서 본 노을이 평소 답답하던 마음을 풀어줄 거예요." },
-        { country: "태국", city: "푸켓", vibe: "비치 & 휴양", period: "11월~3월 건기", tip: "파통 비치 새벽 산책 15분", gem: "스피드보트 위에서 만난 작은 거북이 한 마리가 오늘의 행운 사인이 되어줄 거예요." },
-        { country: "태국", city: "치앙마이", vibe: "산속 카페 & 사원", period: "11월~2월", tip: "도이수텝 사원에서 30분 명상", gem: "산속 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요." },
-        { country: "필리핀", city: "세부", vibe: "스노클링 & 비치 호핑", period: "12월~5월 건기", tip: "스노클링 한 시간 마음 비우기", gem: "현지 가이드가 알려준 숨겨진 비치에서 평생 기억할 노을을 만날 수 있어요." },
-        { country: "필리핀", city: "보라카이", vibe: "화이트 비치 & 선셋", period: "12월~4월 건기", tip: "스테이션 2 비치 선셋 30분", gem: "파라세일링 위에서 본 바다가 답답하던 마음을 시원하게 풀어줄 거예요." },
-        { country: "인도네시아", city: "발리", vibe: "요가 & 라이스 테라스", period: "5월~9월 건기", tip: "우붓 어딘가에서 요가 클래스 한 번", gem: "라이스 테라스에서 만난 바람 한 줄기가 오늘 결정에 답을 줄 거예요." },
-        { country: "싱가포르", city: "싱가포르 시티", vibe: "도시 & 호커 푸드", period: "2월~4월, 6월~8월", tip: "가든스 바이 더 베이 야간 라이트쇼", gem: "호커 센터에서 처음 시도한 메뉴 하나가 인생 메뉴가 될 수 있어요." },
-        { country: "대만", city: "타이베이", vibe: "야시장 & 골목", period: "10월~4월", tip: "스린 야시장 인기 메뉴 하나", gem: "단수이 강가에서 본 노을이 평소 답답하던 마음을 시원하게 풀어줄 거예요." },
-        { country: "대만", city: "지우펀", vibe: "산속 찻집 & 골목", period: "10월~4월", tip: "지우펀 골목 찻집에서 차 한 잔", gem: "지우펀 골목 어느 찻집에서 만난 풍경이 영화처럼 마음에 남을 거예요." },
-        { country: "홍콩", city: "홍콩", vibe: "트램 & 야경", period: "10월~12월", tip: "트램 2층 창가 자리 30분", gem: "피크 트램 위에서 본 야경이 평소 고민의 무게를 덜어줄 거예요." },
-        { country: "한국", city: "제주", vibe: "오름 & 해변", period: "4월~6월, 9월~10월", tip: "오름 하나 천천히 오르기", gem: "해변 카페 창가에서 잠시 본 수평선이 오늘 답을 알려줄지도 몰라요." },
-        { country: "한국", city: "부산", vibe: "해운대 & 광안리 야경", period: "5월~10월", tip: "광안대교 야경 산책 30분", gem: "감천문화마을 어느 골목에서 본 풍경이 마음에 오래 남을 거예요." },
-        { country: "괌", city: "괌", vibe: "비치 & 면세 쇼핑", period: "12월~5월 건기", tip: "이른 아침 호텔 비치 산호 모래 산책", gem: "선셋 시간 비행기 한 대가 지나가는 풍경이 오늘의 시그널이 될 거예요." },
-        { country: "미국", city: "호놀룰루(하와이)", vibe: "와이키키 비치 & 드라이브", period: "4월~10월", tip: "노스쇼어 드라이브 한 번", gem: "와이키키 어느 카페에서 우연히 들은 노래가 오래 마음에 머물 거예요." },
-        { country: "프랑스", city: "파리", vibe: "도시 & 카페", period: "5월~9월", tip: "센 강변 카페에서 모닝 빵 한 조각", gem: "낯선 광장에서 들은 거리 음악이 여행의 BGM이 될 거예요." },
-        { country: "이탈리아", city: "로마", vibe: "역사 & 푸드", period: "4월~6월, 9월~10월", tip: "트레비 분수 앞 코인 토스", gem: "골목 어딘가 작은 트라토리아의 파스타 한 그릇이 인생 메뉴가 될 수 있어요." },
-        { country: "스페인", city: "바르셀로나", vibe: "건축 & 비치", period: "5월~6월, 9월~10월", tip: "구엘 공원 산책 한 시간", gem: "사그라다 파밀리아 안에서 만난 빛의 풍경이 오늘 마음을 활짝 열어줄 거예요." },
-        { country: "호주", city: "시드니", vibe: "비치 & 오페라하우스", period: "9월~11월, 3월~5월", tip: "본다이 비치 산책로 끝까지", gem: "오페라 하우스 앞 벤치에서 본 갈매기 한 마리가 오늘의 미소를 만들어줄 거예요." },
+              {
+                      "country": "일본",
+                      "city": "도쿄",
+                      "vibe": "도시 & 쇼핑",
+                      "period": "3월~5월, 9월~11월",
+                      "tip": "진보초 책방 한 곳에서 30분",
+                      "gem": "신주쿠 어느 모퉁이에서 찍은 사진 한 장이 인스타 인기 게시물이 될지도 몰라요.",
+                      "hotelCities": [
+                              "Tokyo"
+                      ]
+              },
+              {
+                      "country": "일본",
+                      "city": "오사카",
+                      "vibe": "도시 & 푸드 투어",
+                      "period": "3월~5월, 10월~11월",
+                      "tip": "도톤보리에서 처음 시도하는 메뉴 하나",
+                      "gem": "골목 어딘가 작은 이자카야에서 만난 풍경이 영화처럼 마음에 남을 거예요.",
+                      "hotelCities": [
+                              "Osaka"
+                      ]
+              },
+              {
+                      "country": "일본",
+                      "city": "교토",
+                      "vibe": "전통 & 단풍/벚꽃",
+                      "period": "10월~11월 단풍, 3월~4월 벚꽃",
+                      "tip": "기온 골목 찻집에서 30분",
+                      "gem": "후시미이나리 작은 신사 옆 그림자 속에서 오늘의 답이 살짝 드러날 거예요.",
+                      "hotelCities": [
+                              "Kyoto"
+                      ]
+              },
+              {
+                      "country": "일본",
+                      "city": "후쿠오카",
+                      "vibe": "푸드 & 야경",
+                      "period": "3월~5월, 10월~11월",
+                      "tip": "나카스 야경 산책 20분",
+                      "gem": "텐진 골목 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요.",
+                      "hotelCities": [
+                              "Fukuoka"
+                      ]
+              },
+              {
+                      "country": "일본",
+                      "city": "삿포로",
+                      "vibe": "눈축제 & 라멘",
+                      "period": "12월~2월 설경, 6월~8월 청량",
+                      "tip": "오도리 공원 산책 한 바퀴",
+                      "gem": "스스키노 골목 어딘가 라멘집에서 만난 풍경이 마음에 오래 남을 거예요.",
+                      "hotelCities": [
+                              "Sapporo"
+                      ]
+              },
+              {
+                      "country": "일본",
+                      "city": "오키나와",
+                      "vibe": "에메랄드 바다 & 리조트",
+                      "period": "4월~6월, 9월~10월",
+                      "tip": "츄라우미 수족관 앞 바다 30분",
+                      "gem": "코우리 대교 위에서 본 바다가 평소 답답하던 결정을 가볍게 만들어줄 거예요.",
+                      "hotelCities": [
+                              "Naha",
+                              "Chatan"
+                      ]
+              },
+              {
+                      "country": "일본",
+                      "city": "고베",
+                      "vibe": "야경 & 와규",
+                      "period": "3월~5월, 10월~11월",
+                      "tip": "롯코산에서 본 야경 30분",
+                      "gem": "구거류지 거리 어딘가 베이커리에서 우연히 만난 향이 오래 기억에 남을 거예요.",
+                      "hotelCities": [
+                              "Kobe"
+                      ]
+              },
+              {
+                      "country": "일본",
+                      "city": "나고야",
+                      "vibe": "성과 미소카츠",
+                      "period": "3월~5월, 10월~11월",
+                      "tip": "오스 상점가 한 골목 30분",
+                      "gem": "노리타케 정원 산책 끝에 만난 풍경이 오늘 마음을 가볍게 풀어줄 거예요.",
+                      "hotelCities": [
+                              "Nagoya"
+                      ]
+              },
+              {
+                      "country": "한국",
+                      "city": "서울",
+                      "vibe": "도시 & 카페 & 한옥",
+                      "period": "4월~6월, 9월~11월",
+                      "tip": "북촌 골목 한 곳에서 30분",
+                      "gem": "남산타워에서 본 야경이 평소 답답하던 마음을 시원하게 풀어줄 거예요.",
+                      "hotelCities": [
+                              "Seoul"
+                      ]
+              },
+              {
+                      "country": "한국",
+                      "city": "부산",
+                      "vibe": "해운대 & 광안리 야경",
+                      "period": "5월~10월",
+                      "tip": "광안대교 야경 산책 30분",
+                      "gem": "감천문화마을 어느 골목에서 본 풍경이 마음에 오래 남을 거예요.",
+                      "hotelCities": [
+                              "Busan"
+                      ]
+              },
+              {
+                      "country": "한국",
+                      "city": "제주",
+                      "vibe": "오름 & 바다",
+                      "period": "4월~6월, 9월~10월",
+                      "tip": "오름 하나 천천히 오르기",
+                      "gem": "해변 카페 창가에서 잠시 본 수평선이 오늘 답을 알려줄지도 몰라요.",
+                      "hotelCities": [
+                              "Jeju City",
+                              "Seogwipo"
+                      ]
+              },
+              {
+                      "country": "한국",
+                      "city": "여수",
+                      "vibe": "밤바다 & 케이블카",
+                      "period": "5월~10월",
+                      "tip": "여수 밤바다 산책로 30분",
+                      "gem": "오동도 동백숲에서 만난 바람 한 줄기가 오늘 결정에 답을 줄 거예요.",
+                      "hotelCities": [
+                              "Yeosu"
+                      ]
+              },
+              {
+                      "country": "한국",
+                      "city": "속초",
+                      "vibe": "설악산 & 해변",
+                      "period": "4월~6월, 9월~11월",
+                      "tip": "속초해수욕장 일출 30분",
+                      "gem": "설악산 어귀에서 마신 차 한 잔이 오늘 답을 알려줄지도 몰라요.",
+                      "hotelCities": [
+                              "Sokcho"
+                      ]
+              },
+              {
+                      "country": "한국",
+                      "city": "강릉",
+                      "vibe": "커피 & 바다",
+                      "period": "5월~10월",
+                      "tip": "안목해변 카페거리 30분",
+                      "gem": "경포대 호숫가에서 본 풍경이 평소 답답하던 마음을 풀어줄 거예요.",
+                      "hotelCities": [
+                              "Gangneung"
+                      ]
+              },
+              {
+                      "country": "한국",
+                      "city": "양양",
+                      "vibe": "서핑 & 자연",
+                      "period": "5월~9월",
+                      "tip": "죽도해변에서 발만 담그기 10분",
+                      "gem": "낙산사 어느 모퉁이에서 본 바다가 오늘 마음을 활짝 열어줄 거예요.",
+                      "hotelCities": [
+                              "Yangyang"
+                      ]
+              },
+              {
+                      "country": "한국",
+                      "city": "경주",
+                      "vibe": "역사 & 한옥",
+                      "period": "4월~5월 벚꽃, 10월~11월 단풍",
+                      "tip": "동궁과 월지 야경 30분",
+                      "gem": "첨성대 근처 돌담길에서 본 풍경이 마음에 오래 남을 거예요.",
+                      "hotelCities": [
+                              "Gyeongju"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "다낭",
+                      "vibe": "비치 & 케이블카",
+                      "period": "11월~3월 건기",
+                      "tip": "한 강변 일몰 산책 30분",
+                      "gem": "비치프론트 카페에서 마주친 한국인 가족과의 짧은 대화가 마음에 오래 남을 거예요.",
+                      "hotelCities": [
+                              "Da Nang"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "나트랑",
+                      "vibe": "롱비치 & 머드 스파",
+                      "period": "1월~4월",
+                      "tip": "롱비치에서 새벽 산책 10분",
+                      "gem": "리조트 풀사이드에서 만난 작은 새 한 마리가 오늘의 행운 사인이 되어줄 거예요.",
+                      "hotelCities": [
+                              "Nha Trang"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "호이안",
+                      "vibe": "랜턴 골목 & 올드타운",
+                      "period": "2월~5월",
+                      "tip": "올드타운 작은 랜턴 한 개를 손에",
+                      "gem": "강 위로 띄운 등불이 평소 답답하던 마음을 가볍게 풀어줄 거예요.",
+                      "hotelCities": [
+                              "Hoi An"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "푸꾸옥",
+                      "vibe": "프라이빗 리조트 & 야시장",
+                      "period": "11월~3월 건기",
+                      "tip": "야시장에서 직접 고른 망고 한 봉지",
+                      "gem": "케이블카 위에서 본 바다가 답답하던 결정을 가볍게 만들어줄 거예요.",
+                      "hotelCities": [
+                              "Phu Quoc"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "하노이",
+                      "vibe": "올드 쿼터 & 호수",
+                      "period": "10월~4월",
+                      "tip": "호안끼엠 호수 산책 30분",
+                      "gem": "구시가지 어느 골목에서 마신 베트남 커피 한 잔이 오늘 답을 알려줄지도 몰라요.",
+                      "hotelCities": [
+                              "Hanoi"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "호치민",
+                      "vibe": "도시 & 카페",
+                      "period": "12월~4월 건기",
+                      "tip": "벤탄 시장에서 처음 시도하는 메뉴 하나",
+                      "gem": "사이공 강변 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요.",
+                      "hotelCities": [
+                              "Ho Chi Minh City"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "달랏",
+                      "vibe": "고원 도시 & 꽃",
+                      "period": "12월~3월",
+                      "tip": "쑤언흐엉 호수 산책 30분",
+                      "gem": "달랏 어느 카페에서 본 안개 낀 산이 평소 답답하던 마음을 풀어줄 거예요.",
+                      "hotelCities": [
+                              "Da Lat"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "무이네",
+                      "vibe": "사막 & 어촌",
+                      "period": "12월~4월",
+                      "tip": "화이트 샌듄 일출 30분",
+                      "gem": "어촌 바닷가에서 본 바스켓 보트가 오늘의 작은 미소를 만들어줄 거예요.",
+                      "hotelCities": [
+                              "Phan Thiet"
+                      ]
+              },
+              {
+                      "country": "베트남",
+                      "city": "사파",
+                      "vibe": "산악 트레킹 & 라이스 테라스",
+                      "period": "3월~5월, 9월~11월",
+                      "tip": "캣캣 마을 한 바퀴 산책",
+                      "gem": "함롱 산에서 본 안개 낀 라이스 테라스가 평소 답답하던 결정을 가볍게 만들어줄 거예요.",
+                      "hotelCities": [
+                              "Sa Pa"
+                      ]
+              }
       ];
+
+      const HOTELS_BY_CITY = {
+              "Osaka": [
+                      {
+                              "country": "jp",
+                              "rank": 1,
+                              "code": "995715",
+                              "name": "The OneFive Osaka Namba Dotonbori",
+                              "city": "Osaka",
+                              "address": "2-13, Soemoncho, Chuo-ku, Osaka"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 6,
+                              "code": "1001675",
+                              "name": "The OneFive Osaka Shinsekai",
+                              "city": "Osaka",
+                              "address": "2-1-24, Ebisu-higashi, Naniwa-ku, Osaka, 556-0002"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 7,
+                              "code": "763368",
+                              "name": "Smile Hotel Osaka Yotsubashi",
+                              "city": "Osaka",
+                              "address": "1-chome-4-12 Shinmachi Nishi Ward"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 9,
+                              "code": "285030",
+                              "name": "Smile Hotel Premium Osaka Higashi Shinsaibashi",
+                              "city": "Osaka",
+                              "address": "2-13-17 Shimanouchi Chuo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 11,
+                              "code": "206762",
+                              "name": "Red Roof Inn & Suites Osaka - Namba/Nippombashi",
+                              "city": "Osaka",
+                              "address": "2-7-9 Nipponbashi, Chuo-ku"
+                      }
+              ],
+              "Tokyo": [
+                      {
+                              "country": "jp",
+                              "rank": 2,
+                              "code": "581662",
+                              "name": "ICI HOTEL Tokyo Hatchobori",
+                              "city": "Tokyo",
+                              "address": "3-26-11 Hachobori, Chuo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 3,
+                              "code": "327376",
+                              "name": "Sotetsu Grand Fresa Tokyo - Bay Ariake",
+                              "city": "Tokyo",
+                              "address": "3-6-6 Ariake, Koto-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 5,
+                              "code": "752333",
+                              "name": "SOTETSU GRAND FRESA TAKADANOBABA",
+                              "city": "Tokyo",
+                              "address": "1-chome-27-7 Takadanobaba"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 8,
+                              "code": "204439",
+                              "name": "Sotetsu Fresa Inn Tokyo Roppongi",
+                              "city": "Tokyo",
+                              "address": "3-10-1 Roppongi, Minato-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 10,
+                              "code": "566162",
+                              "name": "Smile Hotel Sugamo",
+                              "city": "Tokyo",
+                              "address": "2-4-7 Sugamo Toshima-ku"
+                      }
+              ],
+              "Kyoto": [
+                      {
+                              "country": "jp",
+                              "rank": 4,
+                              "code": "108838",
+                              "name": "Vessel Hotel Campana Kyoto Gojo",
+                              "city": "Kyoto",
+                              "address": "498 Shimomanjuji-cho, Gojo Sagaru Higashinotoin-dori, Shimogyo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 36,
+                              "code": "732266",
+                              "name": "Sotetsu Fresa Inn Kyoto-Kiyomizu Gojo",
+                              "city": "Kyoto",
+                              "address": "391 Shiogamacho Shimogyo Ward"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 37,
+                              "code": "859473",
+                              "name": "Miyako City Kintetsu Kyoto Station",
+                              "city": "Kyoto",
+                              "address": "1-9, Kamadono-cho, Higashi Shiokoji Shimogyo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 43,
+                              "code": "279046",
+                              "name": "The OneFive Kyoto Shijo",
+                              "city": "Kyoto",
+                              "address": "535 Karatsuya-cho Shijo Horikawa Nishiiru, Shimogyo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 53,
+                              "code": "682771",
+                              "name": "Agora Kyoto Karasuma",
+                              "city": "Kyoto",
+                              "address": "701-1 Myodenji-cho Shimogyo-ku"
+                      }
+              ],
+              "Fukuoka": [
+                      {
+                              "country": "jp",
+                              "rank": 17,
+                              "code": "552124",
+                              "name": "Hotel Monterey Fukuoka",
+                              "city": "Fukuoka",
+                              "address": "3-4-13 Watanabedori, Chuo-ku, fukuoka"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 25,
+                              "code": "279206",
+                              "name": "Washington R&B Hotel Hakataekimae Dai 2",
+                              "city": "Fukuoka",
+                              "address": "4-3-20 Hakata Ekimae"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 32,
+                              "code": "163030",
+                              "name": "Hotel Monte Hermana Fukuoka",
+                              "city": "Fukuoka",
+                              "address": "3-4-24 Watanabedori, Chuo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 34,
+                              "code": "560918",
+                              "name": "Hakata Nakasu Washington Hotel Plaza",
+                              "city": "Fukuoka",
+                              "address": "2-8-28 Nakasu, Hakata-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 42,
+                              "code": "399985",
+                              "name": "Oriental Hotel Fukuoka Hakata Station",
+                              "city": "Fukuoka",
+                              "address": "4-23 Hakataekichuogai"
+                      }
+              ],
+              "Kobe": [
+                      {
+                              "country": "jp",
+                              "rank": 23,
+                              "code": "581258",
+                              "name": "Hotel Monterey KOBE",
+                              "city": "Kobe",
+                              "address": "2-11-13 Shimoyamatedori"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 29,
+                              "code": "409119",
+                              "name": "Sotetsu Fresa Inn Kobe Sannomiya",
+                              "city": "Kobe",
+                              "address": "5-2-3, Asahidori, Chuo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 59,
+                              "code": "822540",
+                              "name": "Kobe Meriken Park Oriental Hotel",
+                              "city": "Kobe",
+                              "address": "5-6 Hatobacho Chuo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 65,
+                              "code": "158060",
+                              "name": "Hotel Monte Hermana Kobe Amalie",
+                              "city": "Kobe",
+                              "address": "2-2-28 Nakayamate-dori Chuo-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 87,
+                              "code": "768541",
+                              "name": "KOKO HOTEL Kobe Sannomiya",
+                              "city": "Kobe",
+                              "address": "63 Naniwamachi Chuo Ward"
+                      }
+              ],
+              "Naha": [
+                      {
+                              "country": "jp",
+                              "rank": 27,
+                              "code": "746964",
+                              "name": "hotel androoms Naha Port",
+                              "city": "Naha",
+                              "address": "2-23-1 Nishi"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 31,
+                              "code": "629843",
+                              "name": "Hotel Palm Royal Naha Kokusai Street",
+                              "city": "Naha",
+                              "address": "3-9-10 Makishi"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 70,
+                              "code": "182883",
+                              "name": "Living Inn Asahibashi Ekimae Premier",
+                              "city": "Naha",
+                              "address": "11-17 Higashimachi, Naha-shi, Okinawa, Japan"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 95,
+                              "code": "500813",
+                              "name": "Hotel Lantana Naha matsuyama",
+                              "city": "Naha",
+                              "address": "1-13-20 Matsuyama"
+                      }
+              ],
+              "Chatan": [
+                      {
+                              "country": "jp",
+                              "rank": 33,
+                              "code": "607761",
+                              "name": "Vessel Hotel Campana Okinawa",
+                              "city": "Chatan",
+                              "address": "9-22 Mihama, Chatan Cho Nakagami-gun"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 96,
+                              "code": "570012",
+                              "name": "Lequ Okinawa Chatan Spa & Resort",
+                              "city": "Chatan",
+                              "address": "34-2 Mihama"
+                      }
+              ],
+              "Sapporo": [
+                      {
+                              "country": "jp",
+                              "rank": 45,
+                              "code": "748760",
+                              "name": "Sapporo Washington Hotel Plaza",
+                              "city": "Sapporo",
+                              "address": "1-chome-3-9 Kita 6 Jonishi Kita Ward"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 57,
+                              "code": "584450",
+                              "name": "Keio Plaza Hotel Sapporo",
+                              "city": "Sapporo",
+                              "address": "2-1 North 5 West 7,Chuou-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 62,
+                              "code": "982751",
+                              "name": "the b sapporo",
+                              "city": "Sapporo",
+                              "address": "17-17, Minami 3-jo Nishi 2-chome, Chuo-ku, Sapporo, Hokkaido 060-0063, Japan"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 82,
+                              "code": "235485",
+                              "name": "Smile Hotel PREMIUM SAPPOROSUSUKINO",
+                              "city": "Sapporo",
+                              "address": "1-13-1, Minami4-jonishi"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 94,
+                              "code": "417502",
+                              "name": "Vessel Hotel Campana Susukino",
+                              "city": "Sapporo",
+                              "address": "6-16-1 Minami 5 Jonishi"
+                      }
+              ],
+              "Nagoya": [
+                      {
+                              "country": "jp",
+                              "rank": 46,
+                              "code": "712350",
+                              "name": "Sotetsu Fresa Inn Nagoya-Shinkansenguchi",
+                              "city": "Nagoya",
+                              "address": "19-16 Tsubakicho Nakamura"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 67,
+                              "code": "435294",
+                              "name": "Nagoya Sakae Washington Hotel Plaza",
+                              "city": "Nagoya",
+                              "address": "3-1-32 Sakae Naka-ku"
+                      },
+                      {
+                              "country": "jp",
+                              "rank": 85,
+                              "code": "294898",
+                              "name": "Vessel Hotel Campana Nagoya",
+                              "city": "Nagoya",
+                              "address": "2-30-7, Meieki, Nakamura-ku"
+                      }
+              ],
+              "Gangneung": [
+                      {
+                              "country": "kr",
+                              "rank": 1,
+                              "code": "241059",
+                              "name": "Skybay Hotel Gyeongpo",
+                              "city": "Gangneung",
+                              "address": "476 Haean-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 65,
+                              "code": "905282",
+                              "name": "PINEART LABEL",
+                              "city": "Gangneung",
+                              "address": "32, Haean-ro, Gangneung-si, Gangwon-do, South Korea"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 85,
+                              "code": "630132",
+                              "name": "SL Hotel Gangneung",
+                              "city": "Gangneung",
+                              "address": "59, Jumun-ro, Jumunjin-eup"
+                      }
+              ],
+              "Seoul": [
+                      {
+                              "country": "kr",
+                              "rank": 2,
+                              "code": "741474",
+                              "name": "Roynet Hotel Seoul Mapo",
+                              "city": "Seoul",
+                              "address": "67, Mapo-daero, Mapo-gu"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 3,
+                              "code": "886479",
+                              "name": "The Stay Classic Myeongdong",
+                              "city": "Seoul",
+                              "address": "27, Namdaemun-ro, Jung-gu, Seoul, Republic of Korea"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 4,
+                              "code": "857930",
+                              "name": "Hotel Bernoui Seoul",
+                              "city": "Seoul",
+                              "address": "229, Gyeongin-ro, Guro-gu, Seoul."
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 5,
+                              "code": "794192",
+                              "name": "Baiton Hotel Seoul Dongdaemun",
+                              "city": "Seoul",
+                              "address": "346, Dongho-ro, Jung-gu"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 6,
+                              "code": "738638",
+                              "name": "Golden Seoul Hotel",
+                              "city": "Seoul",
+                              "address": "663, Gonghang-daero, Gangseo-gu"
+                      }
+              ],
+              "Busan": [
+                      {
+                              "country": "kr",
+                              "rank": 8,
+                              "code": "809241",
+                              "name": "Busan Connect Ocean Hotel",
+                              "city": "Busan",
+                              "address": "115-1 Daegyo-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 12,
+                              "code": "401573",
+                              "name": "Hotel Society",
+                              "city": "Busan",
+                              "address": "37, Gunam-ro, 12beon-gil, Haeundae-gu"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 18,
+                              "code": "344354",
+                              "name": "Hotel Nongshim",
+                              "city": "Busan",
+                              "address": "23, Geumganggongwon-ro 20beon-gil Dongnae-gu"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 25,
+                              "code": "807588",
+                              "name": "Hotel TT Gupo",
+                              "city": "Busan",
+                              "address": "1684, Nakdong-daero, Buk-gu"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 32,
+                              "code": "442536",
+                              "name": "H Avenue Gwangalli Beach",
+                              "city": "Busan",
+                              "address": "42, Gwanganhaebyeon-ro 278beon-gil Suyeong-gu"
+                      }
+              ],
+              "Seogwipo": [
+                      {
+                              "country": "kr",
+                              "rank": 11,
+                              "code": "886465",
+                              "name": "Youus Hotel",
+                              "city": "Seogwipo",
+                              "address": "21, Cheonjeyeon-ro 178beon-gil, Seogwipo-si, Jeju-do, Republic of Korea"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 16,
+                              "code": "748544",
+                              "name": "Jeju Pureun Hotel",
+                              "city": "Seogwipo",
+                              "address": "47, Seohojung-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 42,
+                              "code": "746325",
+                              "name": "Sanbangsan Hotel",
+                              "city": "Seogwipo",
+                              "address": "2093, Iljuseo-ro, Daejeong-eup"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 50,
+                              "code": "1001048",
+                              "name": "Seongsan Marina Hotel",
+                              "city": "Seogwipo",
+                              "address": "94, Goseong-ojo-ro, Seongsan-eup, Seogwipo-si, Jeju Special Self-Governing Province, 63639, South Korea"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 54,
+                              "code": "710138",
+                              "name": "Kenny Stay Jeju Mosulpo (Hotel Kenny)",
+                              "city": "Seogwipo",
+                              "address": "22, Hamojungang-ro, Daejeong-eup"
+                      }
+              ],
+              "Jeju City": [
+                      {
+                              "country": "kr",
+                              "rank": 14,
+                              "code": "301540",
+                              "name": "Dyneoceano Hotel",
+                              "city": "Jeju City",
+                              "address": "394, Aewolhaean-ro Aewol-eup"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 15,
+                              "code": "213522",
+                              "name": "Gloucester Hotel Jeju",
+                              "city": "Jeju City",
+                              "address": "57, Sammu-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 21,
+                              "code": "397853",
+                              "name": "Best Western Jeju Hotel",
+                              "city": "Jeju City",
+                              "address": "27, Doryeong-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 26,
+                              "code": "857046",
+                              "name": "Manhattan Hotel",
+                              "city": "Jeju City",
+                              "address": "66, Doryeong-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 31,
+                              "code": "886463",
+                              "name": "Ebenezer Hotel",
+                              "city": "Jeju City",
+                              "address": "504, Johamhaean-ro, Jocheon-eup, Jeju-si, Jeju-do, Republic of Korea"
+                      }
+              ],
+              "Yeosu": [
+                      {
+                              "country": "kr",
+                              "rank": 30,
+                              "code": "670609",
+                              "name": "Ramada Plaza by Wyndham Dolsan Yeosu",
+                              "city": "Yeosu",
+                              "address": "11 Gangnamhaean-ro Dolsan-eup"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 34,
+                              "code": "379991",
+                              "name": "La Terrace Boutique Resort & Spa",
+                              "city": "Yeosu",
+                              "address": "29-12, Jinmo 1-gil, Dolsan-eup"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 45,
+                              "code": "360900",
+                              "name": "OceanHill Hotel",
+                              "city": "Yeosu",
+                              "address": "81, Gangnamhaean-ro, Dolsan-eup"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 61,
+                              "code": "886597",
+                              "name": "Calacatta Hotel & Resort",
+                              "city": "Yeosu",
+                              "address": "1405-50 Pyeongsa-ri, Dolsan-eup Yeosu-si, Jeollanamdo, South Korea, 556905"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 79,
+                              "code": "132380",
+                              "name": "Matthieu Yeosu",
+                              "city": "Yeosu",
+                              "address": "20, Odongdo-ro, Yeosu-si, Jeollanam-do"
+                      }
+              ],
+              "Sokcho": [
+                      {
+                              "country": "kr",
+                              "rank": 43,
+                              "code": "155227",
+                              "name": "Hyundai Soo Resort Sokcho",
+                              "city": "Sokcho",
+                              "address": "153, Imok-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 51,
+                              "code": "293937",
+                              "name": "Shinsegae Youngrangho Resort",
+                              "city": "Sokcho",
+                              "address": "170 Yeongnanghoban-gil"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 52,
+                              "code": "692763",
+                              "name": "Sokcho Chonpines Beach Hotel",
+                              "city": "Sokcho",
+                              "address": "B - 1F, 171, Haeoreum-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 64,
+                              "code": "755136",
+                              "name": "Chungchoho Best Hotel",
+                              "city": "Sokcho",
+                              "address": "28, Cheongchohoban-ro"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 89,
+                              "code": "1001364",
+                              "name": "Sokcho Mari Vista Hotel",
+                              "city": "Sokcho",
+                              "address": "4027 Donghae-daero, Sokcho-si, Gangwon-do, South Korea"
+                      }
+              ],
+              "Yangyang": [
+                      {
+                              "country": "kr",
+                              "rank": 53,
+                              "code": "211449",
+                              "name": "Naksan Beach Hotel",
+                              "city": "Yangyang",
+                              "address": "73, Naksansa-ro Ganghyeon-myeon"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 63,
+                              "code": "710258",
+                              "name": "CENTUMMARK Hotel Yangyang",
+                              "city": "Yangyang",
+                              "address": "9 Hangogae-gil, Yangyang-eup, Yangyang-gun, Gangwon-do"
+                      },
+                      {
+                              "country": "kr",
+                              "rank": 81,
+                              "code": "1001627",
+                              "name": "Dignity Hotel Yangyang",
+                              "city": "Yangyang",
+                              "address": "159-5 Ilchul-ro, Yangyang-eup, Yangyang-gun, Gangwon-do"
+                      }
+              ],
+              "Gyeongju": [
+                      {
+                              "country": "kr",
+                              "rank": 97,
+                              "code": "605837",
+                              "name": "Lahan Select Gyeongju",
+                              "city": "Gyeongju",
+                              "address": "338, Bomun-ro"
+                      }
+              ],
+              "Nha Trang": [
+                      {
+                              "country": "vn",
+                              "rank": 1,
+                              "code": "886622",
+                              "name": "Seaesta Hotel Nha Trang",
+                              "city": "Nha Trang",
+                              "address": "116A Hong Bang street, Tan Lap Ward, Nha Trang city, Vietnam"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 3,
+                              "code": "215829",
+                              "name": "Maple Hotel & Apartment",
+                              "city": "Nha Trang",
+                              "address": "16 Ton Dan, Loc Tho Ward"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 7,
+                              "code": "389454",
+                              "name": "Muong Thanh Luxury Khanh Hoa Hotel",
+                              "city": "Nha Trang",
+                              "address": "Khu 01, khu dan cu Con Tan Lap Xuong Huan Ward"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 8,
+                              "code": "1001369",
+                              "name": "Seaside Boutique Hotel Nha Trang Beach",
+                              "city": "Nha Trang",
+                              "address": "70 Dong Da, Tan Lap Ward, Tan Lap, Nha Trang, Khanh Hoa, Vietnam"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 14,
+                              "code": "396766",
+                              "name": "Le More Hotel",
+                              "city": "Nha Trang",
+                              "address": "33A To Hien Thanh street Tan Lap ward"
+                      }
+              ],
+              "Da Nang": [
+                      {
+                              "country": "vn",
+                              "rank": 2,
+                              "code": "139868",
+                              "name": "Terra Boutique Hotel",
+                              "city": "Da Nang",
+                              "address": "05 Phan Liem, Ngu Hanh Son"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 5,
+                              "code": "805287",
+                              "name": "Minh Toan Galaxy Hotel",
+                              "city": "Da Nang",
+                              "address": "306, 2/9 St., Hai Chau Dist"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 18,
+                              "code": "861138",
+                              "name": "Ocean Haven Hotel Danang",
+                              "city": "Da Nang",
+                              "address": "295-297 Ho Nghinh St., Phuoc My Ward, Son Tra District, Da Nang City"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 20,
+                              "code": "192950",
+                              "name": "Alani Sea View Hotel (Former Alani Hotel & Spa Da Nang)",
+                              "city": "Da Nang",
+                              "address": "134-136-138 Tran Bach Dang My An Ward, Ngu Hanh Son District"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 24,
+                              "code": "886627",
+                              "name": "Mercy Emerald Hotel",
+                              "city": "Da Nang",
+                              "address": "Number 170 – 172 – 174 Nguyen Van Thoai, My An Ward, Ngu Hanh Son District, Da Nang City, Vietnam"
+                      }
+              ],
+              "Phu Quoc": [
+                      {
+                              "country": "vn",
+                              "rank": 4,
+                              "code": "985239",
+                              "name": "Grand Ocean Bay Resort Phu Quoc",
+                              "city": "Phu Quoc",
+                              "address": "Ong Lang Hamlet, Cua Duong Commune, Phu Quoc, Kien Giang, Vietnam"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 6,
+                              "code": "251392",
+                              "name": "Camia Resort & Spa",
+                              "city": "Phu Quoc",
+                              "address": "Lot 3, Ong Lang Hamlet, Cua Duong Ward"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 29,
+                              "code": "709121",
+                              "name": "Ocean Bay Phu Quoc Resort & Spa",
+                              "city": "Phu Quoc",
+                              "address": "Duong vao Dinh Ba, Ong Lang, Cua Duong"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 52,
+                              "code": "705669",
+                              "name": "Night Sea Hotel",
+                              "city": "Phu Quoc",
+                              "address": "124 Tran Hung Dao"
+                      }
+              ],
+              "Ho Chi Minh City": [
+                      {
+                              "country": "vn",
+                              "rank": 9,
+                              "code": "606114",
+                              "name": "Rex Hotel Saigon",
+                              "city": "Ho Chi Minh City",
+                              "address": "141 Nguyen Hue Blvd"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 15,
+                              "code": "1001076",
+                              "name": "Signature by M Village Hai Ba Trung",
+                              "city": "Ho Chi Minh City",
+                              "address": "74 Hai Ba Trung, Ben Nghe Ward, District 1, Ho Chi Minh City, Vietnam"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 39,
+                              "code": "721746",
+                              "name": "Caravelle Hotel",
+                              "city": "Ho Chi Minh City",
+                              "address": "19 - 23 Lam Son Square, District 1"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 59,
+                              "code": "1001392",
+                              "name": "M Village Hotel Nguyen Du",
+                              "city": "Ho Chi Minh City",
+                              "address": "149 Nguyen Du, Ben Thanh Ward, District 1, Ho Chi Minh City"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 60,
+                              "code": "982790",
+                              "name": "Signature by M Village Le Thanh Ton",
+                              "city": "Ho Chi Minh City",
+                              "address": "24 Le Thanh ton Street, Ben Nghe Ward, District 01, Ho Chi Minh, Vietnam"
+                      }
+              ],
+              "Hoi An": [
+                      {
+                              "country": "vn",
+                              "rank": 10,
+                              "code": "831975",
+                              "name": "Moodhoian Riverside Resort & Spa",
+                              "city": "Hoi An",
+                              "address": "To 1, thon Vong Nhi, Xa Cam Thanh"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 23,
+                              "code": "999166",
+                              "name": "Reu Boutique Hotel",
+                              "city": "Hoi An",
+                              "address": "128/9 Ly Thai To Str"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 28,
+                              "code": "776717",
+                              "name": "Bellerive Hoi An Hotel and Spa",
+                              "city": "Hoi An",
+                              "address": "33 Le Dai Hanh Street Cua Dai Ward"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 45,
+                              "code": "1001659",
+                              "name": "Grand Signature by M Village Hoi An Resort",
+                              "city": "Hoi An",
+                              "address": "27-28 Nguyen Tat Thanh, Cam Ha, Hoi An City"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 53,
+                              "code": "995733",
+                              "name": "Sen Village Hoi An",
+                              "city": "Hoi An",
+                              "address": "488 Cua Dai, Cam Chau, Hoi An, Quang Nam, Vietnam"
+                      }
+              ],
+              "Phan Thiet": [
+                      {
+                              "country": "vn",
+                              "rank": 12,
+                              "code": "1001415",
+                              "name": "Amana Hotel Phan Thiet",
+                              "city": "Phan Thiet",
+                              "address": "Lo D3-4-6-8 Duong so 5 Ocean Dunes, Phu Thuy, Phan Thiet, Binh Thuan Province"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 16,
+                              "code": "179835",
+                              "name": "Pandanus Resort",
+                              "city": "Phan Thiet",
+                              "address": "3 Nguyen Huu Tho, Mui Ne"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 17,
+                              "code": "501961",
+                              "name": "TTC Hotel - Phan Thiet",
+                              "city": "Phan Thiet",
+                              "address": "Doi Duong, Le Loi Hung Long"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 73,
+                              "code": "850884",
+                              "name": "Muong Thanh Mui Ne Hotel",
+                              "city": "Phan Thiet",
+                              "address": "54 Huynh Thuc Khang, Ham Tien"
+                      }
+              ],
+              "Hanoi": [
+                      {
+                              "country": "vn",
+                              "rank": 22,
+                              "code": "1001510",
+                              "name": "M Village Hotel Kim Ma",
+                              "city": "Hanoi",
+                              "address": "132-138 Kim Ma, Ba Dinh Ward, Kim Ma ward, Ba Dinh District, Hanoi, Vietnam"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 42,
+                              "code": "1001282",
+                              "name": "M Village Hotel Tho Nhuom",
+                              "city": "Hanoi",
+                              "address": "54 Tho Nhuom, Tran Hung Dao Ward, Hoan Kiem District, Ha Noi"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 51,
+                              "code": "848249",
+                              "name": "22Land Lake View Hotel",
+                              "city": "Hanoi",
+                              "address": "65 Trich Sai, Thuy Khue, Tay Ho, Hanoi"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 54,
+                              "code": "945879",
+                              "name": "Hanoi Calido Hotel",
+                              "city": "Hanoi",
+                              "address": "16 Pho Nguyen Quang Bich 7"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 58,
+                              "code": "1001024",
+                              "name": "Signature By M Village Tho Nhuom",
+                              "city": "Hanoi",
+                              "address": "84 Tho Nhuom, Tran Hung Dao Ward, Hoan Kiem District, Hanoi City, Vietnam"
+                      }
+              ],
+              "Da Lat": [
+                      {
+                              "country": "vn",
+                              "rank": 48,
+                              "code": "1001582",
+                              "name": "Best Western Premier Imperial Dalat",
+                              "city": "Da Lat",
+                              "address": "57 - 59 Hung Vuong, Ward Xuan Huong - Dalat, Lam Dong"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 50,
+                              "code": "886485",
+                              "name": "Dalat Paradise Hotel",
+                              "city": "Da Lat",
+                              "address": "28 Ba Trieu, Ward 4, Da Lat City, Viet Nam"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 91,
+                              "code": "983182",
+                              "name": "Tala Dalat Hotel",
+                              "city": "Da Lat",
+                              "address": "14/11 Duong Khoi Nghia Bac Son"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 93,
+                              "code": "1001394",
+                              "name": "Lumina Dalat Premium",
+                              "city": "Da Lat",
+                              "address": "63/9 Dong Da Street, Ward 3, Da Lat, Lam Dong"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 99,
+                              "code": "861321",
+                              "name": "Terracotta Hotel & Resort Dalat",
+                              "city": "Da Lat",
+                              "address": "Zone 7.9, Tuyen Lam Lake Tourist Area, Ward Xuan Huong-Da Lat, Lam Dong Province, Vietnam"
+                      }
+              ],
+              "Sa Pa": [
+                      {
+                              "country": "vn",
+                              "rank": 49,
+                              "code": "733705",
+                              "name": "Muong Thanh Sapa Hotel",
+                              "city": "Sa Pa",
+                              "address": "No 44 Ngu Chi Son"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 79,
+                              "code": "741450",
+                              "name": "DeLaSol Sapa Hotel",
+                              "city": "Sa Pa",
+                              "address": "16 Muong Hoa Street"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 82,
+                              "code": "285954",
+                              "name": "Sapa Green Hotel",
+                              "city": "Sa Pa",
+                              "address": "01 Hoang Lien Street"
+                      },
+                      {
+                              "country": "vn",
+                              "rank": 87,
+                              "code": "1001332",
+                              "name": "Cat Cat Galerie d'Art Hotel",
+                              "city": "Sa Pa",
+                              "address": "46 Fansipan, Sa Pa, Viet Nam"
+                      }
+              ]
+      };
+
+      function findHotelsForCities(cityEnList, limit) {
+        if (limit == null) limit = 3;
+        const seen = new Set();
+        const out = [];
+        for (const c of cityEnList) {
+          const list = HOTELS_BY_CITY[c] || [];
+          for (const h of list) {
+            if (seen.has(h.code)) continue;
+            seen.add(h.code);
+            out.push(h);
+          }
+        }
+        out.sort((a, b) => a.rank - b.rank);
+        return out.slice(0, limit);
+      }
       const VIBE_KEYWORDS = [
         "차분한 영감을 찾고 싶은",
         "들뜬 설렘이 깨어나는",
@@ -477,6 +1745,7 @@
             travel_tip: dest.tip,
             hidden_gem: dest.gem,
           },
+          recommended_hotels: findHotelsForCities(dest.hotelCities || [], 3),
           lucky: {
             color: pickFrom(LUCKY_COLORS, seed >> 11),
             time: pickFrom(LUCKY_TIMES, seed >> 12),
@@ -1205,6 +2474,29 @@
             <div class="text-xs font-semibold text-brand-600">${escapeHtml(label)}</div>
             <div class="mt-1 text-sm font-bold text-ink sm:text-base">${escapeHtml(value)}</div>
           </div>`;
+        const COUNTRY_LABEL = { jp: "일본", kr: "한국", vn: "베트남" };
+        const hotels = r.recommended_hotels || [];
+        const hotelsBlock = hotels.length > 0
+          ? `
+            <div class="rounded-2xl border-2 border-leaf bg-white p-6 shadow-sm sm:p-8">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold uppercase tracking-widest text-leaf">OHMYHOTEL &amp; CO 추천</span>
+                <span class="inline-flex h-2 w-2 rounded-full bg-leaf"></span>
+              </div>
+              <h3 class="mt-1.5 text-lg font-bold text-ink sm:text-xl">${escapeHtml(r.recommended_destination.city)}에서 묵기 좋은 호텔</h3>
+              <p class="mt-1 text-xs text-ink-soft">오마이호텔 Top 100 (${escapeHtml(COUNTRY_LABEL[hotels[0].country] || "")}) 기준 상위 추천</p>
+              <ul class="mt-4 space-y-2.5">
+                ${hotels.map((h) => `
+                  <li class="flex items-start gap-3 rounded-xl border border-slate-200 bg-cream p-3 sm:p-4">
+                    <span class="shrink-0 rounded-md bg-leaf-50 px-2 py-1 text-xs font-bold text-leaf-600">TOP ${h.rank}</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="text-sm font-bold text-ink sm:text-base">${escapeHtml(h.name)}</div>
+                      <div class="mt-0.5 text-xs text-ink-soft sm:text-sm">${escapeHtml(h.city)} · ${escapeHtml(h.address)}</div>
+                    </div>
+                  </li>`).join("")}
+              </ul>
+            </div>`
+          : "";
         return `
         <section class="space-y-4">
           <div>
@@ -1238,6 +2530,7 @@
               <div><dt class="text-xs font-semibold text-brand-600">여행지에서 만날 좋은 일</dt><dd class="mt-0.5 leading-relaxed text-ink">${escapeHtml(r.recommended_destination.hidden_gem)}</dd></div>
             </dl>
           </div>
+          ${hotelsBlock}
           <div class="grid grid-cols-3 gap-3">
             ${luckyTile("행운의 색", r.lucky.color)}
             ${luckyTile("행운의 시간", r.lucky.time)}

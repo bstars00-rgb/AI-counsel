@@ -33,6 +33,12 @@ const QUICK_QUESTIONS: string[] = [
 const STORAGE_KEY = "travelshow.history.v1";
 const MAX_HISTORY = 5;
 
+const COUNTRY_LABELS: Record<"jp" | "kr" | "vn", string> = {
+  jp: "일본",
+  kr: "한국",
+  vn: "베트남",
+};
+
 export default function Page() {
   const [view, setView] = useState<View>("home");
   const [question, setQuestion] = useState("");
@@ -1340,6 +1346,40 @@ function FortuneResultView({
           </div>
         </dl>
       </div>
+
+      {/* 오마이호텔 추천 호텔 */}
+      {result.recommended_hotels && result.recommended_hotels.length > 0 && (
+        <div className="rounded-2xl border-2 border-leaf bg-white p-6 shadow-sm sm:p-8">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-leaf">
+              OHMYHOTEL & CO 추천
+            </span>
+            <span className="inline-flex h-2 w-2 rounded-full bg-leaf" />
+          </div>
+          <h3 className="mt-1.5 text-lg font-bold text-ink sm:text-xl">
+            {result.recommended_destination.city}에서 묵기 좋은 호텔
+          </h3>
+          <p className="mt-1 text-xs text-ink-soft">
+            오마이호텔 Top 100 ({COUNTRY_LABELS[result.recommended_hotels[0].country]}) 기준 상위 추천
+          </p>
+          <ul className="mt-4 space-y-2.5">
+            {result.recommended_hotels.map((h) => (
+              <li
+                key={h.code}
+                className="flex items-start gap-3 rounded-xl border border-slate-200 bg-cream p-3 sm:p-4"
+              >
+                <span className="shrink-0 rounded-md bg-leaf-50 px-2 py-1 text-xs font-bold text-leaf-600">
+                  TOP {h.rank}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-bold text-ink sm:text-base">{h.name}</div>
+                  <div className="mt-0.5 text-xs text-ink-soft sm:text-sm">{h.city} · {h.address}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* 행운의 요소 */}
       <div className="grid grid-cols-3 gap-3">

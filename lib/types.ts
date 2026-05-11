@@ -102,6 +102,18 @@ export interface FortuneResponse {
     /** 그 도시에서 만날 수 있는 좋은 일 (살짝 시적, 1~2문장) */
     hidden_gem: string;
   };
+  /**
+   * 추천 도시의 오마이호텔 Top 호텔 1~3개.
+   * Claude 가 직접 채우지 않고 서버에서 호텔 데이터(lib/hotels.ts)에서 자동 매칭됩니다.
+   */
+  recommended_hotels: {
+    rank: number;
+    code: string;
+    name: string;
+    city: string;
+    address: string;
+    country: "jp" | "kr" | "vn";
+  }[];
   /** 행운의 요소들 */
   lucky: {
     color: string;

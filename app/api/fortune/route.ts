@@ -5,6 +5,8 @@ import {
   FORTUNE_RESPONSE_SCHEMA,
 } from "@/lib/prompts";
 import { buildMockFortune } from "@/lib/mockData";
+import { findDestinationByCity } from "@/lib/destinations";
+import { findHotelsForCities } from "@/lib/hotels";
 import type { FortuneInput, FortuneResponse } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -99,6 +101,12 @@ export async function POST(req: Request) {
 
     // 입력값 정합성 보강
     if (!parsed.name) parsed.name = name;
+
+    // 서버 측 호텔 매칭: 추천 도시 → 영문 도시명 → 호텔 데이터 풀에서 상위 3개
+    const dest = findDestinationByCity(parsed.recommended_destination?.city || "");
+    parsed.recommended_hotels = dest
+      ? findHotelsForCities(dest.hotelCities, 3)
+      : [];
 
     return NextResponse.json({ mode: "live", data: parsed });
   } catch (err) {

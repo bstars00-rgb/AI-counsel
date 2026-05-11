@@ -4,6 +4,8 @@ import type {
   FortuneInput,
   FortuneResponse,
 } from "./types";
+import { DESTINATIONS } from "./destinations";
+import { findHotelsForCities } from "./hotels";
 
 export function buildMockResponse(
   question: string,
@@ -238,44 +240,6 @@ const HEALTH_MSGS: Record<number, string[]> = {
   3: ["무리하지 않는 게 베스트", "수분과 휴식이 핵심"],
 };
 
-/** 오마이치가 추천할 수 있는 도시-단위 destination 풀 */
-const DESTINATIONS: {
-  country: string;
-  city: string;
-  vibe: string;
-  period: string;
-  tip: string;
-  gem: string;
-}[] = [
-  { country: "베트남", city: "다낭", vibe: "비치 & 케이블카", period: "11월~3월 건기", tip: "한 강변 일몰 산책 30분", gem: "비치프론트 카페에서 마주친 한국인 가족과의 짧은 대화가 마음에 오래 남을 거예요." },
-  { country: "베트남", city: "푸꾸옥", vibe: "프라이빗 리조트 & 야시장", period: "11월~3월 건기", tip: "야시장에서 직접 고른 망고 한 봉지", gem: "케이블카 위에서 본 바다가 답답하던 결정을 가볍게 만들어줄 거예요." },
-  { country: "베트남", city: "나트랑", vibe: "롱비치 & 머드 스파", period: "1월~4월", tip: "롱비치에서 새벽 산책 10분", gem: "리조트 풀사이드에서 만난 작은 새 한 마리가 오늘의 행운 사인이 되어줄 거예요." },
-  { country: "베트남", city: "호이안", vibe: "랜턴 골목 & 올드타운", period: "2월~5월", tip: "올드타운 작은 랜턴 한 개를 손에", gem: "강 위로 띄운 등불이 평소 답답하던 마음을 가볍게 풀어줄 거예요." },
-  { country: "일본", city: "교토", vibe: "전통 & 단풍/벚꽃", period: "10월~11월 단풍, 3월~4월 벚꽃", tip: "기온 골목 찻집에서 30분", gem: "후시미이나리 작은 신사 옆 그림자 속에서 오늘의 답이 살짝 드러날 거예요." },
-  { country: "일본", city: "오사카", vibe: "도시 & 푸드 투어", period: "3월~5월, 10월~11월", tip: "도톤보리에서 처음 시도하는 메뉴 하나", gem: "골목 어딘가 작은 이자카야에서 만난 풍경이 영화처럼 마음에 남을 거예요." },
-  { country: "일본", city: "후쿠오카", vibe: "푸드 & 야경", period: "3월~5월, 10월~11월", tip: "나카스 야경 산책 20분", gem: "텐진 골목 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요." },
-  { country: "일본", city: "도쿄", vibe: "도시 & 쇼핑", period: "3월~5월, 9월~11월", tip: "진보초 책방 한 곳에서 30분", gem: "신주쿠 어느 모퉁이에서 찍은 사진 한 장이 인스타 인기 게시물이 될지도 몰라요." },
-  { country: "일본", city: "오키나와", vibe: "에메랄드 바다 & 리조트", period: "4월~6월, 9월~10월", tip: "츄라우미 수족관 앞 바다 30분", gem: "코우리 대교 위에서 본 바다가 평소 답답하던 결정을 가볍게 만들어줄 거예요." },
-  { country: "태국", city: "방콕", vibe: "도시 & 야시장", period: "11월~2월 건기", tip: "왓아룬 일몰 사진 한 장", gem: "차오프라야 강 위에서 본 노을이 평소 답답하던 마음을 풀어줄 거예요." },
-  { country: "태국", city: "푸켓", vibe: "비치 & 휴양", period: "11월~3월 건기", tip: "파통 비치 새벽 산책 15분", gem: "스피드보트 위에서 만난 작은 거북이 한 마리가 오늘의 행운 사인이 되어줄 거예요." },
-  { country: "태국", city: "치앙마이", vibe: "산속 카페 & 사원", period: "11월~2월", tip: "도이수텝 사원에서 30분 명상", gem: "산속 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요." },
-  { country: "필리핀", city: "세부", vibe: "스노클링 & 비치 호핑", period: "12월~5월 건기", tip: "스노클링 한 시간 마음 비우기", gem: "현지 가이드가 알려준 숨겨진 비치에서 평생 기억할 노을을 만날 수 있어요." },
-  { country: "필리핀", city: "보라카이", vibe: "화이트 비치 & 선셋", period: "12월~4월 건기", tip: "스테이션 2 비치 선셋 30분", gem: "파라세일링 위에서 본 바다가 답답하던 마음을 시원하게 풀어줄 거예요." },
-  { country: "인도네시아", city: "발리", vibe: "요가 & 라이스 테라스", period: "5월~9월 건기", tip: "우붓 어딘가에서 요가 클래스 한 번", gem: "라이스 테라스에서 만난 바람 한 줄기가 오늘 결정에 답을 줄 거예요." },
-  { country: "싱가포르", city: "싱가포르 시티", vibe: "도시 & 호커 푸드", period: "2월~4월, 6월~8월", tip: "가든스 바이 더 베이 야간 라이트쇼", gem: "호커 센터에서 처음 시도한 메뉴 하나가 인생 메뉴가 될 수 있어요." },
-  { country: "대만", city: "타이베이", vibe: "야시장 & 골목", period: "10월~4월", tip: "스린 야시장 인기 메뉴 하나", gem: "단수이 강가에서 본 노을이 평소 답답하던 마음을 시원하게 풀어줄 거예요." },
-  { country: "대만", city: "지우펀", vibe: "산속 찻집 & 골목", period: "10월~4월", tip: "지우펀 골목 찻집에서 차 한 잔", gem: "지우펀 골목 어느 찻집에서 만난 풍경이 영화처럼 마음에 남을 거예요." },
-  { country: "홍콩", city: "홍콩", vibe: "트램 & 야경", period: "10월~12월", tip: "트램 2층 창가 자리 30분", gem: "피크 트램 위에서 본 야경이 평소 고민의 무게를 덜어줄 거예요." },
-  { country: "한국", city: "제주", vibe: "오름 & 해변", period: "4월~6월, 9월~10월", tip: "오름 하나 천천히 오르기", gem: "해변 카페 창가에서 잠시 본 수평선이 오늘 답을 알려줄지도 몰라요." },
-  { country: "한국", city: "부산", vibe: "해운대 & 광안리 야경", period: "5월~10월", tip: "광안대교 야경 산책 30분", gem: "감천문화마을 어느 골목에서 본 풍경이 마음에 오래 남을 거예요." },
-  { country: "괌", city: "괌", vibe: "비치 & 면세 쇼핑", period: "12월~5월 건기", tip: "이른 아침 호텔 비치 산호 모래 산책", gem: "선셋 시간 비행기 한 대가 지나가는 풍경이 오늘의 시그널이 될 거예요." },
-  { country: "미국", city: "호놀룰루(하와이)", vibe: "와이키키 비치 & 드라이브", period: "4월~10월", tip: "노스쇼어 드라이브 한 번", gem: "와이키키 어느 카페에서 우연히 들은 노래가 오래 마음에 머물 거예요." },
-  { country: "프랑스", city: "파리", vibe: "도시 & 카페", period: "5월~9월", tip: "센 강변 카페에서 모닝 빵 한 조각", gem: "낯선 광장에서 들은 거리 음악이 여행의 BGM이 될 거예요." },
-  { country: "이탈리아", city: "로마", vibe: "역사 & 푸드", period: "4월~6월, 9월~10월", tip: "트레비 분수 앞 코인 토스", gem: "골목 어딘가 작은 트라토리아의 파스타 한 그릇이 인생 메뉴가 될 수 있어요." },
-  { country: "스페인", city: "바르셀로나", vibe: "건축 & 비치", period: "5월~6월, 9월~10월", tip: "구엘 공원 산책 한 시간", gem: "사그라다 파밀리아 안에서 만난 빛의 풍경이 오늘 마음을 활짝 열어줄 거예요." },
-  { country: "호주", city: "시드니", vibe: "비치 & 오페라하우스", period: "9월~11월, 3월~5월", tip: "본다이 비치 산책로 끝까지", gem: "오페라 하우스 앞 벤치에서 본 갈매기 한 마리가 오늘의 미소를 만들어줄 거예요." },
-];
-
 /** 오늘 운세 흐름 키워드 풀 — destination reason 생성용 */
 const VIBE_KEYWORDS = [
   "차분한 영감을 찾고 싶은",
@@ -347,6 +311,7 @@ export function buildMockFortune(input: FortuneInput): FortuneResponse {
       travel_tip: dest.tip,
       hidden_gem: dest.gem,
     },
+    recommended_hotels: findHotelsForCities(dest.hotelCities, 3),
     lucky: {
       color: luckyColor,
       time: luckyTime,
