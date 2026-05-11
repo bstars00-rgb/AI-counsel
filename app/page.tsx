@@ -184,19 +184,38 @@ export default function Page() {
   return (
     <main className="min-h-screen px-4 py-8 sm:px-8 sm:py-12">
       <div className="mx-auto max-w-5xl">
-        <header className="mb-8 flex items-end justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-brand-800 sm:text-4xl">
-              AI 여행상담
-            </h1>
-            <p className="mt-2 text-base text-slate-600 sm:text-lg">
-              궁금한 여행을 입력하면 AI가 먼저 추천해드립니다. 상담원이 이어서 더
-              정확한 견적과 상품을 안내해드립니다.
-            </p>
+        <header className="mb-8 flex items-end justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-chi-100 ring-2 ring-chi-300 shadow-sm sm:h-20 sm:w-20">
+              <span className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">
+                🍊
+              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/mascot.png"
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
+              />
+            </div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-widest text-chi-600">
+                OHMYCHI AI
+              </div>
+              <h1 className="text-3xl font-bold text-brand-800 sm:text-4xl">
+                오마이치 AI
+              </h1>
+              <p className="mt-1 text-base text-slate-600 sm:text-lg">
+                오마이호텔 트래블쇼의 AI 여행상담 도우미. 궁금한 여행을 입력하면
+                먼저 추천해드릴게요.
+              </p>
+            </div>
           </div>
           {mode && (
             <span
-              className="ml-2 hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500 sm:inline-block"
+              className="ml-2 hidden shrink-0 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500 sm:inline-block"
               title="응답 모드"
             >
               {mode === "live"
@@ -246,8 +265,8 @@ export default function Page() {
         )}
 
         <footer className="mt-12 text-center text-xs text-slate-400">
-          본 답변은 AI의 1차 추천이며 확정 가격/실시간 예약 가능 여부는 상담원이
-          확인해드립니다.
+          본 답변은 오마이치 AI 의 1차 추천이며 확정 가격/실시간 예약 가능 여부는
+          오마이호텔 상담원이 확인해드립니다.
         </footer>
       </div>
     </main>
@@ -273,7 +292,7 @@ function InputView(props: {
     <section className="space-y-6">
       <div className="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
         <label className="block text-base font-semibold text-slate-800 sm:text-lg">
-          어떤 여행을 도와드릴까요?
+          어떤 여행을 추천해드릴까요?
         </label>
         <textarea
           value={question}
@@ -293,7 +312,7 @@ function InputView(props: {
             disabled={!question.trim()}
             className="inline-flex h-14 min-w-44 items-center justify-center rounded-xl bg-brand-600 px-6 text-base font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:text-lg"
           >
-            AI 상담받기
+            오마이치에게 물어보기
           </button>
         </div>
 
@@ -366,9 +385,9 @@ function InputView(props: {
 function LoadingView({ question }: { question: string }) {
   return (
     <section className="rounded-2xl border border-brand-100 bg-white p-10 text-center shadow-sm">
-      <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+      <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-4 border-chi-200 border-t-chi-500" />
       <p className="text-lg font-semibold text-slate-800">
-        AI가 여행 추천을 준비하고 있어요
+        오마이치 AI가 여행 추천을 준비하고 있어요
       </p>
       <p className="mt-2 line-clamp-2 text-sm text-slate-500">
         “{question}”

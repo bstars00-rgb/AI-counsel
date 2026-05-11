@@ -17,6 +17,17 @@ const config: Config = {
           800: "#1e40af",
           900: "#1e3a8a",
         },
+        chi: {
+          50: "#fff7ed",
+          100: "#ffedd5",
+          200: "#fed7aa",
+          300: "#fdba74",
+          400: "#fb923c",
+          500: "#f97316",
+          600: "#ea580c",
+          700: "#c2410c",
+          800: "#9a3412",
+        },
       },
       fontFamily: {
         sans: [
