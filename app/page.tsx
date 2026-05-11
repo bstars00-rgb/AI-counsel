@@ -8,7 +8,6 @@ import type {
   FortuneInput,
   FortuneResponse,
 } from "@/lib/types";
-import { FORTUNE_COUNTRIES } from "@/lib/prompts";
 
 type View =
   | "home"
@@ -52,7 +51,6 @@ export default function Page() {
   const [fortuneInput, setFortuneInput] = useState<FortuneInput>({
     name: "",
     birthdate: "",
-    country: "",
   });
   const [fortuneResult, setFortuneResult] = useState<FortuneResponse | null>(null);
   const [fortuneError, setFortuneError] = useState<string | null>(null);
@@ -122,9 +120,8 @@ export default function Page() {
   const handleAskFortune = async () => {
     const name = fortuneInput.name.trim();
     const birthdate = fortuneInput.birthdate.trim();
-    const country = fortuneInput.country.trim();
-    if (!name || !birthdate || !country) {
-      setFortuneError("이름, 생년월일, 가고 싶은 국가를 모두 입력해주세요.");
+    if (!name || !birthdate) {
+      setFortuneError("이름과 생년월일을 모두 입력해주세요.");
       return;
     }
     setFortuneError(null);
@@ -134,7 +131,7 @@ export default function Page() {
       const res = await fetch("/api/fortune", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, birthdate, country }),
+        body: JSON.stringify({ name, birthdate }),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json?.error || "요청에 실패했습니다.");
@@ -149,10 +146,10 @@ export default function Page() {
   };
 
   const handleConsultFromFortune = () => {
-    // 운세 결과에서 자연스럽게 상담으로 진입 — 가고 싶은 국가가 자동으로 질문에 들어가도록
-    const country = fortuneResult?.country || "";
-    if (country) {
-      setQuestion(`${country} 여행을 추천해줘`);
+    // 운세 결과에서 자연스럽게 상담으로 진입 — 오마이치가 추천한 도시가 자동 prefill
+    const dest = fortuneResult?.recommended_destination;
+    if (dest) {
+      setQuestion(`${dest.city} 여행을 추천해줘`);
     }
     setView("input");
     setError(null);
@@ -1119,8 +1116,7 @@ function FortuneInputView({
   onBackHome: () => void;
   error: string | null;
 }) {
-  const canSubmit =
-    value.name.trim() && value.birthdate.trim() && value.country.trim();
+  const canSubmit = value.name.trim() && value.birthdate.trim();
 
   return (
     <section className="space-y-6">
@@ -1142,8 +1138,9 @@ function FortuneInputView({
           </h2>
         </div>
         <p className="mb-6 text-sm leading-relaxed text-ink-soft sm:text-base">
-          이름과 생년월일, 가고 싶은 국가를 알려주시면 오마이치가 오늘 당신만의 여행 운세를
-          살짝 알려드릴게요. (입력 정보는 저장되지 않습니다.)
+          이름과 생년월일만 알려주시면 오마이치가 오늘의 여행 운세를 풀어드리고,
+          <strong className="font-bold text-brand-700"> 오늘 흐름에 가장 어울리는 나라와 도시</strong>도
+          한 곳 골라드릴게요. (입력 정보는 저장되지 않습니다.)
         </p>
 
         <div className="space-y-4">
@@ -1156,6 +1153,12 @@ function FortuneInputView({
               value={value.name}
               maxLength={40}
               onChange={(e) => onChange({ ...value, name: e.target.value })}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && canSubmit) {
+                  e.preventDefault();
+                  onSubmit();
+                }
+              }}
               placeholder="예: 김민지"
               className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
             />
@@ -1173,32 +1176,6 @@ function FortuneInputView({
               onChange={(e) => onChange({ ...value, birthdate: e.target.value })}
               className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
             />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-sm font-semibold text-ink">
-              가고 싶은 국가
-            </label>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {FORTUNE_COUNTRIES.map((c) => {
-                const selected = value.country === c.label;
-                return (
-                  <button
-                    key={c.code}
-                    type="button"
-                    onClick={() => onChange({ ...value, country: c.label })}
-                    className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-left text-sm font-medium transition ${
-                      selected
-                        ? "border-brand-500 bg-brand-50 text-brand-700"
-                        : "border-slate-200 bg-white text-ink hover:border-brand-300 hover:bg-brand-50"
-                    }`}
-                  >
-                    <span className="text-lg">{c.emoji}</span>
-                    <span className="truncate">{c.label}</span>
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </div>
 
@@ -1311,30 +1288,54 @@ function FortuneResultView({
         ))}
       </div>
 
-      {/* 국가 매치 카드 */}
-      <div className="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
-        <div className="flex items-center justify-between gap-3">
-          <h3 className="text-lg font-bold text-ink sm:text-xl">
-            {result.country_match.country} & {result.name}
-          </h3>
-          <div className="shrink-0">
-            <Stars score={result.country_match.match_score} size="md" />
+      {/* 오마이치 추천 여행지 카드 */}
+      <div className="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-50 p-6 shadow-sm sm:p-8">
+        <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
+          오마이치가 고른 오늘의 여행지
+        </div>
+        <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <div className="text-sm font-medium text-ink-soft">
+              {result.recommended_destination.country}
+            </div>
+            <h3 className="text-2xl font-bold text-ink sm:text-3xl">
+              {result.recommended_destination.city}
+            </h3>
+            <div className="mt-1 inline-flex rounded-full bg-brand-100 px-2.5 py-1 text-xs font-semibold text-brand-700">
+              {result.recommended_destination.vibe}
+            </div>
+          </div>
+          <div className="shrink-0 text-right">
+            <Stars score={result.recommended_destination.match_score} size="md" />
+            <div className="mt-0.5 text-xs text-ink-soft">
+              매치 {result.recommended_destination.match_score} / 5
+            </div>
           </div>
         </div>
+
+        <p className="mt-4 rounded-xl bg-white/70 p-3 text-sm leading-relaxed text-ink sm:text-base">
+          {result.recommended_destination.reason}
+        </p>
 
         <dl className="mt-4 space-y-3 text-sm sm:text-base">
           <div>
             <dt className="text-xs font-semibold text-brand-600">추천 시기</dt>
-            <dd className="mt-0.5 text-ink">{result.country_match.best_period}</dd>
+            <dd className="mt-0.5 text-ink">
+              {result.recommended_destination.best_period}
+            </dd>
           </div>
           <div>
             <dt className="text-xs font-semibold text-brand-600">오늘의 작은 팁</dt>
-            <dd className="mt-0.5 text-ink">{result.country_match.travel_tip}</dd>
+            <dd className="mt-0.5 text-ink">
+              {result.recommended_destination.travel_tip}
+            </dd>
           </div>
           <div>
-            <dt className="text-xs font-semibold text-brand-600">여행지에서 만날 좋은 일</dt>
+            <dt className="text-xs font-semibold text-brand-600">
+              여행지에서 만날 좋은 일
+            </dt>
             <dd className="mt-0.5 leading-relaxed text-ink">
-              {result.country_match.hidden_gem}
+              {result.recommended_destination.hidden_gem}
             </dd>
           </div>
         </dl>

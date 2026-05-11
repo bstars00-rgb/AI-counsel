@@ -238,89 +238,54 @@ const HEALTH_MSGS: Record<number, string[]> = {
   3: ["무리하지 않는 게 베스트", "수분과 휴식이 핵심"],
 };
 
-const COUNTRY_TIPS: Record<string, { period: string; tip: string; gem: string }> = {
-  일본: {
-    period: "4월 벚꽃 시즌, 10~11월 단풍 시즌",
-    tip: "현지 작은 카페에서 모닝 커피 한 잔으로 운을 켜보세요",
-    gem: "골목 안 작은 신사에서 만난 한 줄기 햇살이 오늘의 작은 선물이 될 거예요.",
-  },
-  "베트남 다낭": {
-    period: "11월~3월 건기",
-    tip: "한 강변에서 해 질 녘 산책을 30분만 즐겨보세요",
-    gem: "비치프론트 카페에서 우연히 마주친 한국인 가족과의 짧은 대화가 마음에 오래 남을 거예요.",
-  },
-  "베트남 푸꾸옥": {
-    period: "11월~3월 건기",
-    tip: "야시장에서 직접 고른 망고로 운을 채워보세요",
-    gem: "케이블카 위에서 본 바다가 평소 답답하던 결정을 가볍게 만들어줄 거예요.",
-  },
-  "베트남 나트랑": {
-    period: "1월~4월",
-    tip: "롱비치에서 새벽 산책 10분, 마음이 맑아져요",
-    gem: "리조트 풀사이드에서 만난 작은 새 한 마리가 오늘의 행운 사인이 되어줄 거예요.",
-  },
-  "태국 (방콕/푸켓)": {
-    period: "11월~2월 건기",
-    tip: "현지 마사지 한 번이 오늘의 피로를 풀어줄 거예요",
-    gem: "노점에서 우연히 찍은 사진 한 장이 SNS 인기 게시물이 될지도 몰라요.",
-  },
-  "필리핀 (세부/보라카이)": {
-    period: "12월~5월 건기",
-    tip: "스노클링 한 시간이면 마음이 한결 가벼워져요",
-    gem: "현지 가이드가 알려준 숨겨진 비치에서 평생 기억할 노을을 만날 수 있어요.",
-  },
-  "인도네시아 발리": {
-    period: "5월~9월 건기",
-    tip: "우붓 어딘가에서 요가 클래스를 한 번 들어보세요",
-    gem: "라이스 테라스에서 만난 작은 바람 한 줄기가 오늘 결정에 답을 줄 거예요.",
-  },
-  싱가포르: {
-    period: "2월~4월, 6월~8월",
-    tip: "가든스 바이 더 베이의 야간 라이트쇼를 챙겨보세요",
-    gem: "호커 센터에서 처음 시도한 메뉴 하나가 인생 메뉴가 될 수 있어요.",
-  },
-  대만: {
-    period: "10월~4월",
-    tip: "야시장에서 인기 메뉴 하나를 골라보세요",
-    gem: "지우펀 골목 어느 찻집에서 만난 풍경이 영화처럼 마음에 남을 거예요.",
-  },
-  홍콩: {
-    period: "10월~12월",
-    tip: "트램 2층 창가 자리에서 30분 풍경을 즐겨보세요",
-    gem: "피크 트램 위에서 본 야경이 평소 고민의 무게를 덜어줄 거예요.",
-  },
-  제주: {
-    period: "4월~6월, 9월~10월",
-    tip: "오름 하나 천천히 오르면 마음이 환해져요",
-    gem: "해변 카페 창가에서 잠시 본 수평선이 오늘 답을 알려줄지도 몰라요.",
-  },
-  "미국령 괌/사이판": {
-    period: "12월~5월 건기",
-    tip: "이른 아침 호텔 비치에서 산호 모래를 밟아보세요",
-    gem: "선셋 시간 비행기 한 대가 지나가는 풍경이 오늘의 시그널이 될 거예요.",
-  },
-  "미국 하와이": {
-    period: "4월~10월",
-    tip: "노스쇼어 드라이브로 마음을 트여주세요",
-    gem: "와이키키 어느 카페에서 우연히 들은 노래가 오래 마음에 머물 거예요.",
-  },
-  "유럽 (프랑스/이탈리아 등)": {
-    period: "5월~9월",
-    tip: "현지 시장에서 작은 빵 하나로 아침을 시작해 보세요",
-    gem: "낯선 광장에서 들은 거리 음악이 여행의 BGM이 될 거예요.",
-  },
-  호주: {
-    period: "9월~11월, 3월~5월",
-    tip: "본다이 비치 산책로를 끝까지 걸어보세요",
-    gem: "오페라 하우스 앞 벤치에서 본 갈매기 한 마리가 오늘의 미소를 만들어줄 거예요.",
-  },
-};
+/** 오마이치가 추천할 수 있는 도시-단위 destination 풀 */
+const DESTINATIONS: {
+  country: string;
+  city: string;
+  vibe: string;
+  period: string;
+  tip: string;
+  gem: string;
+}[] = [
+  { country: "베트남", city: "다낭", vibe: "비치 & 케이블카", period: "11월~3월 건기", tip: "한 강변 일몰 산책 30분", gem: "비치프론트 카페에서 마주친 한국인 가족과의 짧은 대화가 마음에 오래 남을 거예요." },
+  { country: "베트남", city: "푸꾸옥", vibe: "프라이빗 리조트 & 야시장", period: "11월~3월 건기", tip: "야시장에서 직접 고른 망고 한 봉지", gem: "케이블카 위에서 본 바다가 답답하던 결정을 가볍게 만들어줄 거예요." },
+  { country: "베트남", city: "나트랑", vibe: "롱비치 & 머드 스파", period: "1월~4월", tip: "롱비치에서 새벽 산책 10분", gem: "리조트 풀사이드에서 만난 작은 새 한 마리가 오늘의 행운 사인이 되어줄 거예요." },
+  { country: "베트남", city: "호이안", vibe: "랜턴 골목 & 올드타운", period: "2월~5월", tip: "올드타운 작은 랜턴 한 개를 손에", gem: "강 위로 띄운 등불이 평소 답답하던 마음을 가볍게 풀어줄 거예요." },
+  { country: "일본", city: "교토", vibe: "전통 & 단풍/벚꽃", period: "10월~11월 단풍, 3월~4월 벚꽃", tip: "기온 골목 찻집에서 30분", gem: "후시미이나리 작은 신사 옆 그림자 속에서 오늘의 답이 살짝 드러날 거예요." },
+  { country: "일본", city: "오사카", vibe: "도시 & 푸드 투어", period: "3월~5월, 10월~11월", tip: "도톤보리에서 처음 시도하는 메뉴 하나", gem: "골목 어딘가 작은 이자카야에서 만난 풍경이 영화처럼 마음에 남을 거예요." },
+  { country: "일본", city: "후쿠오카", vibe: "푸드 & 야경", period: "3월~5월, 10월~11월", tip: "나카스 야경 산책 20분", gem: "텐진 골목 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요." },
+  { country: "일본", city: "도쿄", vibe: "도시 & 쇼핑", period: "3월~5월, 9월~11월", tip: "진보초 책방 한 곳에서 30분", gem: "신주쿠 어느 모퉁이에서 찍은 사진 한 장이 인스타 인기 게시물이 될지도 몰라요." },
+  { country: "일본", city: "오키나와", vibe: "에메랄드 바다 & 리조트", period: "4월~6월, 9월~10월", tip: "츄라우미 수족관 앞 바다 30분", gem: "코우리 대교 위에서 본 바다가 평소 답답하던 결정을 가볍게 만들어줄 거예요." },
+  { country: "태국", city: "방콕", vibe: "도시 & 야시장", period: "11월~2월 건기", tip: "왓아룬 일몰 사진 한 장", gem: "차오프라야 강 위에서 본 노을이 평소 답답하던 마음을 풀어줄 거예요." },
+  { country: "태국", city: "푸켓", vibe: "비치 & 휴양", period: "11월~3월 건기", tip: "파통 비치 새벽 산책 15분", gem: "스피드보트 위에서 만난 작은 거북이 한 마리가 오늘의 행운 사인이 되어줄 거예요." },
+  { country: "태국", city: "치앙마이", vibe: "산속 카페 & 사원", period: "11월~2월", tip: "도이수텝 사원에서 30분 명상", gem: "산속 카페에서 우연히 들은 음악이 오래 마음에 머물 거예요." },
+  { country: "필리핀", city: "세부", vibe: "스노클링 & 비치 호핑", period: "12월~5월 건기", tip: "스노클링 한 시간 마음 비우기", gem: "현지 가이드가 알려준 숨겨진 비치에서 평생 기억할 노을을 만날 수 있어요." },
+  { country: "필리핀", city: "보라카이", vibe: "화이트 비치 & 선셋", period: "12월~4월 건기", tip: "스테이션 2 비치 선셋 30분", gem: "파라세일링 위에서 본 바다가 답답하던 마음을 시원하게 풀어줄 거예요." },
+  { country: "인도네시아", city: "발리", vibe: "요가 & 라이스 테라스", period: "5월~9월 건기", tip: "우붓 어딘가에서 요가 클래스 한 번", gem: "라이스 테라스에서 만난 바람 한 줄기가 오늘 결정에 답을 줄 거예요." },
+  { country: "싱가포르", city: "싱가포르 시티", vibe: "도시 & 호커 푸드", period: "2월~4월, 6월~8월", tip: "가든스 바이 더 베이 야간 라이트쇼", gem: "호커 센터에서 처음 시도한 메뉴 하나가 인생 메뉴가 될 수 있어요." },
+  { country: "대만", city: "타이베이", vibe: "야시장 & 골목", period: "10월~4월", tip: "스린 야시장 인기 메뉴 하나", gem: "단수이 강가에서 본 노을이 평소 답답하던 마음을 시원하게 풀어줄 거예요." },
+  { country: "대만", city: "지우펀", vibe: "산속 찻집 & 골목", period: "10월~4월", tip: "지우펀 골목 찻집에서 차 한 잔", gem: "지우펀 골목 어느 찻집에서 만난 풍경이 영화처럼 마음에 남을 거예요." },
+  { country: "홍콩", city: "홍콩", vibe: "트램 & 야경", period: "10월~12월", tip: "트램 2층 창가 자리 30분", gem: "피크 트램 위에서 본 야경이 평소 고민의 무게를 덜어줄 거예요." },
+  { country: "한국", city: "제주", vibe: "오름 & 해변", period: "4월~6월, 9월~10월", tip: "오름 하나 천천히 오르기", gem: "해변 카페 창가에서 잠시 본 수평선이 오늘 답을 알려줄지도 몰라요." },
+  { country: "한국", city: "부산", vibe: "해운대 & 광안리 야경", period: "5월~10월", tip: "광안대교 야경 산책 30분", gem: "감천문화마을 어느 골목에서 본 풍경이 마음에 오래 남을 거예요." },
+  { country: "괌", city: "괌", vibe: "비치 & 면세 쇼핑", period: "12월~5월 건기", tip: "이른 아침 호텔 비치 산호 모래 산책", gem: "선셋 시간 비행기 한 대가 지나가는 풍경이 오늘의 시그널이 될 거예요." },
+  { country: "미국", city: "호놀룰루(하와이)", vibe: "와이키키 비치 & 드라이브", period: "4월~10월", tip: "노스쇼어 드라이브 한 번", gem: "와이키키 어느 카페에서 우연히 들은 노래가 오래 마음에 머물 거예요." },
+  { country: "프랑스", city: "파리", vibe: "도시 & 카페", period: "5월~9월", tip: "센 강변 카페에서 모닝 빵 한 조각", gem: "낯선 광장에서 들은 거리 음악이 여행의 BGM이 될 거예요." },
+  { country: "이탈리아", city: "로마", vibe: "역사 & 푸드", period: "4월~6월, 9월~10월", tip: "트레비 분수 앞 코인 토스", gem: "골목 어딘가 작은 트라토리아의 파스타 한 그릇이 인생 메뉴가 될 수 있어요." },
+  { country: "스페인", city: "바르셀로나", vibe: "건축 & 비치", period: "5월~6월, 9월~10월", tip: "구엘 공원 산책 한 시간", gem: "사그라다 파밀리아 안에서 만난 빛의 풍경이 오늘 마음을 활짝 열어줄 거예요." },
+  { country: "호주", city: "시드니", vibe: "비치 & 오페라하우스", period: "9월~11월, 3월~5월", tip: "본다이 비치 산책로 끝까지", gem: "오페라 하우스 앞 벤치에서 본 갈매기 한 마리가 오늘의 미소를 만들어줄 거예요." },
+];
 
-const FALLBACK_COUNTRY_TIP = {
-  period: "출발하기 좋은 가벼운 시기",
-  tip: "현지의 작은 골목 하나 깊게 걸어보세요",
-  gem: "익숙하지 않은 풍경 속에서 오늘만의 작은 신호를 발견할 수 있어요.",
-};
+/** 오늘 운세 흐름 키워드 풀 — destination reason 생성용 */
+const VIBE_KEYWORDS = [
+  "차분한 영감을 찾고 싶은",
+  "들뜬 설렘이 깨어나는",
+  "단단한 결심이 익어가는",
+  "부드러운 휴식이 필요한",
+  "새로운 도전을 망설이는",
+  "조용한 위로가 마음을 데우는",
+  "활기찬 에너지가 차오르는",
+];
 
 const LUCKY_COLORS = ["코랄", "민트", "라벤더", "올리브", "샌드 베이지", "스카이 블루", "선셋 오렌지", "포레스트 그린"];
 const LUCKY_TIMES = [
@@ -340,7 +305,7 @@ const CLOSINGS = [
 
 export function buildMockFortune(input: FortuneInput): FortuneResponse {
   const today = new Date().toISOString().slice(0, 10);
-  const seedStr = `${input.name}|${input.birthdate}|${input.country}|${today}`;
+  const seedStr = `${input.name}|${input.birthdate}|${today}`;
   const seed = seedHash(seedStr);
 
   const overall = scoreFromSeed(seed, 3, 5);
@@ -349,40 +314,44 @@ export function buildMockFortune(input: FortuneInput): FortuneResponse {
   const sLove = scoreFromSeed(seed >> 3, 3, 5);
   const sHealth = scoreFromSeed(seed >> 4, 3, 5);
 
-  const countryInfo = COUNTRY_TIPS[input.country] || FALLBACK_COUNTRY_TIP;
-  const countryScore = scoreFromSeed(seed >> 5, 3, 5);
+  const dest = pick(DESTINATIONS, seed >> 5);
+  const destScore = scoreFromSeed(seed >> 6, 4, 5); // 추천한 곳이니 살짝 후하게
+  const vibeKeyword = pick(VIBE_KEYWORDS, seed >> 7);
+  const reason = `오늘 ${input.name} 님의 흐름은 ${vibeKeyword} 결이라서, ${dest.city}의 ${dest.vibe} 분위기가 잘 어울려요.`;
 
-  const summaryTpl = pick(SUMMARIES, seed >> 6);
-  const headline = pick(HEADLINES, seed >> 7);
-  const closingTpl = pick(CLOSINGS, seed >> 8);
-  const luckyColor = pick(LUCKY_COLORS, seed >> 9);
-  const luckyTime = pick(LUCKY_TIMES, seed >> 10);
-  const luckyNumber = pick(LUCKY_NUMBERS, seed >> 11);
+  const summaryTpl = pick(SUMMARIES, seed >> 8);
+  const headline = pick(HEADLINES, seed >> 9);
+  const closingTpl = pick(CLOSINGS, seed >> 10);
+  const luckyColor = pick(LUCKY_COLORS, seed >> 11);
+  const luckyTime = pick(LUCKY_TIMES, seed >> 12);
+  const luckyNumber = pick(LUCKY_NUMBERS, seed >> 13);
 
   return {
     name: input.name,
-    country: input.country,
     headline,
     overall_score: overall,
     fortune_summary: summaryTpl.replace("{name}", input.name),
     categories: [
-      { label: "여행운", score: sTravel, message: pick(TRAVEL_MSGS[sTravel], seed >> 12) },
-      { label: "재물운", score: sMoney, message: pick(MONEY_MSGS[sMoney], seed >> 13) },
-      { label: "인연운", score: sLove, message: pick(LOVE_MSGS[sLove], seed >> 14) },
-      { label: "건강운", score: sHealth, message: pick(HEALTH_MSGS[sHealth], seed >> 15) },
+      { label: "여행운", score: sTravel, message: pick(TRAVEL_MSGS[sTravel], seed >> 14) },
+      { label: "재물운", score: sMoney, message: pick(MONEY_MSGS[sMoney], seed >> 15) },
+      { label: "인연운", score: sLove, message: pick(LOVE_MSGS[sLove], seed >> 16) },
+      { label: "건강운", score: sHealth, message: pick(HEALTH_MSGS[sHealth], seed >> 17) },
     ],
-    country_match: {
-      country: input.country,
-      match_score: countryScore,
-      best_period: countryInfo.period,
-      travel_tip: countryInfo.tip,
-      hidden_gem: countryInfo.gem,
+    recommended_destination: {
+      country: dest.country,
+      city: dest.city,
+      vibe: dest.vibe,
+      match_score: destScore,
+      reason,
+      best_period: dest.period,
+      travel_tip: dest.tip,
+      hidden_gem: dest.gem,
     },
     lucky: {
       color: luckyColor,
       time: luckyTime,
       number: luckyNumber,
     },
-    closing_message: closingTpl.replace("{country}", input.country),
+    closing_message: closingTpl.replace("{country}", dest.city),
   };
 }

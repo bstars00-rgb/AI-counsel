@@ -180,30 +180,11 @@ export const RESPONSE_SCHEMA = {
 /*                        오늘의 여행운세 (마케팅 진입점)                       */
 /* ========================================================================= */
 
-export const FORTUNE_COUNTRIES: { code: string; label: string; emoji: string }[] = [
-  { code: "jp", label: "일본", emoji: "🗼" },
-  { code: "vn-danang", label: "베트남 다낭", emoji: "🌴" },
-  { code: "vn-phuquoc", label: "베트남 푸꾸옥", emoji: "🏝️" },
-  { code: "vn-nhatrang", label: "베트남 나트랑", emoji: "🌊" },
-  { code: "th", label: "태국 (방콕/푸켓)", emoji: "🛕" },
-  { code: "ph", label: "필리핀 (세부/보라카이)", emoji: "🐚" },
-  { code: "id-bali", label: "인도네시아 발리", emoji: "🌺" },
-  { code: "sg", label: "싱가포르", emoji: "🦁" },
-  { code: "tw", label: "대만", emoji: "🥟" },
-  { code: "hk", label: "홍콩", emoji: "🌃" },
-  { code: "jeju", label: "제주", emoji: "🌋" },
-  { code: "us-guam", label: "미국령 괌/사이판", emoji: "🏖️" },
-  { code: "us-hawaii", label: "미국 하와이", emoji: "🌈" },
-  { code: "eu", label: "유럽 (프랑스/이탈리아 등)", emoji: "🗼" },
-  { code: "au", label: "호주", emoji: "🐨" },
-  { code: "ot", label: "그 외 (직접 입력)", emoji: "✈️" },
-];
-
 export const FORTUNE_SYSTEM_PROMPT = `당신은 오마이호텔 트래블쇼의 AI 도우미 "오마이치 AI(OHMYCHI AI)" 이고, 지금은 "오늘의 여행운세" 마케팅 미니 기능을 수행 중입니다.
 캐릭터 컨셉: 선글라스를 쓴 동글동글한 오렌지 마스코트로, 따뜻하고 친근하며 살짝 들뜬 톤입니다.
 
 [목적]
-부스 방문 고객이 이름/생년월일/가고 싶은 국가만 입력하면 오늘의 여행 운세를 받아갑니다. 운세는 재미와 마케팅이 우선이고, 점성술 같은 미신적 단정이나 부정적인 예언은 피합니다.
+부스 방문 고객이 이름/생년월일만 입력하면, 오마이치가 오늘의 여행 운세를 풀어주면서 **그 운세에 가장 어울리는 나라와 도시를 한 곳 추천**합니다. 운세는 재미와 마케팅이 우선이고, 점성술 같은 미신적 단정이나 부정적인 예언은 피합니다.
 
 [톤]
 - 따뜻하고 긍정적이며 살짝 시적인 한국어
@@ -216,11 +197,12 @@ export const FORTUNE_SYSTEM_PROMPT = `당신은 오마이호텔 트래블쇼의 
 1. 입력된 이름은 자연스럽게 호명 (예: "민지 님은…")
 2. 생년월일은 띠/계절감 정도만 활용 (정확한 명리학 X)
 3. 오늘 날짜의 계절감/요일감을 살린 멘트 (사용자 메시지에 오늘 날짜가 함께 제공됨)
-4. 가고 싶은 국가는 반드시 country_match 섹션에서 1) 그 나라의 추천 시기, 2) 오늘 운을 끌어올리는 작은 팁, 3) 그 나라에서 만날 좋은 일 한 가지로 풀어낸다.
-5. 점수는 1~5 정수. 종합과 카테고리 모두 평균이 3.5~4.5 사이로 살짝 후하게 (마케팅 톤)
-6. 카테고리는 4개 고정: "여행운", "재물운", "인연운", "건강운"
-7. 행운의 요소(색/시간/숫자)는 구체적으로 (색: "코랄", "민트" 등 / 시간: "오후 2시 ~ 4시" / 숫자: "7" 또는 "3, 7")
-8. closing_message 는 자연스럽게 오마이치 AI 여행상담으로 유도 (예: "더 자세한 OO 여행은 오마이치에게 물어봐 주세요")
+4. recommended_destination 은 반드시 한국에서 항공편으로 갈 만한 인기 여행지 풀에서 골라준다. 예시 풀(이 외에도 가능): 베트남(다낭/푸꾸옥/나트랑/하노이/호이안), 일본(도쿄/오사카/교토/후쿠오카/오키나와/삿포로), 태국(방콕/푸켓/치앙마이), 필리핀(세부/보라카이/팔라완), 인도네시아(발리/자카르타), 싱가포르, 대만(타이베이/지우펀), 홍콩, 한국(제주/부산/강릉), 괌/사이판, 하와이(호놀룰루), 프랑스(파리), 이탈리아(로마/베네치아), 스페인(바르셀로나), 호주(시드니/멜버른), 뉴질랜드.
+5. recommended_destination 의 reason 은 "오늘 OO 님의 흐름은 [무엇무엇] 이라서, 이 도시의 [어떤 분위기]가 잘 맞아요" 같은 식으로 운세→도시 연결을 명확히 풀어준다.
+6. 점수는 1~5 정수. 종합과 카테고리 모두 평균이 3.5~4.5 사이로 살짝 후하게 (마케팅 톤)
+7. 카테고리는 4개 고정: "여행운", "재물운", "인연운", "건강운"
+8. 행운의 요소(색/시간/숫자)는 구체적으로 (색: "코랄", "민트" 등 / 시간: "오후 2시 ~ 4시" / 숫자: "7" 또는 "3, 7")
+9. closing_message 는 자연스럽게 오마이치 AI 여행상담으로 유도하되, 추천한 도시를 한 번 언급한다 (예: "더 자세한 {도시} 여행은 오마이치에게 물어봐 주세요")
 
 [출력 형식]
 응답은 반드시 정해진 JSON 스키마 단일 객체. 한국어 본문, JSON 키 영어 유지.`;
@@ -229,7 +211,6 @@ export const FORTUNE_RESPONSE_SCHEMA = {
   type: "object",
   properties: {
     name: { type: "string", description: "입력된 이름을 그대로 반사" },
-    country: { type: "string", description: "입력된 가고 싶은 국가 라벨" },
     headline: {
       type: "string",
       description: "한 줄 헤드라인 (15~30자, 인스타 공유 카드 톤)",
@@ -258,27 +239,39 @@ export const FORTUNE_RESPONSE_SCHEMA = {
       },
       description: "여행운/재물운/인연운/건강운 4개 (정확히 이 순서로)",
     },
-    country_match: {
+    recommended_destination: {
       type: "object",
       properties: {
-        country: { type: "string", description: "입력 국가 라벨 그대로" },
+        country: { type: "string", description: "추천 나라명 (예: '베트남')" },
+        city: { type: "string", description: "추천 도시명 (예: '다낭')" },
+        vibe: {
+          type: "string",
+          description: "그 도시 분위기 한 줄 태그 (예: '비치 & 케이블카')",
+        },
         match_score: { type: "integer", minimum: 1, maximum: 5 },
+        reason: {
+          type: "string",
+          description: "오늘 운세 흐름과 이 도시의 매치 이유 (1~2문장)",
+        },
         best_period: {
           type: "string",
           description: "추천 시기 한 줄 (예: '11월~3월 건기')",
         },
         travel_tip: {
           type: "string",
-          description: "오늘 그 나라에서 운을 끌어올리는 작은 팁 한 줄",
+          description: "오늘 그 도시에서 운을 끌어올리는 작은 팁 한 줄",
         },
         hidden_gem: {
           type: "string",
-          description: "그 나라에서 만날 수 있는 좋은 일 (1~2문장, 살짝 시적)",
+          description: "그 도시에서 만날 수 있는 좋은 일 (1~2문장, 살짝 시적)",
         },
       },
       required: [
         "country",
+        "city",
+        "vibe",
         "match_score",
+        "reason",
         "best_period",
         "travel_tip",
         "hidden_gem",
@@ -302,12 +295,11 @@ export const FORTUNE_RESPONSE_SCHEMA = {
   },
   required: [
     "name",
-    "country",
     "headline",
     "overall_score",
     "fortune_summary",
     "categories",
-    "country_match",
+    "recommended_destination",
     "lucky",
     "closing_message",
   ],

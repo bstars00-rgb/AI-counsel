@@ -13,7 +13,6 @@ export const dynamic = "force-dynamic";
 const DEFAULT_MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-7";
 
 const MAX_NAME_LEN = 40;
-const COUNTRY_MAX_LEN = 60;
 
 function isValidBirthdate(s: string): boolean {
   // YYYY-MM-DD 형식 + 합리적 범위
@@ -34,7 +33,6 @@ export async function POST(req: Request) {
 
   const name = (body.name || "").trim();
   const birthdate = (body.birthdate || "").trim();
-  const country = (body.country || "").trim();
 
   if (!name || name.length > MAX_NAME_LEN) {
     return NextResponse.json(
@@ -48,14 +46,8 @@ export async function POST(req: Request) {
       { status: 400 },
     );
   }
-  if (!country || country.length > COUNTRY_MAX_LEN) {
-    return NextResponse.json(
-      { error: "가고 싶은 국가를 선택해주세요." },
-      { status: 400 },
-    );
-  }
 
-  const input: FortuneInput = { name, birthdate, country };
+  const input: FortuneInput = { name, birthdate };
   const useMock =
     process.env.USE_MOCK === "true" || !process.env.ANTHROPIC_API_KEY;
 
@@ -70,9 +62,8 @@ export async function POST(req: Request) {
     const userPrompt = `오늘 날짜: ${today}
 이름: ${name}
 생년월일: ${birthdate}
-가고 싶은 국가: ${country}
 
-위 정보로 시스템 프롬프트의 규칙에 따라 오늘의 여행운세 JSON 을 작성해주세요.`;
+위 정보로 시스템 프롬프트의 규칙에 따라 오늘의 여행운세 JSON 을 작성해주세요. recommended_destination 은 시스템 프롬프트의 인기 여행지 풀에서 한 곳을 골라, 오늘 운세 흐름과 어울리는 이유를 reason 에 풀어주세요.`;
 
     const response = await client.messages.create({
       model: DEFAULT_MODEL,
@@ -106,12 +97,8 @@ export async function POST(req: Request) {
       throw new Error("Claude 응답이 올바른 JSON이 아닙니다.");
     }
 
-    // 입력값 정합성 보강 (모델이 가끔 이름을 꾸미는 경우 대비)
+    // 입력값 정합성 보강
     if (!parsed.name) parsed.name = name;
-    if (!parsed.country) parsed.country = country;
-    if (!parsed.country_match?.country) {
-      parsed.country_match = { ...parsed.country_match, country };
-    }
 
     return NextResponse.json({ mode: "live", data: parsed });
   } catch (err) {

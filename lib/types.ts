@@ -61,8 +61,6 @@ export interface FortuneInput {
   name: string;
   /** YYYY-MM-DD */
   birthdate: string;
-  /** 가고 싶은 국가/지역 (라벨) */
-  country: string;
 }
 
 export interface FortuneCategory {
@@ -77,8 +75,6 @@ export interface FortuneCategory {
 export interface FortuneResponse {
   /** 입력 이름 (검증 후 그대로 반사) */
   name: string;
-  /** 가고 싶은 국가 */
-  country: string;
   /** 한 줄 헤드라인 — 인스타 공유 카드용 */
   headline: string;
   /** 1~5 */
@@ -87,16 +83,23 @@ export interface FortuneResponse {
   fortune_summary: string;
   /** 4가지 카테고리 (여행운/재물운/인연운/건강운) */
   categories: FortuneCategory[];
-  /** 가고 싶은 국가와의 매치 정보 */
-  country_match: {
+  /** 오마이치가 오늘의 운세 흐름에 맞춰 추천하는 여행지 (나라 + 도시) */
+  recommended_destination: {
+    /** 나라명 (예: "베트남", "일본") */
     country: string;
-    /** 1~5 */
+    /** 도시명 (예: "다낭", "교토") */
+    city: string;
+    /** 한 줄 분위기 태그 (예: "비치 & 케이블카") */
+    vibe: string;
+    /** 1~5 — 오늘 운세와 이 도시의 매치 점수 */
     match_score: number;
+    /** 왜 오늘 당신에게 이 도시가 어울리는지 (1~2문장) */
+    reason: string;
     /** 추천 시기 한 줄 */
     best_period: string;
-    /** 오늘 그 나라에서 운을 끌어올리는 팁 한 줄 */
+    /** 그 도시에서 오늘의 운을 끌어올리는 작은 팁 한 줄 */
     travel_tip: string;
-    /** 그 나라에서 만날 수 있는 좋은 일 (살짝 시적, 1~2문장) */
+    /** 그 도시에서 만날 수 있는 좋은 일 (살짝 시적, 1~2문장) */
     hidden_gem: string;
   };
   /** 행운의 요소들 */
