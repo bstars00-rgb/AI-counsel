@@ -80,33 +80,17 @@ export default function Page() {
             </span>
           </div>
 
-          <div className="flex items-end gap-4">
-            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 ring-brand-300 shadow-sm sm:h-20 sm:w-20">
-              <span className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">
-                🍊
-              </span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/mascot.png"
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                }}
-              />
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
+              OHMYCHI AI · 사주 여행운세
             </div>
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
-                OHMYCHI AI · 사주 여행운세
-              </div>
-              <h1 className="text-3xl font-bold text-ink sm:text-4xl">
-                오마이치가 봐주는 사주 여행지
-              </h1>
-              <p className="mt-1 text-base text-ink-soft sm:text-lg">
-                이름과 생년월일, 태어난 시(時)만 알려주시면 오늘 어울리는 여행지와 호텔을
-                골라드릴게요.
-              </p>
-            </div>
+            <h1 className="text-3xl font-bold text-ink sm:text-4xl">
+              오마이치가 봐주는 사주 여행지
+            </h1>
+            <p className="mt-1 text-base text-ink-soft sm:text-lg">
+              이름과 생년월일, 태어난 시(時)만 알려주시면 오늘 어울리는 여행지와 호텔을
+              골라드릴게요.
+            </p>
           </div>
           {mode && (
             <div className="mt-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500">
