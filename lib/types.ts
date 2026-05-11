@@ -52,3 +52,61 @@ export interface ConsultHistoryItem {
   response: ConsultResponse;
   note?: string;
 }
+
+/* ========================================================================= */
+/*                        오늘의 여행운세 (마케팅 진입점)                       */
+/* ========================================================================= */
+
+export interface FortuneInput {
+  name: string;
+  /** YYYY-MM-DD */
+  birthdate: string;
+  /** 가고 싶은 국가/지역 (라벨) */
+  country: string;
+}
+
+export interface FortuneCategory {
+  /** "여행운" | "재물운" | "인연운" | "건강운" 등 */
+  label: string;
+  /** 1~5 */
+  score: number;
+  /** 한 줄 멘트 */
+  message: string;
+}
+
+export interface FortuneResponse {
+  /** 입력 이름 (검증 후 그대로 반사) */
+  name: string;
+  /** 가고 싶은 국가 */
+  country: string;
+  /** 한 줄 헤드라인 — 인스타 공유 카드용 */
+  headline: string;
+  /** 1~5 */
+  overall_score: number;
+  /** 2~3문장 종합 운세 멘트 */
+  fortune_summary: string;
+  /** 4가지 카테고리 (여행운/재물운/인연운/건강운) */
+  categories: FortuneCategory[];
+  /** 가고 싶은 국가와의 매치 정보 */
+  country_match: {
+    country: string;
+    /** 1~5 */
+    match_score: number;
+    /** 추천 시기 한 줄 */
+    best_period: string;
+    /** 오늘 그 나라에서 운을 끌어올리는 팁 한 줄 */
+    travel_tip: string;
+    /** 그 나라에서 만날 수 있는 좋은 일 (살짝 시적, 1~2문장) */
+    hidden_gem: string;
+  };
+  /** 행운의 요소들 */
+  lucky: {
+    color: string;
+    /** "오후 2시 ~ 4시" 같은 시간대 */
+    time: string;
+    /** "7" 또는 "3, 7" 같은 숫자 */
+    number: string;
+  };
+  /** 오마이치 AI 상담 유도 마무리 멘트 */
+  closing_message: string;
+}

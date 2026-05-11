@@ -5,9 +5,20 @@ import type {
   ConsultHistoryItem,
   ConsultResponse,
   ConsultTurn,
+  FortuneInput,
+  FortuneResponse,
 } from "@/lib/types";
+import { FORTUNE_COUNTRIES } from "@/lib/prompts";
 
-type View = "input" | "loading" | "answer" | "staff";
+type View =
+  | "home"
+  | "input"
+  | "loading"
+  | "answer"
+  | "staff"
+  | "fortune-input"
+  | "fortune-loading"
+  | "fortune-result";
 
 const QUICK_QUESTIONS: string[] = [
   "초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해줘",
@@ -24,7 +35,7 @@ const STORAGE_KEY = "travelshow.history.v1";
 const MAX_HISTORY = 5;
 
 export default function Page() {
-  const [view, setView] = useState<View>("input");
+  const [view, setView] = useState<View>("home");
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState<ConsultResponse | null>(null);
   const [mode, setMode] = useState<string | null>(null);
@@ -37,6 +48,14 @@ export default function Page() {
   /** 화면 상단에 표시할 누적 질문 트레일 (사용자가 어떤 흐름이었는지 보여줌) */
   const [questionTrail, setQuestionTrail] = useState<string[]>([]);
   const [followUpInput, setFollowUpInput] = useState("");
+  /** 운세 입력값 */
+  const [fortuneInput, setFortuneInput] = useState<FortuneInput>({
+    name: "",
+    birthdate: "",
+    country: "",
+  });
+  const [fortuneResult, setFortuneResult] = useState<FortuneResponse | null>(null);
+  const [fortuneError, setFortuneError] = useState<string | null>(null);
 
   // localStorage 로딩
   useEffect(() => {
@@ -72,6 +91,71 @@ export default function Page() {
     } catch {
       // ignore
     }
+  };
+
+  const handleGoHome = () => {
+    setView("home");
+    setQuestion("");
+    setResult(null);
+    setError(null);
+    setNote("");
+    setMode(null);
+    setTurns([]);
+    setQuestionTrail([]);
+    setFollowUpInput("");
+    setFortuneResult(null);
+    setFortuneError(null);
+  };
+
+  const handleStartConsult = () => {
+    setView("input");
+    setError(null);
+    setQuestion("");
+  };
+
+  const handleStartFortune = () => {
+    setView("fortune-input");
+    setFortuneError(null);
+    setFortuneResult(null);
+  };
+
+  const handleAskFortune = async () => {
+    const name = fortuneInput.name.trim();
+    const birthdate = fortuneInput.birthdate.trim();
+    const country = fortuneInput.country.trim();
+    if (!name || !birthdate || !country) {
+      setFortuneError("이름, 생년월일, 가고 싶은 국가를 모두 입력해주세요.");
+      return;
+    }
+    setFortuneError(null);
+    setView("fortune-loading");
+
+    try {
+      const res = await fetch("/api/fortune", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, birthdate, country }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || "요청에 실패했습니다.");
+      setFortuneResult(json.data as FortuneResponse);
+      setMode(json.mode || null);
+      setView("fortune-result");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setFortuneError(msg);
+      setView("fortune-input");
+    }
+  };
+
+  const handleConsultFromFortune = () => {
+    // 운세 결과에서 자연스럽게 상담으로 진입 — 가고 싶은 국가가 자동으로 질문에 들어가도록
+    const country = fortuneResult?.country || "";
+    if (country) {
+      setQuestion(`${country} 여행을 추천해줘`);
+    }
+    setView("input");
+    setError(null);
   };
 
   const handleAsk = async (
@@ -279,6 +363,13 @@ export default function Page() {
           </div>
         </header>
 
+        {view === "home" && (
+          <HomeView
+            onStartFortune={handleStartFortune}
+            onStartConsult={handleStartConsult}
+          />
+        )}
+
         {view === "input" && (
           <InputView
             question={question}
@@ -287,6 +378,7 @@ export default function Page() {
             error={error}
             history={history}
             onLoadHistory={handleLoadHistory}
+            onBackHome={handleGoHome}
           />
         )}
 
@@ -299,6 +391,7 @@ export default function Page() {
             onShowStaff={() => setView("staff")}
             onShowAnswer={() => setView("answer")}
             onReset={handleReset}
+            onBackHome={handleGoHome}
             onCopy={handleCopyAnswer}
             copyMsg={copyMsg}
             note={note}
@@ -313,6 +406,32 @@ export default function Page() {
             followUpInput={followUpInput}
             onChangeFollowUpInput={setFollowUpInput}
             onFollowUp={(q) => handleAsk(q, { isFollowUp: true })}
+          />
+        )}
+
+        {view === "fortune-input" && (
+          <FortuneInputView
+            value={fortuneInput}
+            onChange={setFortuneInput}
+            onSubmit={handleAskFortune}
+            onBackHome={handleGoHome}
+            error={fortuneError}
+          />
+        )}
+
+        {view === "fortune-loading" && (
+          <FortuneLoadingView name={fortuneInput.name} />
+        )}
+
+        {view === "fortune-result" && fortuneResult && (
+          <FortuneResultView
+            result={fortuneResult}
+            onAgain={() => {
+              setFortuneResult(null);
+              setView("fortune-input");
+            }}
+            onConsult={handleConsultFromFortune}
+            onBackHome={handleGoHome}
           />
         )}
 
@@ -336,12 +455,29 @@ function InputView(props: {
   error: string | null;
   history: ConsultHistoryItem[];
   onLoadHistory: (h: ConsultHistoryItem) => void;
+  onBackHome: () => void;
 }) {
-  const { question, onChangeQuestion, onAsk, error, history, onLoadHistory } =
-    props;
+  const {
+    question,
+    onChangeQuestion,
+    onAsk,
+    error,
+    history,
+    onLoadHistory,
+    onBackHome,
+  } = props;
 
   return (
     <section className="space-y-6">
+      <div>
+        <button
+          type="button"
+          onClick={onBackHome}
+          className="text-sm font-medium text-brand-600 hover:text-brand-700"
+        >
+          ← 홈으로
+        </button>
+      </div>
       <div className="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
         <label className="block text-base font-semibold text-slate-800 sm:text-lg">
           어떤 여행을 추천해드릴까요?
@@ -458,6 +594,7 @@ function ResultView(props: {
   onShowStaff: () => void;
   onShowAnswer: () => void;
   onReset: () => void;
+  onBackHome: () => void;
   onCopy: () => void;
   copyMsg: string | null;
   note: string;
@@ -473,6 +610,7 @@ function ResultView(props: {
     onShowStaff,
     onShowAnswer,
     onReset,
+    onBackHome,
     onCopy,
     copyMsg,
     note,
@@ -561,6 +699,13 @@ function ResultView(props: {
           className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
         >
           다시 질문하기
+        </button>
+        <button
+          type="button"
+          onClick={onBackHome}
+          className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+        >
+          ← 홈으로
         </button>
         {copyMsg && (
           <span className="text-sm font-medium text-brand-600">{copyMsg}</span>
@@ -879,6 +1024,383 @@ function FollowUpSection({
           이어서 물어보기
         </button>
       </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                Home (두 카드)                              */
+/* -------------------------------------------------------------------------- */
+
+function HomeView({
+  onStartFortune,
+  onStartConsult,
+}: {
+  onStartFortune: () => void;
+  onStartConsult: () => void;
+}) {
+  return (
+    <section className="space-y-6">
+      <div className="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
+        <p className="text-base leading-relaxed text-ink sm:text-lg">
+          오마이호텔 트래블쇼에서만 만나는 두 가지 체험,
+          <br className="hidden sm:block" />
+          <strong className="font-bold text-brand-600">오늘의 여행운세</strong>로 가볍게 시작해보고,
+          <strong className="font-bold text-brand-600"> 오마이치 AI 여행상담</strong>으로 진짜 여행을
+          계획해보세요.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <button
+          type="button"
+          onClick={onStartFortune}
+          className="group relative flex flex-col items-start gap-3 overflow-hidden rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-100 p-6 text-left shadow-sm transition hover:border-brand-400 hover:shadow-md sm:p-8"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-3xl">✨</span>
+            <span className="rounded-full bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-700">
+              마케팅 EVENT
+            </span>
+          </div>
+          <h2 className="text-2xl font-bold text-ink sm:text-3xl">
+            오늘의 여행운세
+          </h2>
+          <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
+            이름과 생년월일, 가고 싶은 국가만 알려주시면 오마이치가 오늘 당신만의 여행 운세를
+            살짝 풀어드릴게요. 30초면 끝나요.
+          </p>
+          <div className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-brand-600">
+            운세 보러 가기 →
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={onStartConsult}
+          className="group relative flex flex-col items-start gap-3 overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-6 text-left shadow-sm transition hover:border-brand-400 hover:shadow-md sm:p-8"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-3xl">💬</span>
+            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-700">
+              실제 상담
+            </span>
+          </div>
+          <h2 className="text-2xl font-bold text-ink sm:text-3xl">
+            오마이치 AI 여행상담
+          </h2>
+          <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
+            "초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해줘" 처럼 자연스럽게 물어보세요.
+            상담원이 이어서 견적과 일정을 안내해드려요.
+          </p>
+          <div className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-brand-600">
+            상담 시작하기 →
+          </div>
+        </button>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              운세 — 입력 화면                              */
+/* -------------------------------------------------------------------------- */
+
+function FortuneInputView({
+  value,
+  onChange,
+  onSubmit,
+  onBackHome,
+  error,
+}: {
+  value: FortuneInput;
+  onChange: (v: FortuneInput) => void;
+  onSubmit: () => void;
+  onBackHome: () => void;
+  error: string | null;
+}) {
+  const canSubmit =
+    value.name.trim() && value.birthdate.trim() && value.country.trim();
+
+  return (
+    <section className="space-y-6">
+      <div>
+        <button
+          type="button"
+          onClick={onBackHome}
+          className="text-sm font-medium text-brand-600 hover:text-brand-700"
+        >
+          ← 홈으로
+        </button>
+      </div>
+
+      <div className="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-6 shadow-sm sm:p-8">
+        <div className="mb-4 flex items-center gap-2">
+          <span className="text-2xl">✨</span>
+          <h2 className="text-2xl font-bold text-ink sm:text-3xl">
+            오늘의 여행운세
+          </h2>
+        </div>
+        <p className="mb-6 text-sm leading-relaxed text-ink-soft sm:text-base">
+          이름과 생년월일, 가고 싶은 국가를 알려주시면 오마이치가 오늘 당신만의 여행 운세를
+          살짝 알려드릴게요. (입력 정보는 저장되지 않습니다.)
+        </p>
+
+        <div className="space-y-4">
+          <div>
+            <label className="mb-1.5 block text-sm font-semibold text-ink">
+              이름
+            </label>
+            <input
+              type="text"
+              value={value.name}
+              maxLength={40}
+              onChange={(e) => onChange({ ...value, name: e.target.value })}
+              placeholder="예: 김민지"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-sm font-semibold text-ink">
+              생년월일
+            </label>
+            <input
+              type="date"
+              value={value.birthdate}
+              min="1900-01-01"
+              max={new Date().toISOString().slice(0, 10)}
+              onChange={(e) => onChange({ ...value, birthdate: e.target.value })}
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-sm font-semibold text-ink">
+              가고 싶은 국가
+            </label>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {FORTUNE_COUNTRIES.map((c) => {
+                const selected = value.country === c.label;
+                return (
+                  <button
+                    key={c.code}
+                    type="button"
+                    onClick={() => onChange({ ...value, country: c.label })}
+                    className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-left text-sm font-medium transition ${
+                      selected
+                        ? "border-brand-500 bg-brand-50 text-brand-700"
+                        : "border-slate-200 bg-white text-ink hover:border-brand-300 hover:bg-brand-50"
+                    }`}
+                  >
+                    <span className="text-lg">{c.emoji}</span>
+                    <span className="truncate">{c.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {error && (
+          <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+            {error}
+          </p>
+        )}
+
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={onSubmit}
+            disabled={!canSubmit}
+            className="inline-flex h-14 w-full items-center justify-center rounded-xl bg-brand-600 px-6 text-base font-bold text-white shadow-sm transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:text-lg"
+          >
+            오늘의 운세 보기
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              운세 — 로딩 화면                              */
+/* -------------------------------------------------------------------------- */
+
+function FortuneLoadingView({ name }: { name: string }) {
+  return (
+    <section className="rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white p-10 text-center shadow-sm">
+      <div className="mb-4 text-5xl animate-pulse">✨</div>
+      <p className="text-lg font-bold text-ink">
+        {name ? `${name} 님의 ` : ""}오늘의 여행 운세를 살펴보고 있어요
+      </p>
+      <p className="mt-2 text-sm text-ink-soft">
+        오마이치가 별과 풍경을 들여다보는 중...
+      </p>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              운세 — 결과 화면                              */
+/* -------------------------------------------------------------------------- */
+
+function FortuneResultView({
+  result,
+  onAgain,
+  onConsult,
+  onBackHome,
+}: {
+  result: FortuneResponse;
+  onAgain: () => void;
+  onConsult: () => void;
+  onBackHome: () => void;
+}) {
+  const today = new Date().toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+  });
+
+  return (
+    <section className="space-y-4">
+      <div>
+        <button
+          type="button"
+          onClick={onBackHome}
+          className="text-sm font-medium text-brand-600 hover:text-brand-700"
+        >
+          ← 홈으로
+        </button>
+      </div>
+
+      {/* 헤드라인 카드 */}
+      <div className="overflow-hidden rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 via-white to-brand-100 p-6 shadow-sm sm:p-8">
+        <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
+          OHMYCHI FORTUNE · {today}
+        </div>
+        <h2 className="mt-2 text-2xl font-bold text-ink sm:text-3xl">
+          {result.name} 님의 오늘 여행 운세
+        </h2>
+        <p className="mt-2 text-lg font-semibold text-brand-700 sm:text-xl">
+          “{result.headline}”
+        </p>
+        <div className="mt-4 flex items-center gap-2">
+          <Stars score={result.overall_score} size="lg" />
+          <span className="text-sm font-medium text-ink-soft">
+            ({result.overall_score} / 5)
+          </span>
+        </div>
+        <p className="mt-4 leading-relaxed text-ink">{result.fortune_summary}</p>
+      </div>
+
+      {/* 카테고리 */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {result.categories.map((cat) => (
+          <div
+            key={cat.label}
+            className="rounded-2xl border border-brand-100 bg-white p-4 shadow-sm"
+          >
+            <div className="text-xs font-semibold text-brand-700">{cat.label}</div>
+            <div className="mt-1.5">
+              <Stars score={cat.score} size="sm" />
+            </div>
+            <p className="mt-2 text-sm leading-snug text-ink">{cat.message}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* 국가 매치 카드 */}
+      <div className="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm sm:p-8">
+        <div className="flex items-center justify-between gap-3">
+          <h3 className="text-lg font-bold text-ink sm:text-xl">
+            {result.country_match.country} & {result.name}
+          </h3>
+          <div className="shrink-0">
+            <Stars score={result.country_match.match_score} size="md" />
+          </div>
+        </div>
+
+        <dl className="mt-4 space-y-3 text-sm sm:text-base">
+          <div>
+            <dt className="text-xs font-semibold text-brand-600">추천 시기</dt>
+            <dd className="mt-0.5 text-ink">{result.country_match.best_period}</dd>
+          </div>
+          <div>
+            <dt className="text-xs font-semibold text-brand-600">오늘의 작은 팁</dt>
+            <dd className="mt-0.5 text-ink">{result.country_match.travel_tip}</dd>
+          </div>
+          <div>
+            <dt className="text-xs font-semibold text-brand-600">여행지에서 만날 좋은 일</dt>
+            <dd className="mt-0.5 leading-relaxed text-ink">
+              {result.country_match.hidden_gem}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      {/* 행운의 요소 */}
+      <div className="grid grid-cols-3 gap-3">
+        <LuckyTile label="행운의 색" value={result.lucky.color} />
+        <LuckyTile label="행운의 시간" value={result.lucky.time} />
+        <LuckyTile label="행운의 숫자" value={result.lucky.number} />
+      </div>
+
+      {/* 클로징 CTA */}
+      <div className="rounded-2xl border border-brand-200 bg-brand-50 p-5 sm:p-6">
+        <p className="text-sm leading-relaxed text-ink sm:text-base">
+          {result.closing_message}
+        </p>
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+          <button
+            type="button"
+            onClick={onConsult}
+            className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 sm:text-base"
+          >
+            오마이치 AI에게 여행 상담받기 →
+          </button>
+          <button
+            type="button"
+            onClick={onAgain}
+            className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            다시 보기
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Stars({
+  score,
+  size = "md",
+}: {
+  score: number;
+  size?: "sm" | "md" | "lg";
+}) {
+  const max = 5;
+  const cls = size === "lg" ? "text-2xl" : size === "sm" ? "text-base" : "text-xl";
+  return (
+    <div className={`inline-flex tracking-tight ${cls}`} aria-label={`${score}/5`}>
+      {Array.from({ length: max }).map((_, i) => (
+        <span
+          key={i}
+          className={i < score ? "text-brand-500" : "text-slate-200"}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function LuckyTile({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-brand-100 bg-white p-3 text-center shadow-sm sm:p-4">
+      <div className="text-xs font-semibold text-brand-600">{label}</div>
+      <div className="mt-1 text-sm font-bold text-ink sm:text-base">{value}</div>
     </div>
   );
 }
