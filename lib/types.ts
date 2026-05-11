@@ -28,6 +28,21 @@ export interface ConsultResponse {
   staff_summary: StaffSummary;
   staff_questions: string[];
   staff_opening_script: string;
+  /**
+   * 후속 질문 칩 (3~5개). 고객이 답변을 받은 뒤 한 번 더 물어볼만한 자연스러운 후속 질문.
+   * 예: "예산을 줄이면 어떤 옵션이 있나요?", "다른 지역도 알려주세요"
+   */
+  follow_up_suggestions: string[];
+}
+
+/**
+ * Claude API messages 형식과 동일. 멀티턴 대화를 위해 클라이언트가 누적 관리.
+ * - user: 고객 질문 (첫 질문 또는 후속 질문)
+ * - assistant: 직전 AI 응답을 JSON 문자열로 직렬화
+ */
+export interface ConsultTurn {
+  role: "user" | "assistant";
+  content: string;
 }
 
 export interface ConsultHistoryItem {

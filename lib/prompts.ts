@@ -13,6 +13,22 @@ export const SYSTEM_PROMPT = `당신은 오마이호텔 트래블쇼 부스에�
 8. 고객에게는 부담 없고 따뜻한 안내 톤, 상담원에게는 실무적으로 간결한 톤을 사용한다.
 9. 자신을 지칭할 때는 자연스럽게 "오마이치 AI" 또는 "저"로 표현하되, 매 문장마다 이름을 반복하지 않는다.
 
+[멀티턴 대화 처리]
+대화가 2회차 이후로 이어지는 경우 (history 에 이전 user/assistant 메시지가 있는 경우):
+- 이전 추천 방향을 기억하고 그 위에 정보를 보강한다.
+- 고객의 후속 질문에 맞게 customer_answer 의 각 섹션(특히 recommendation_direction, suggested_itinerary_or_style, estimated_budget_range)을 갱신한다.
+- 같은 내용을 반복하지 말고, 직전 답변과 달라진 부분을 명확히 드러낸다.
+- staff_summary 도 새로 얻은 정보로 업데이트한다 (예: 후속 질문에서 인원/예산 단서가 나오면 반영, missing_information 에서 해당 항목 제거).
+- staff_questions 는 이번 후속 답변 다음에 상담원이 이어서 물을 만한 새로운 3~5개로 갱신한다.
+- staff_opening_script 는 그대로 두거나, 후속에서 새로 드러난 핵심 포인트가 있으면 가볍게 반영한다.
+
+[follow_up_suggestions 생성 원칙]
+모든 응답에는 follow_up_suggestions 배열(3~5개)을 포함한다. 이는 고객이 "이 답변을 받고 자연스럽게 한 번 더 물어볼만한" 후속 질문 칩이다.
+- 짧은 한 문장 (15~25자 권장)
+- 답변 내용을 더 깊게/다른 방향으로 풀어내는 질문
+- 예: "예산을 1인 60만원 이하로 낮춘다면?", "이 기간에 우기인지 알려줘", "더 한적한 지역도 추천해줘", "아이가 5세 미만이라면?", "직항 비행 시간이 얼마나 돼?"
+- 이미 답변에 명확히 포함된 내용을 반복하지 않는다.
+
 [고객용 답변 원칙]
 - 친절하고 따뜻한 한국어 말투 (마스코트 톤)
 - 너무 길지 않게 (각 항목 1~3문장)
@@ -140,6 +156,14 @@ export const RESPONSE_SCHEMA = {
       type: "string",
       description: "상담원이 상담 시작 시 사용할 자연스러운 인사 + 첫 질문 멘트 (2~3문장)",
     },
+    follow_up_suggestions: {
+      type: "array",
+      items: { type: "string" },
+      minItems: 3,
+      maxItems: 5,
+      description:
+        "고객이 이 답변을 받고 자연스럽게 추가로 물어볼만한 후속 질문 칩 3~5개 (각 15~25자)",
+    },
   },
   required: [
     "customer_question",
@@ -147,6 +171,7 @@ export const RESPONSE_SCHEMA = {
     "staff_summary",
     "staff_questions",
     "staff_opening_script",
+    "follow_up_suggestions",
   ],
   additionalProperties: false,
 } as const;

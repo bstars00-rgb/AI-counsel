@@ -2,28 +2,54 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { SYSTEM_PROMPT, RESPONSE_SCHEMA } from "@/lib/prompts";
 import { buildMockResponse } from "@/lib/mockData";
-import type { ConsultResponse } from "@/lib/types";
+import type { ConsultResponse, ConsultTurn } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const DEFAULT_MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-7";
+const MAX_TURNS = 12; // 안전 상한 (user+assistant 합쳐서 12개)
+const MAX_QUESTION_LEN = 2000;
+
+interface ConsultRequest {
+  /** 첫 질문(이전 history 없음) 또는 후속 질문 */
+  question?: string;
+  /** 누적 대화 (없으면 첫 요청, 있으면 후속). 클라이언트가 관리. */
+  history?: ConsultTurn[];
+}
 
 export async function POST(req: Request) {
-  let body: { question?: string } = {};
+  let body: ConsultRequest = {};
   try {
-    body = await req.json();
+    body = (await req.json()) as ConsultRequest;
   } catch {
     return NextResponse.json({ error: "유효한 JSON 본문이 필요합니다." }, { status: 400 });
   }
 
   const question = (body.question || "").trim();
+  const history: ConsultTurn[] = Array.isArray(body.history) ? body.history : [];
+
   if (!question) {
     return NextResponse.json({ error: "질문이 비어 있습니다." }, { status: 400 });
   }
-  if (question.length > 2000) {
-    return NextResponse.json({ error: "질문이 너무 깁니다 (최대 2000자)." }, { status: 400 });
+  if (question.length > MAX_QUESTION_LEN) {
+    return NextResponse.json(
+      { error: `질문이 너무 깁니다 (최대 ${MAX_QUESTION_LEN}자).` },
+      { status: 400 },
+    );
   }
+  if (history.length > MAX_TURNS) {
+    return NextResponse.json(
+      { error: `대화가 너무 길어졌습니다. "다시 질문하기"로 새로 시작해주세요.` },
+      { status: 400 },
+    );
+  }
+
+  // 최종 messages 배열 구성 (history + 새 question)
+  const messages: ConsultTurn[] = [
+    ...history,
+    { role: "user", content: question },
+  ];
 
   const useMock =
     process.env.USE_MOCK === "true" || !process.env.ANTHROPIC_API_KEY;
@@ -31,7 +57,7 @@ export async function POST(req: Request) {
   if (useMock) {
     return NextResponse.json({
       mode: "mock",
-      data: buildMockResponse(question),
+      data: buildMockResponse(question, history),
     });
   }
 
@@ -54,12 +80,7 @@ export async function POST(req: Request) {
           schema: RESPONSE_SCHEMA as unknown as Record<string, unknown>,
         },
       },
-      messages: [
-        {
-          role: "user",
-          content: `고객 입력 질문:\n"""${question}"""\n\n위 질문에 대해 시스템 프롬프트의 규칙대로 JSON 응답을 작성해주세요.`,
-        },
-      ],
+      messages,
     });
 
     const textBlock = response.content.find((b) => b.type === "text");
@@ -70,25 +91,28 @@ export async function POST(req: Request) {
     let parsed: ConsultResponse;
     try {
       parsed = JSON.parse(textBlock.text) as ConsultResponse;
-    } catch (e) {
+    } catch {
       console.error("JSON parse error:", textBlock.text);
       throw new Error("Claude 응답이 올바른 JSON이 아닙니다.");
     }
 
-    // 고객 질문 원문 보강 (모델이 가끔 빈 문자열로 두는 경우 대비)
+    // 첫 질문일 경우 원문 보강
     if (!parsed.customer_question) {
       parsed.customer_question = question;
+    }
+    // follow_up_suggestions가 누락된 응답 대비 빈 배열로 정규화
+    if (!Array.isArray(parsed.follow_up_suggestions)) {
+      parsed.follow_up_suggestions = [];
     }
 
     return NextResponse.json({ mode: "live", data: parsed });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Claude API error:", message);
-    // 실제 API 호출 실패 시 Mock 응답으로 폴백 (현장 운영 중단 방지)
     return NextResponse.json({
       mode: "mock-fallback",
       error: message,
-      data: buildMockResponse(question),
+      data: buildMockResponse(question, history),
     });
   }
 }

@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { ConsultHistoryItem, ConsultResponse } from "@/lib/types";
+import type {
+  ConsultHistoryItem,
+  ConsultResponse,
+  ConsultTurn,
+} from "@/lib/types";
 
 type View = "input" | "loading" | "answer" | "staff";
 
@@ -28,6 +32,11 @@ export default function Page() {
   const [note, setNote] = useState("");
   const [copyMsg, setCopyMsg] = useState<string | null>(null);
   const [history, setHistory] = useState<ConsultHistoryItem[]>([]);
+  /** 멀티턴 대화 이력 (Claude messages 형식). 후속 질문 누적용. */
+  const [turns, setTurns] = useState<ConsultTurn[]>([]);
+  /** 화면 상단에 표시할 누적 질문 트레일 (사용자가 어떤 흐름이었는지 보여줌) */
+  const [questionTrail, setQuestionTrail] = useState<string[]>([]);
+  const [followUpInput, setFollowUpInput] = useState("");
 
   // localStorage 로딩
   useEffect(() => {
@@ -65,19 +74,32 @@ export default function Page() {
     }
   };
 
-  const handleAsk = async (raw?: string) => {
-    const q = (raw ?? question).trim();
+  const handleAsk = async (
+    raw?: string,
+    opts: { isFollowUp?: boolean } = {},
+  ) => {
+    const isFollowUp = !!opts.isFollowUp;
+    const q = (raw ?? (isFollowUp ? followUpInput : question)).trim();
     if (!q) return;
-    setQuestion(q);
+
+    if (!isFollowUp) {
+      setQuestion(q);
+      setNote("");
+      setQuestionTrail([q]);
+    } else {
+      setQuestionTrail((prev) => [...prev, q]);
+    }
+    setFollowUpInput("");
     setView("loading");
     setError(null);
-    setNote("");
+
+    const requestHistory = isFollowUp ? turns : [];
 
     try {
       const res = await fetch("/api/consult", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: q }),
+        body: JSON.stringify({ question: q, history: requestHistory }),
       });
       const json = await res.json();
       if (!res.ok) {
@@ -88,18 +110,45 @@ export default function Page() {
       setMode(json.mode || null);
       setView("answer");
 
-      // 히스토리 저장
-      const item: ConsultHistoryItem = {
-        id: `${Date.now()}`,
-        createdAt: new Date().toISOString(),
-        question: q,
-        response: data,
-      };
-      saveHistory(item);
+      // 멀티턴 history 갱신: user + assistant(JSON 직렬화)
+      const newTurns: ConsultTurn[] = [
+        ...requestHistory,
+        { role: "user", content: q },
+        { role: "assistant", content: JSON.stringify(data) },
+      ];
+      setTurns(newTurns);
+
+      // localStorage 저장: 첫 질문이면 새 항목, 후속이면 같은 세션의 최신 결과로 갱신
+      if (!isFollowUp) {
+        const item: ConsultHistoryItem = {
+          id: `${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          question: q,
+          response: data,
+        };
+        saveHistory(item);
+      } else {
+        // 직전 세션 갱신 (가장 최근 항목)
+        setHistory((prev) => {
+          if (prev.length === 0) return prev;
+          const [latest, ...rest] = prev;
+          const updated: ConsultHistoryItem = {
+            ...latest,
+            response: data,
+          };
+          const next = [updated, ...rest];
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+          } catch {
+            // ignore
+          }
+          return next;
+        });
+      }
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setError(msg);
-      setView("input");
+      setView(isFollowUp ? "answer" : "input");
     }
   };
 
@@ -110,6 +159,9 @@ export default function Page() {
     setMode(null);
     setError(null);
     setNote("");
+    setTurns([]);
+    setQuestionTrail([]);
+    setFollowUpInput("");
   };
 
   const handleCopyAnswer = async () => {
@@ -155,6 +207,13 @@ export default function Page() {
     setNote(h.note || "");
     setMode("history");
     setView("answer");
+    // 저장된 결과로 멀티턴 컨텍스트 재구성 (이어서 후속 질문 가능)
+    setTurns([
+      { role: "user", content: h.question },
+      { role: "assistant", content: JSON.stringify(h.response) },
+    ]);
+    setQuestionTrail([h.question]);
+    setFollowUpInput("");
   };
 
   return (
@@ -246,10 +305,14 @@ export default function Page() {
             onChangeNote={(v) => {
               setNote(v);
               const latest = history[0];
-              if (latest && latest.question === result.customer_question) {
+              if (latest && latest.question === questionTrail[0]) {
                 updateHistoryNote(latest.id, v);
               }
             }}
+            questionTrail={questionTrail}
+            followUpInput={followUpInput}
+            onChangeFollowUpInput={setFollowUpInput}
+            onFollowUp={(q) => handleAsk(q, { isFollowUp: true })}
           />
         )}
 
@@ -399,6 +462,10 @@ function ResultView(props: {
   copyMsg: string | null;
   note: string;
   onChangeNote: (v: string) => void;
+  questionTrail: string[];
+  followUpInput: string;
+  onChangeFollowUpInput: (v: string) => void;
+  onFollowUp: (q: string) => void;
 }) {
   const {
     result,
@@ -410,6 +477,10 @@ function ResultView(props: {
     copyMsg,
     note,
     onChangeNote,
+    questionTrail,
+    followUpInput,
+    onChangeFollowUpInput,
+    onFollowUp,
   } = props;
 
   return (
@@ -439,8 +510,20 @@ function ResultView(props: {
         </button>
       </div>
 
+      {questionTrail.length > 1 && view === "answer" && (
+        <QuestionTrail items={questionTrail} />
+      )}
+
       {view === "answer" ? (
-        <CustomerAnswerCard result={result} />
+        <>
+          <CustomerAnswerCard result={result} />
+          <FollowUpSection
+            suggestions={result.follow_up_suggestions || []}
+            input={followUpInput}
+            onChangeInput={onChangeFollowUpInput}
+            onSubmit={onFollowUp}
+          />
+        </>
       ) : (
         <StaffCard result={result} note={note} onChangeNote={onChangeNote} />
       )}
@@ -711,6 +794,91 @@ function KV({ k, v }: { k: string; v: React.ReactNode }) {
     <div className="rounded-lg bg-slate-50 px-3 py-2 text-sm">
       <span className="mr-2 font-semibold text-slate-500">{k}</span>
       <span className="text-slate-800">{v}</span>
+    </div>
+  );
+}
+
+/**
+ * 누적 질문 트레일 — 후속 질문이 1회 이상 있었을 때 답변 상단에 표시.
+ */
+function QuestionTrail({ items }: { items: string[] }) {
+  return (
+    <div className="rounded-xl border border-brand-100 bg-brand-50 p-3">
+      <div className="mb-1.5 text-xs font-semibold text-brand-700">
+        대화 흐름 ({items.length})
+      </div>
+      <ol className="space-y-1 text-sm text-ink">
+        {items.map((q, i) => (
+          <li key={i} className="flex gap-2">
+            <span className="shrink-0 font-bold text-brand-600">
+              {i === 0 ? "Q." : `Q${i + 1}.`}
+            </span>
+            <span className="leading-relaxed">{q}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+/**
+ * 후속 질문 칩 + 자유 입력 — 답변 카드 아래에 표시.
+ */
+function FollowUpSection({
+  suggestions,
+  input,
+  onChangeInput,
+  onSubmit,
+}: {
+  suggestions: string[];
+  input: string;
+  onChangeInput: (v: string) => void;
+  onSubmit: (q: string) => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-brand-100 bg-white p-5 shadow-sm sm:p-6">
+      <h3 className="mb-3 text-sm font-bold text-brand-700">
+        오마이치에게 더 깊게 물어보기
+      </h3>
+
+      {suggestions.length > 0 && (
+        <div className="mb-3 flex flex-wrap gap-2">
+          {suggestions.map((s, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => onSubmit(s)}
+              className="rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => onChangeInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && input.trim()) {
+              e.preventDefault();
+              onSubmit(input.trim());
+            }
+          }}
+          placeholder="예: 5박 6일로 늘려서 다시 추천해줘"
+          className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200"
+        />
+        <button
+          type="button"
+          onClick={() => input.trim() && onSubmit(input.trim())}
+          disabled={!input.trim()}
+          className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+        >
+          이어서 물어보기
+        </button>
+      </div>
     </div>
   );
 }
