@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(180deg, #eff6ff 0%, #ffffff 60%);
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 태블릿/노트북 부스 환경 - 큰 터치 영역 보장 */
+button,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* 스크롤바 부담 줄이기 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
