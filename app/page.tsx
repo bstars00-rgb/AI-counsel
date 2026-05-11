@@ -5,39 +5,15 @@ import type { ConsultHistoryItem, ConsultResponse } from "@/lib/types";
 
 type View = "input" | "loading" | "answer" | "staff";
 
-const QUICK_QUESTIONS: { label: string; question: string }[] = [
-  {
-    label: "가족여행 추천",
-    question: "초등학생 아이 2명과 갈 만한 가족여행 추천해주세요",
-  },
-  {
-    label: "부모님 효도여행",
-    question: "부모님 모시고 갈 일본 온천 여행 어디가 좋을까요?",
-  },
-  {
-    label: "일본 자유여행",
-    question: "3박 4일 오사카 자유여행 일정이 궁금해요",
-  },
-  {
-    label: "동남아 휴양지",
-    question: "예산 1인 80만원 정도로 갈 수 있는 동남아 휴양지 추천해주세요",
-  },
-  {
-    label: "제주 호텔 여행",
-    question: "제주 3박 4일 호텔 중심 여행 추천해주세요",
-  },
-  {
-    label: "허니문 추천",
-    question: "허니문으로 좋은 동남아 리조트 추천해주세요",
-  },
-  {
-    label: "푸꾸옥 vs 나트랑",
-    question: "푸꾸옥과 나트랑 중 가족여행으로 어디가 더 좋나요?",
-  },
-  {
-    label: "예산 맞춤 여행",
-    question: "1인 100만원 이하로 갈 수 있는 4박 5일 해외 여행 추천해주세요",
-  },
+const QUICK_QUESTIONS: string[] = [
+  "초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해줘",
+  "부모님 모시고 갈 일본 온천 4박 5일 효도여행 추천해줘",
+  "직장인 3박 4일 오사카 자유여행 일정 추천해줘",
+  "1인 80만원 예산으로 동남아 휴양 3박 5일 추천해줘",
+  "제주 호텔 위주 3박 4일 여행 일정 추천해줘",
+  "신혼부부 5박 7일 동남아 허니문 리조트 추천해줘",
+  "푸꾸옥 vs 나트랑, 가족여행으로 어디가 더 좋아?",
+  "1인 100만원 이하로 갈 만한 4박 5일 해외 여행 추천해줘",
 ];
 
 const STORAGE_KEY = "travelshow.history.v1";
@@ -184,51 +160,64 @@ export default function Page() {
   return (
     <main className="min-h-screen px-4 py-8 sm:px-8 sm:py-12">
       <div className="mx-auto max-w-5xl">
-        <header className="mb-8 flex items-end justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-chi-100 ring-2 ring-chi-300 shadow-sm sm:h-20 sm:w-20">
-              <span className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">
-                🍊
-              </span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/mascot.png"
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                }}
-              />
-            </div>
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-widest text-chi-600">
-                OHMYCHI AI
-              </div>
-              <h1 className="text-3xl font-bold text-brand-800 sm:text-4xl">
-                오마이치 AI
-              </h1>
-              <p className="mt-1 text-base text-slate-600 sm:text-lg">
-                오마이호텔 트래블쇼의 AI 여행상담 도우미. 궁금한 여행을 입력하면
-                먼저 추천해드릴게요.
-              </p>
-            </div>
-          </div>
-          {mode && (
-            <span
-              className="ml-2 hidden shrink-0 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500 sm:inline-block"
-              title="응답 모드"
-            >
-              {mode === "live"
-                ? "Claude 실시간"
-                : mode === "mock"
-                  ? "Mock 응답"
-                  : mode === "mock-fallback"
-                    ? "Mock (API 실패 폴백)"
-                    : mode === "history"
-                      ? "히스토리"
-                      : mode}
+        <header className="mb-8">
+          {/* 회사 로고 띠 */}
+          <div className="mb-6 flex items-center gap-2">
+            <Logo className="h-8 w-auto" />
+            <span className="text-base font-extrabold tracking-wide text-ink sm:text-lg">
+              OHMYHOTEL<span className="text-brand-500">&amp;</span>CO
             </span>
-          )}
+            <span className="ml-auto hidden text-xs font-medium text-ink-soft sm:inline">
+              여행은 오마이호텔과 함께
+            </span>
+          </div>
+
+          <div className="flex items-end justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 ring-brand-300 shadow-sm sm:h-20 sm:w-20">
+                <span className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">
+                  🍊
+                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/mascot.png"
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              </div>
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
+                  OHMYCHI AI
+                </div>
+                <h1 className="text-3xl font-bold text-ink sm:text-4xl">
+                  오마이치 AI
+                </h1>
+                <p className="mt-1 text-base text-ink-soft sm:text-lg">
+                  오마이호텔 트래블쇼의 AI 여행상담 도우미. 궁금한 여행을 입력하면
+                  먼저 추천해드릴게요.
+                </p>
+              </div>
+            </div>
+            {mode && (
+              <span
+                className="ml-2 hidden shrink-0 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500 sm:inline-block"
+                title="응답 모드"
+              >
+                {mode === "live"
+                  ? "Claude 실시간"
+                  : mode === "mock"
+                    ? "Mock 응답"
+                    : mode === "mock-fallback"
+                      ? "Mock (API 실패 폴백)"
+                      : mode === "history"
+                        ? "히스토리"
+                        : mode}
+              </span>
+            )}
+          </div>
         </header>
 
         {view === "input" && (
@@ -327,18 +316,18 @@ function InputView(props: {
         <h2 className="mb-3 text-sm font-semibold text-slate-500">
           빠른 질문 예시
         </h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {QUICK_QUESTIONS.map((q) => (
             <button
-              key={q.label}
+              key={q}
               type="button"
               onClick={() => {
-                onChangeQuestion(q.question);
-                onAsk(q.question);
+                onChangeQuestion(q);
+                onAsk(q);
               }}
-              className="rounded-xl border border-brand-100 bg-white px-4 py-4 text-left text-sm font-medium text-slate-700 shadow-sm transition hover:border-brand-300 hover:bg-brand-50 sm:text-base"
+              className="rounded-xl border border-brand-100 bg-white px-4 py-3.5 text-left text-sm font-medium leading-relaxed text-slate-700 shadow-sm transition hover:border-brand-400 hover:bg-brand-50 sm:text-base"
             >
-              {q.label}
+              {q}
             </button>
           ))}
         </div>
@@ -723,5 +712,61 @@ function KV({ k, v }: { k: string; v: React.ReactNode }) {
       <span className="mr-2 font-semibold text-slate-500">{k}</span>
       <span className="text-slate-800">{v}</span>
     </div>
+  );
+}
+
+/**
+ * OHMYHOTEL & CO 로고 (SVG inline).
+ * public/logo.png 가 있으면 그 이미지로 자동 대체됩니다.
+ */
+function Logo({ className }: { className?: string }) {
+  return (
+    <span className={`relative inline-block ${className ?? ""}`}>
+      <svg
+        viewBox="0 0 40 44"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-full w-auto"
+        aria-label="OHMYHOTEL & CO"
+      >
+        <defs>
+          <linearGradient
+            id="omhc-grad"
+            x1="6"
+            y1="14"
+            x2="34"
+            y2="40"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stopColor="#e63900" />
+            <stop offset="0.55" stopColor="#ff6000" />
+            <stop offset="1" stopColor="#ffb000" />
+          </linearGradient>
+        </defs>
+        {/* 잎 */}
+        <path
+          d="M22 8 C 26 2, 32 4, 30 10 C 26 12, 22 11, 22 8 Z"
+          fill="#009505"
+        />
+        {/* 오렌지 원 (굵은 stroke) */}
+        <circle
+          cx="20"
+          cy="27"
+          r="12"
+          stroke="url(#omhc-grad)"
+          strokeWidth="5"
+          fill="none"
+        />
+      </svg>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo.png"
+        alt=""
+        className="absolute inset-0 h-full w-auto object-contain"
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).style.display = "none";
+        }}
+      />
+    </span>
   );
 }

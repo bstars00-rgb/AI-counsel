@@ -10,24 +10,35 @@
         theme: {
           extend: {
             colors: {
+              // OHMYHOTEL & CO 메인 오렌지
               brand: {
-                50: "#eff6ff",
-                100: "#dbeafe",
-                300: "#93c5fd",
-                500: "#3b82f6",
-                600: "#2563eb",
-                700: "#1d4ed8",
-                800: "#1e40af",
+                50: "#fff5ed",
+                100: "#ffe3cf",
+                200: "#ffc499",
+                300: "#ffa566",
+                400: "#ff8533",
+                500: "#ff6000",
+                600: "#e25400",
+                700: "#b34300",
+                800: "#8a3300",
+                900: "#5c2200",
               },
               chi: {
-                50: "#fff7ed",
-                100: "#ffedd5",
+                50: "#fff5ed",
+                100: "#ffe3cf",
                 200: "#fed7aa",
                 300: "#fdba74",
-                400: "#fb923c",
                 500: "#f97316",
                 600: "#ea580c",
-                700: "#c2410c",
+              },
+              ink: {
+                DEFAULT: "#383838",
+                soft: "#5a5a5a",
+              },
+              cream: "#fcfcf8",
+              leaf: {
+                DEFAULT: "#009505",
+                50: "#e6f4e7",
               },
             },
           },
@@ -40,8 +51,8 @@
         height: 100%;
       }
       body {
-        background: linear-gradient(180deg, #eff6ff 0%, #ffffff 60%);
-        color: #0f172a;
+        background: linear-gradient(180deg, #fff5ed 0%, #fcfcf8 60%);
+        color: #383838;
         -webkit-font-smoothing: antialiased;
         font-family:
           Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo",
@@ -72,33 +83,72 @@
   <body>
     <main class="min-h-screen px-4 py-8 sm:px-8 sm:py-12">
       <div class="mx-auto max-w-5xl">
-        <header class="mb-8 flex items-end justify-between gap-4">
-          <div class="flex items-center gap-4">
-            <div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-chi-100 ring-2 ring-chi-300 shadow-sm sm:h-20 sm:w-20">
-              <span class="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">🍊</span>
+        <header class="mb-8">
+          <!-- 회사 로고 띠 -->
+          <div class="mb-6 flex items-center gap-2">
+            <span class="relative inline-block h-8 w-8">
+              <svg
+                viewBox="0 0 40 44"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-full w-auto"
+                aria-label="OHMYHOTEL & CO"
+              >
+                <defs>
+                  <linearGradient id="omhc-grad" x1="6" y1="14" x2="34" y2="40" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="#e63900" />
+                    <stop offset="0.55" stop-color="#ff6000" />
+                    <stop offset="1" stop-color="#ffb000" />
+                  </linearGradient>
+                </defs>
+                <!-- 잎 -->
+                <path d="M22 8 C 26 2, 32 4, 30 10 C 26 12, 22 11, 22 8 Z" fill="#009505" />
+                <!-- 오렌지 원 -->
+                <circle cx="20" cy="27" r="12" stroke="url(#omhc-grad)" stroke-width="5" fill="none" />
+              </svg>
               <img
-                src="mascot.png"
+                src="logo.png"
                 alt=""
-                class="absolute inset-0 h-full w-full object-cover"
+                class="absolute inset-0 h-full w-auto object-contain"
                 onerror="this.style.display='none'"
               />
-            </div>
-            <div>
-              <div class="text-xs font-semibold uppercase tracking-widest text-chi-600">
-                OHMYCHI AI
-              </div>
-              <h1 class="text-3xl font-bold text-brand-800 sm:text-4xl">오마이치 AI</h1>
-              <p class="mt-1 text-base text-slate-600 sm:text-lg">
-                오마이호텔 트래블쇼의 AI 여행상담 도우미. 궁금한 여행을 입력하면 먼저 추천해드릴게요.
-              </p>
-            </div>
+            </span>
+            <span class="text-base font-extrabold tracking-wide text-ink sm:text-lg">
+              OHMYHOTEL<span class="text-brand-500">&amp;</span>CO
+            </span>
+            <span class="ml-auto hidden text-xs font-medium text-ink-soft sm:inline">
+              여행은 오마이호텔과 함께
+            </span>
           </div>
-          <span
-            class="ml-2 hidden shrink-0 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700 sm:inline-block"
-            title="응답 모드"
-          >
-            프로토타입 (Mock)
-          </span>
+
+          <div class="flex items-end justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-brand-100 ring-2 ring-brand-300 shadow-sm sm:h-20 sm:w-20">
+                <span class="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl">🍊</span>
+                <img
+                  src="mascot.png"
+                  alt=""
+                  class="absolute inset-0 h-full w-full object-cover"
+                  onerror="this.style.display='none'"
+                />
+              </div>
+              <div>
+                <div class="text-xs font-semibold uppercase tracking-widest text-brand-600">
+                  OHMYCHI AI
+                </div>
+                <h1 class="text-3xl font-bold text-ink sm:text-4xl">오마이치 AI</h1>
+                <p class="mt-1 text-base text-ink-soft sm:text-lg">
+                  오마이호텔 트래블쇼의 AI 여행상담 도우미. 궁금한 여행을 입력하면 먼저 추천해드릴게요.
+                </p>
+              </div>
+            </div>
+            <span
+              class="ml-2 hidden shrink-0 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700 sm:inline-block"
+              title="응답 모드"
+            >
+              프로토타입 (Mock)
+            </span>
+          </div>
         </header>
 
         <div id="app"></div>
@@ -126,23 +176,14 @@
       };
 
       const QUICK_QUESTIONS = [
-        { label: "가족여행 추천", question: "초등학생 아이 2명과 갈 만한 가족여행 추천해주세요" },
-        { label: "부모님 효도여행", question: "부모님 모시고 갈 일본 온천 여행 어디가 좋을까요?" },
-        { label: "일본 자유여행", question: "3박 4일 오사카 자유여행 일정이 궁금해요" },
-        {
-          label: "동남아 휴양지",
-          question: "예산 1인 80만원 정도로 갈 수 있는 동남아 휴양지 추천해주세요",
-        },
-        { label: "제주 호텔 여행", question: "제주 3박 4일 호텔 중심 여행 추천해주세요" },
-        { label: "허니문 추천", question: "허니문으로 좋은 동남아 리조트 추천해주세요" },
-        {
-          label: "푸꾸옥 vs 나트랑",
-          question: "푸꾸옥과 나트랑 중 가족여행으로 어디가 더 좋나요?",
-        },
-        {
-          label: "예산 맞춤 여행",
-          question: "1인 100만원 이하로 갈 수 있는 4박 5일 해외 여행 추천해주세요",
-        },
+        "초등학생 아이 2명과 다낭 4박 5일 가족여행 추천해줘",
+        "부모님 모시고 갈 일본 온천 4박 5일 효도여행 추천해줘",
+        "직장인 3박 4일 오사카 자유여행 일정 추천해줘",
+        "1인 80만원 예산으로 동남아 휴양 3박 5일 추천해줘",
+        "제주 호텔 위주 3박 4일 여행 일정 추천해줘",
+        "신혼부부 5박 7일 동남아 허니문 리조트 추천해줘",
+        "푸꾸옥 vs 나트랑, 가족여행으로 어디가 더 좋아?",
+        "1인 100만원 이하로 갈 만한 4박 5일 해외 여행 추천해줘",
       ];
 
       /* ================================================================== */
@@ -413,9 +454,9 @@
           <button
             type="button"
             data-action="quick"
-            data-question="${escapeHtml(q.question)}"
-            class="rounded-xl border border-brand-100 bg-white px-4 py-4 text-left text-sm font-medium text-slate-700 shadow-sm transition hover:border-brand-300 hover:bg-brand-50 sm:text-base"
-          >${escapeHtml(q.label)}</button>`,
+            data-question="${escapeHtml(q)}"
+            class="rounded-xl border border-brand-100 bg-white px-4 py-3.5 text-left text-sm font-medium leading-relaxed text-slate-700 shadow-sm transition hover:border-brand-400 hover:bg-brand-50 sm:text-base"
+          >${escapeHtml(q)}</button>`,
         ).join("");
 
         const history =
@@ -481,7 +522,7 @@
 
           <div>
             <h2 class="mb-3 text-sm font-semibold text-slate-500">빠른 질문 예시</h2>
-            <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">${quick}</div>
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">${quick}</div>
           </div>
 
           ${history}
